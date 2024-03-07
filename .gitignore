@@ -2,3 +2,5 @@ Rapport/rapport.*
 !Rapport/rapport.tex
 !Rapport/rapport.pdf
 
+
+Code/__pycache__/*
