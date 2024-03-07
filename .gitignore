@@ -1,6 +1,6 @@
 rapport/rapport.*
-!Rapport/rapport.tex
-!Rapport/rapport.pdf
+!rapport/rapport.tex
+!rapport/rapport.pdf
 
 
 code/__pycache__/*
