@@ -1,9 +1,0 @@
-\babel@toc {french}{}\relax 
-\contentsline {section}{Introduction}{1}{}%
-\contentsline {section}{\numberline {1}1ère partie}{1}{}%
-\contentsline {subsection}{\numberline {1.1}1ère subsection}{1}{}%
-\contentsline {section}{\numberline {2}2eme partie}{1}{}%
-\contentsline {section}{\numberline {3}ieme partie}{1}{}%
-\contentsline {section}{Conclusion}{1}{}%
-\contentsline {section}{Annexes}{2}{}%
-\contentsline {section}{Bibliographie}{2}{}%
