@@ -1,6 +1,6 @@
 import cv2
 
-handCascade = cv2.CascadeClassifier("cascade/lpam_github.xml")
+handCascade = cv2.CascadeClassifier("cascade/closed_frontal_palm.xml")
 color = (255, 0, 255)
 frameWidth = 640
 frameHeight = 480
@@ -15,6 +15,7 @@ while True:
     success, img = cap.read()
     imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     hands = handCascade.detectMultiScale(imgGray, 1.1, 10)
+    print(f"Number of hands found: {hands}")
 
     for x, y, w, h in hands:
         cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
