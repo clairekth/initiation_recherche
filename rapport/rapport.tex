@@ -1,0 +1,124 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{mathptmx}
+\usepackage{setspace}
+\usepackage{titlesec} 
+\usepackage{imakeidx} 
+\usepackage{tcolorbox}
+
+
+\setlength{\parindent}{1cm}
+\makeindex
+\renewcommand{\rmdefault}{ptm}
+\onehalfspacing % Interligne de 1.5
+\setcounter{page}{1}
+\titleformat{\section}
+{\fontsize{16}{19}\selectfont\bfseries} 
+{\thesection}
+{20pt}
+{}
+
+\titleformat{\subsection}
+{\fontsize{15}{19}\selectfont\bfseries} 
+{\thesubsection}
+{20pt}
+{}
+
+
+\begin{document}
+\pagenumbering{gobble} % Supprime la numérotation des pages
+\begin{titlepage}
+    \begin{center}
+
+        \begin{minipage}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{images/Logo_Universite_de_Lorraine.png}
+        \end{minipage}
+        \begin{minipage}[b]{0.2\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{images/logo-fst-format-jpg-couleur.jpg}
+        \end{minipage}
+        \smallbreak
+        \vspace{0.5cm}
+        \textbf{\large Master Informatique}
+
+        %% Milieu de la page
+        \vfill
+        {\Large Titre du projet} \smallbreak
+        Rapport \smallbreak en vue de la validation de l'UE Initiation à la recherche \smallbreak
+        \vfill
+        \begin{tabular}{ccc|ccc}
+            \'Etudiants : & Victor Dallé & & & Encadrante : & Mme. Boltcheva \\
+            & Claire Kurth & & & & 
+            
+        \end{tabular}
+    \end{center}
+
+\end{titlepage}
+
+\newpage \newpage
+\section*{Décharge de responsabilité }\bigbreak
+L'Université de Lorraine n'entend donner ni approbation  ni improbabtion aux opinions émises dans ce rapport,
+ces opinions devant être considérées comme propres à leurs auteurs. \bigbreak
+
+\newpage
+\section*{Remerciements}
+
+\newpage
+\tableofcontents
+\newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
+
+
+
+\section{1ère partie}
+\subsection{1ère subsection}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet porta 
+lorem, malesuada vulputate odio. Cras eu tortor rhoncus, efficitur nunc nec, 
+tempor lectus. Duis maximus nec sapien at varius. Mauris consequat, tortor nec 
+semper maximus, odio felis condimentum augue, 
+nec tristique augue ante vitae turpis. Duis non quam ligula. Orci varius natoque 
+penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed rutrum 
+massa est, et interdum diam rhoncus ac. Etiam euismod nisl nibh, in interdum enim 
+lacinia nec. \bigbreak
+
+Donec vulputate lectus eu leo cursus, non suscipit lacus feugiat. Donec vitae 
+placerat nulla. Donec purus lacus, venenatis sit amet consequat sit amet, pulvinar
+ a dolor. Curabitur finibus nibh vitae tristique faucibus. Aliquam erat volutpat. 
+ Aliquam erat volutpat. Nulla vitae urna consectetur, interdum nibh et, euismod 
+ magna. Suspendisse faucibus, odio ut tincidunt commodo, nulla lectus varius 
+ ligula, at luctus lorem tellus et diam. Duis tristique eros libero, vel 
+ dignissim sem facilisis sed. 
+
+\section{2eme partie}
+blablabla
+\section{ieme partie}
+blablabla
+\section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
+\newpage
+
+\section*{Annexes}
+\addcontentsline{toc}{section}{Annexes}
+
+\section*{Bibliographie}
+\addcontentsline{toc}{section}{Bibliographie}
+\newpage
+
+\section*{Glossaire}
+
+\section*{Déclaration sur l'honneur contre le plagiat}
+
+\newpage
+
+\newpage
+\section*{Résumé}
+
+\end{document}
