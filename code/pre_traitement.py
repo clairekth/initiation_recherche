@@ -54,7 +54,10 @@ while True:
         if area > 100:
             hull = cv2.convexHull(cnt)
             cv2.drawContours(imgCopy, [hull], -1, col[i], 2)
-        i+=1
+            i+=1
+            if i == 255:
+                i = 0
+         
 
     imgStack = stackImages(0.6, ([img, imgGray, imgGaussian], [imgThreshold, imgCanny, imgCopy]))
 
