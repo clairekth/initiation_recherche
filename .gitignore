@@ -5,7 +5,6 @@ rapport/rapport.*
 !rapport/rapport.pdf
 
 
-code/__pycache__/
 # code files/folders
 env/
-code/utils/__pycache__/*
+__pycache__/
