@@ -3,7 +3,7 @@ import math
 from utils import stackImages
 
 # Load the picture
-img = cv2.imread("bdd/hand_19.png")
+img = cv2.imread("database/hand_19.png")
 img = cv2.resize(img, (640, 480))
 
 cv2.namedWindow("Parameters")
