@@ -25,3 +25,5 @@ pip install -r requirements.txt
 
 -   Script de prétraitement des images pour la détection des formes de la main.
 -   Préparation mini exposé sur Haar-cascade.
+
+![image](state.png)
