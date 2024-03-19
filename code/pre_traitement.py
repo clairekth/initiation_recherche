@@ -1,20 +1,26 @@
 import cv2
 import math
 from utils import stackImages
+import random
 
 # Load the picture
 img = cv2.imread("database/hand_19.png")
 img = cv2.resize(img, (640, 480))
+
+# Colors
+col = []
+for i in range(0, 255):
+    col.append((random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))
 
 cv2.namedWindow("Parameters")
 cv2.resizeWindow("Parameters", 640, 480)
 cv2.createTrackbar("Gaussian ksiseX", "Parameters", 1, 10, lambda x: x)
 cv2.createTrackbar("Gaussian ksiseY", "Parameters", 1, 10, lambda x: x)
 cv2.createTrackbar("Sigma X", "Parameters", 0, 10, lambda x: x)
-cv2.createTrackbar("thresh", "Parameters", 0, 255, lambda x: x)
-cv2.createTrackbar("maxval", "Parameters", 0, 255, lambda x: x)
-cv2.createTrackbar("threshold1", "Parameters", 0, 255, lambda x: x)
-cv2.createTrackbar("threshold2", "Parameters", 0, 255, lambda x: x)
+cv2.createTrackbar("Thresh", "Parameters", 0, 255, lambda x: x)
+cv2.createTrackbar("Maxval", "Parameters", 0, 255, lambda x: x)
+cv2.createTrackbar("Threshold1", "Parameters", 0, 255, lambda x: x)
+cv2.createTrackbar("Threshold2", "Parameters", 0, 255, lambda x: x)
 
 while True:
     # Get the parameters
@@ -42,12 +48,13 @@ while True:
 
     # Contour
     contours, _ = cv2.findContours(imgCanny, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
+    i = 0
     for cnt in contours:
         area = cv2.contourArea(cnt)
         if area > 100:
             hull = cv2.convexHull(cnt)
-            cv2.drawContours(imgCopy, [hull], -1, (0, 255, 0), 2)
+            cv2.drawContours(imgCopy, [hull], -1, col[i], 2)
+        i+=1
 
     imgStack = stackImages(0.6, ([img, imgGray, imgGaussian], [imgThreshold, imgCanny, imgCopy]))
 
