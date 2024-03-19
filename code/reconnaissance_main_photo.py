@@ -2,7 +2,7 @@ import cv2
 import math 
 
 # Load the picture
-img = cv2.imread("picture/hands.jpg")
+img = cv2.imread("picture/hand.jpg")
 img = cv2.resize(img, (640, 480))
 
 gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -45,3 +45,7 @@ cv2.imshow("Result", img)
 cv2.waitKey(0) 
 cv2.destroyAllWindows()
 
+
+# bdd images
+# pré ttt avec tests
+# haar cascade explication scientifique 
