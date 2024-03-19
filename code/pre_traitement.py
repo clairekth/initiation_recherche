@@ -14,11 +14,11 @@ for i in range(0, 255):
 
 cv2.namedWindow("Parameters")
 cv2.resizeWindow("Parameters", 640, 480)
-cv2.createTrackbar("Gaussian ksiseX", "Parameters", 1, 10, lambda x: x)
-cv2.createTrackbar("Gaussian ksiseY", "Parameters", 1, 10, lambda x: x)
-cv2.createTrackbar("Sigma X", "Parameters", 0, 10, lambda x: x)
-cv2.createTrackbar("Thresh", "Parameters", 0, 255, lambda x: x)
-cv2.createTrackbar("Maxval", "Parameters", 0, 255, lambda x: x)
+cv2.createTrackbar("Gaussian ksiseX", "Parameters", 7, 10, lambda x: x)
+cv2.createTrackbar("Gaussian ksiseY", "Parameters", 5, 10, lambda x: x)
+cv2.createTrackbar("Sigma X", "Parameters", 4, 10, lambda x: x)
+cv2.createTrackbar("Thresh", "Parameters", 198, 255, lambda x: x)
+cv2.createTrackbar("Maxval", "Parameters", 255, 255, lambda x: x)
 cv2.createTrackbar("Threshold1", "Parameters", 0, 255, lambda x: x)
 cv2.createTrackbar("Threshold2", "Parameters", 0, 255, lambda x: x)
 
@@ -43,7 +43,9 @@ while True:
     imgCopy = img.copy()
     imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     imgGaussian = cv2.GaussianBlur(imgGray, (gaussian_ksizeX, gaussian_ksizeY), sigmaX)
-    imgContour, imgThreshold = cv2.threshold(imgGaussian, thresh, maxval, cv2.THRESH_BINARY)
+    imgContour, imgThreshold = cv2.threshold(
+        imgGaussian, thresh, maxval, cv2.THRESH_BINARY
+    )
     imgCanny = cv2.Canny(imgThreshold, threshold1, threshold2)
 
     # Contour
@@ -54,11 +56,13 @@ while True:
         if area > 100:
             hull = cv2.convexHull(cnt)
             cv2.drawContours(imgCopy, [hull], -1, col[i], 2)
-        i+=1
+        i += 1
 
-    imgStack = stackImages(0.6, ([img, imgGray, imgGaussian], [imgThreshold, imgCanny, imgCopy]))
+    imgStack = stackImages(
+        0.6, ([img, imgGray, imgGaussian], [imgThreshold, imgCanny, imgCopy])
+    )
 
     cv2.imshow("Result", imgStack)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord("q"):
         break
