@@ -1,8 +1,10 @@
+.DS_Store
+
 rapport/rapport.*
 !rapport/rapport.tex
 !rapport/rapport.pdf
 
 
-code/__pycache__/*
+code/__pycache__/
 # code files/folders
 env/
