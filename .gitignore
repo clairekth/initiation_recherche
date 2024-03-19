@@ -8,3 +8,4 @@ rapport/rapport.*
 code/__pycache__/
 # code files/folders
 env/
+code/utils/__pycache__/*
