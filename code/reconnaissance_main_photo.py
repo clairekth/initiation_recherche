@@ -2,7 +2,7 @@ import cv2
 import math 
 
 # Load the picture
-img = cv2.imread("bdd/hand.jpg")
+img = cv2.imread("database/left_2_fingers.jpg")
 img = cv2.resize(img, (640, 480))
 
 gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
