@@ -4,6 +4,10 @@ rapport/rapport.*
 !rapport/rapport.tex
 !rapport/rapport.pdf
 
+database/negatives/*
+database/positives/*
+!database/negatives/*.zip
+!database/positives/*.zip
 
 # code files/folders
 env/
