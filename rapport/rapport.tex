@@ -75,14 +75,14 @@ ces opinions devant être considérées comme propres à leurs auteurs. \bigbrea
 \setcounter{page}{1}
 \section*{Introduction}
 \addcontentsline{toc}{section}{Introduction}
-De nos jours, la vision par ordinateur est un domaine en plein essor. La reconnaissance de gestes fait partie intégrante de ce domain et à ce titre, incarne une révolution dans la manière dont les utilisateurs interagissent avec les systèmes informatiques. Cette technologie est en effet en train de transformer la façon dont nous interagissont avec les machines. Cette avancée offre des opportunités novatrices dans des domaines tels que l'interaction entre l'homme et la machine, 
+De nos jours, la vision par ordinateur est un domaine en plein essor. La reconnaissance de gestes fait partie intégrante de ce domaine et à ce titre, incarne une révolution dans la manière dont les utilisateurs interagissent avec les systèmes informatiques. Cette technologie est en effet en train de transformer la façon dont nous interagissont avec les machines. Cette avancée offre des opportunités novatrices dans des domaines tels que l'interaction entre l'homme et la machine, 
 la réalité augmentée ou encore l'accessibilité numérique.
 De nombreuses techniques existent déjà pour permettre la détection des mains. MediaPipe de Google [src] utilise le machine learning pour entrainer un modèle qui détecte les segments composant la main. D'autres travaux ont été réalisés comme ceux de l'équipe du professeur Kalpana Joshi [src] qui utilise les angles formés entre 2 doigts pour détecter la forme de la main (nombre de doigts, main ouverte ou fermée).\bigbreak
 
 Contrairement aux interfaces traditionnelles basées sur le clavier et la souris, la reconnaissance des gestes permet aux utilisateurs de communiquer plus simplement avec les ordinateurs. Ils peuvent désormais avoir recours à leurs mains ou à leur corps pour contrôler les applications, ou encore naviguer dans des environnements virtuels. Cette approche favorise une expérience utilisateur plus immersive et ergonomique, ouvrant ainsi de nouvelles perspectives dans des domaines variés tels que le divertissement interactif, l'éducation, ou encore la médecine. Comme dit précédemment, la reconnaissance des mouvements joue un rôle crucial dans l’accessibilité numérique en permettant à des personnes porteuses d'un handicap physique  ou moteur de pouvoir communiquer et d'interagir avec des outils numériques plus facilement. En effet, celà permet de passer outre les obstacles liés à l’utilisation des outils traditionnels (tels que le clavier, la souris, la télécommande …) grâce à la simple utilisation de mouvements du corps. Cette nouvelle manière d'interagir avec un système numérique est déjà utilisée dans plusieurs domaines notamment le sport avec des applications de coaching personnel qui permettent de suivre les mouvements de l'utilisateur et ainsi lui donner des conseils pour améliorer sa technique, ou encore sa posture. Ce nouveau concept d'interraction permet également de pouvoir contrôler des appareils tels que des téléviseurs où par un simple geste, nous pouvons par exemple gérer le son ou changer de chaîne. \bigbreak
 
-Dans ce contexte, ce projet vise à implémenter un système de reconnaissance des mouvements de la main à l’aide d’un classificateur classique Haar-cascade. 
-L'objectif principal est de concevoir un système capable de détecter et de classifier différents gestes de la main effectués par l'utilisateur, 
+Dans ce contexte, ce projet vise à se questionner vis-à-vis d'un système de reconnaissance des mouvements de la main à l’aide d’un classificateur classique Haar-cascade et de le comparer avec un système de reconnaissance de la main sans classificateur.
+L'objectif principal est de concevoir un système capable de détecter et de classifier différents gestes de la main effectués par l'utilisateur,
 tels que le poing fermé, ou alors la main ouverte avec un certains nombre de doigts levés. Ces gestes seront ensuite associés à différentes 
 actions telles que le lancement d'applications ou encore l'ouverture de sites web.
 Pour réaliser ce projet nous utiliserons principalement la bibliothèque OpenCV. Nous parlerons dans un premier temps plus en détail des techniques de reconnaissance de gestes actuellement utilisées, puis nous expliciterons les notions techniques ainsi que les méthodes que nous exploiterons. Nous verrons ensuite comment nous avons implémenté la reconnaissance de la main sans le classificateur classique Haar-Cascade puis avec ce classificateur.
@@ -97,11 +97,6 @@ Pour réaliser ce projet nous utiliserons principalement la bibliothèque OpenCV
 \section{\'Etat de l'art}
 \subsection{Article de départ}
 \subsection{Médiapipe}
-\subsection{Classificateur classique Haar-cascade}
-\newpage
-
-\section{Quelques explications}
-\subsection{Thresholding et Convex Hull}
 \subsection{Classificateur classique Haar-cascade}
 \newpage
 
