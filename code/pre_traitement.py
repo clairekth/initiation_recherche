@@ -8,7 +8,10 @@ import numpy as np
 imgBlank = np.zeros((640, 480), np.uint8)
 
 # Load the picture
-img = cv2.imread("database/hand_19.png")
+img = cv2.imread("database/hands/hand_19.png")
+if img is None:
+    print("Could not read the image.")
+    exit()
 img = cv2.resize(img, (640, 480))
 
 # Colors
@@ -18,83 +21,65 @@ for i in range(0, 255):
 
 cv2.namedWindow("Parameters")
 cv2.resizeWindow("Parameters", 640, 480)
-cv2.createTrackbar("Gaussian ksiseX", "Parameters", 7, 10, lambda x: x)
-cv2.createTrackbar("Gaussian ksiseY", "Parameters", 5, 10, lambda x: x)
-cv2.createTrackbar("Sigma X", "Parameters", 4, 10, lambda x: x)
-
-# cv2.createTrackbar("Bilateral d", "Parameters", 9, 10, lambda x: x)
-# cv2.createTrackbar("Bilateral sigmaColor", "Parameters", 75, 100, lambda x: x)
-# cv2.createTrackbar("Bilateral sigmaSpace", "Parameters", 75, 100, lambda x: x)
-
-cv2.createTrackbar("Thresh", "Parameters", 223, 255, lambda x: x)
-cv2.createTrackbar("Maxval", "Parameters", 255, 255, lambda x: x)
-
-cv2.createTrackbar("Threshold1", "Parameters", 0, 255, lambda x: x)
-cv2.createTrackbar("Threshold2", "Parameters", 0, 255, lambda x: x)
-
-cv2.createTrackbar("Adaptive Thres C", "Parameters", 1, 100, lambda x: x)
-cv2.createTrackbar("Adaptive Thresh Blocksize", "Parameters", 11, 255, lambda x: x)
+cv2.createTrackbar("Hue Min", "Parameters", 0, 179, lambda x: x)
+cv2.createTrackbar("Hue Max", "Parameters", 179, 179, lambda x: x)
+cv2.createTrackbar("Sat Min", "Parameters", 70, 255, lambda x: x)
+cv2.createTrackbar("Sat Max", "Parameters", 255, 255, lambda x: x)
+cv2.createTrackbar("Val Min", "Parameters", 75, 255, lambda x: x)
+cv2.createTrackbar("Val Max", "Parameters", 255, 255, lambda x: x)
 
 while True:
-    # Get the parameters
-    gaussian_ksizeX = cv2.getTrackbarPos("Gaussian ksiseX", "Parameters")
-    gaussian_ksizeY = cv2.getTrackbarPos("Gaussian ksiseY", "Parameters")
-    sigmaX = cv2.getTrackbarPos("Sigma X", "Parameters")
-
-    # bilateral_d = cv2.getTrackbarPos("Bilateral d", "Parameters")
-    # bilateral_sigmaColor = cv2.getTrackbarPos("Bilateral sigmaColor", "Parameters")
-    # bilateral_sigmaSpace = cv2.getTrackbarPos("Bilateral sigmaSpace", "Parameters")
-
-    thresh = cv2.getTrackbarPos("Thresh", "Parameters")
-    maxval = cv2.getTrackbarPos("Maxval", "Parameters")
-
-    threshold1 = cv2.getTrackbarPos("Threshold1", "Parameters")
-    threshold2 = cv2.getTrackbarPos("Threshold2", "Parameters")
-
-    adaptiveThresC = cv2.getTrackbarPos("Adaptive Thres C", "Parameters")
-    adaptiveThreshBlocksize = cv2.getTrackbarPos("Adaptive Thresh Blocksize", "Parameters")
-
-    # Check values of parameters
-    if gaussian_ksizeX % 2 == 0:
-        gaussian_ksizeX += 1
-    if gaussian_ksizeY % 2 == 0:
-        gaussian_ksizeY += 1
-
-    if adaptiveThreshBlocksize % 2 == 0:
-        adaptiveThreshBlocksize += 1
-    if adaptiveThreshBlocksize < 3:
-        adaptiveThreshBlocksize = 3
-
     imgCopy = img.copy()
-    imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    imgGaussian = cv2.GaussianBlur(imgGray, (gaussian_ksizeX, gaussian_ksizeY), sigmaX)
-    # imgBilateral = cv2.bilateralFilter(imgGray, bilateral_d, bilateral_sigmaColor, bilateral_sigmaSpace)
-    # _, imgThreshold = cv2.threshold(
-    #     imgGray, thresh, maxval, cv2.THRESH_BINARY
-    # )
 
-    imgThreshold = cv2.adaptiveThreshold(
-        imgGaussian, maxval, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, adaptiveThreshBlocksize, adaptiveThresC
-    )
-  
-    # imgCanny = cv2.Canny(imgThreshold, threshold1, threshold2)
+    # Get the parameters
+    h_min = cv2.getTrackbarPos("Hue Min", "Parameters")
+    h_max = cv2.getTrackbarPos("Hue Max", "Parameters")
+    s_min = cv2.getTrackbarPos("Sat Min", "Parameters")
+    s_max = cv2.getTrackbarPos("Sat Max", "Parameters")
+    v_min = cv2.getTrackbarPos("Val Min", "Parameters")
+    v_max = cv2.getTrackbarPos("Val Max", "Parameters")
+
+    lower = np.array([h_min, s_min, v_min])
+    upper = np.array([h_max, s_max, v_max])
+
+    # Convert to HSV
+    imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+    # Gaussian blur
+    imgGaussian = cv2.GaussianBlur(imgHSV, (7, 7), 1)
+
+    mask = cv2.inRange(imgGaussian, lower, upper)
 
     # Contour
-    contours, _ = cv2.findContours(imgThreshold, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     i = 0
     for cnt in contours:
         area = cv2.contourArea(cnt)
         if area > 100:
-            hull = cv2.convexHull(cnt)
-            cv2.drawContours(imgCopy, [hull], -1, col[i], 2)
-            i+=1
+            hull = cv2.convexHull(cnt, returnPoints=False)
+            cv2.drawContours(imgCopy, [cnt], -1, col[i], 3)
+            i += 1
             if i == 255:
                 i = 0
-         
 
-    imgStack = stackImages(
-        0.6, ([img, imgGray, imgGaussian], [imgThreshold, imgBlank, imgCopy])
-    )
+            # Defects
+            defects = cv2.convexityDefects(cnt, hull)
+            if defects is not None:
+                for i in range(defects.shape[0]):
+                    s, e, f, d = defects[i, 0]
+                    start = tuple(cnt[s][0])
+                    end = tuple(cnt[e][0])
+                    far = tuple(cnt[f][0])
+
+                    a = math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2)
+                    b = math.sqrt((far[0] - start[0]) ** 2 + (far[1] - start[1]) ** 2)
+                    c = math.sqrt((end[0] - far[0]) ** 2 + (end[1] - far[1]) ** 2)
+                    angle = math.acos((b**2 + c**2 - a**2) / (2 * b * c)) * 57
+
+                    if angle <= 90:
+                        cv2.circle(imgCopy, far, 5, [0, 0, 255], -1)
+
+    imgStack = stackImages(0.6, ([img, imgHSV, imgGaussian], [mask, imgBlank, imgCopy]))
 
     cv2.imshow("Result", imgStack)
 
