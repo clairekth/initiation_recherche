@@ -28,6 +28,27 @@ cv2.createTrackbar("Sat Max", "Parameters", 255, 255, lambda x: x)
 cv2.createTrackbar("Val Min", "Parameters", 75, 255, lambda x: x)
 cv2.createTrackbar("Val Max", "Parameters", 255, 255, lambda x: x)
 
+
+# Mask that matches the tips of the fingers (square blended with a circle)
+def createMask(scale):
+    """
+    Create a mask that matches the tips of the fingers (square blended with a circle)
+    The mask has a certain size and the shapes are centered
+    """
+    width = 50 * scale
+    height = 50 * scale
+    mask = np.zeros((width, height), np.uint8)
+
+    rec_width = int(width / 2)
+    rec_height = int(height / 2)
+    rec_x = int(width / 2 - rec_width / 2)
+    rec_y = int(height - rec_height)
+    mask[rec_y : rec_y + rec_height, rec_x : rec_x + rec_width] = 255
+    cv2.circle(mask, (rec_x + int(rec_width / 2), rec_y), int(rec_width / 2), 255, -1)
+
+    return mask
+
+
 while True:
     imgCopy = img.copy()
 
@@ -56,30 +77,32 @@ while True:
     for cnt in contours:
         area = cv2.contourArea(cnt)
         if area > 100:
-            hull = cv2.convexHull(cnt, returnPoints=False)
-            cv2.drawContours(imgCopy, [cnt], -1, col[i], 3)
+            hull = cv2.convexHull(cnt)
+            cv2.drawContours(imgCopy, [hull], -1, col[i], 3)
             i += 1
             if i == 255:
                 i = 0
 
-            # Defects
-            defects = cv2.convexityDefects(cnt, hull)
-            if defects is not None:
-                for i in range(defects.shape[0]):
-                    s, e, f, d = defects[i, 0]
-                    start = tuple(cnt[s][0])
-                    end = tuple(cnt[e][0])
-                    far = tuple(cnt[f][0])
+            # # Defects
+            # defects = cv2.convexityDefects(cnt, hull)
+            # if defects is not None:
+            #     for i in range(defects.shape[0]):
+            #         s, e, f, d = defects[i, 0]
+            #         start = tuple(cnt[s][0])
+            #         end = tuple(cnt[e][0])
+            #         far = tuple(cnt[f][0])
 
-                    a = math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2)
-                    b = math.sqrt((far[0] - start[0]) ** 2 + (far[1] - start[1]) ** 2)
-                    c = math.sqrt((end[0] - far[0]) ** 2 + (end[1] - far[1]) ** 2)
-                    angle = math.acos((b**2 + c**2 - a**2) / (2 * b * c)) * 57
+            #         a = math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2)
+            #         b = math.sqrt((far[0] - start[0]) ** 2 + (far[1] - start[1]) ** 2)
+            #         c = math.sqrt((end[0] - far[0]) ** 2 + (end[1] - far[1]) ** 2)
+            #         angle = math.acos((b**2 + c**2 - a**2) / (2 * b * c)) * 57
 
-                    if angle <= 90:
-                        cv2.circle(imgCopy, far, 5, [0, 0, 255], -1)
+            #         if angle <= 90:
+            #             cv2.circle(imgCopy, far, 5, [0, 0, 255], -1)
 
-    imgStack = stackImages(0.6, ([img, imgHSV, imgGaussian], [mask, imgBlank, imgCopy]))
+    imgStack = stackImages(
+        0.6, ([img, imgHSV, imgGaussian], [mask, createMask(1), imgCopy])
+    )
 
     cv2.imshow("Result", imgStack)
 
