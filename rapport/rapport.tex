@@ -35,7 +35,7 @@
     \begin{center}
 
         \begin{minipage}[b]{0.3\textwidth}
-        \includegraphics[width=\textwidth]{images/Logo_Universite_de_Lorraine.png}
+            \includegraphics[width=\textwidth]{images/Logo_Universite_de_Lorraine.png}
         \end{minipage}
         \begin{minipage}[b]{0.2\textwidth}
             \centering
@@ -51,9 +51,8 @@
         Rapport \smallbreak en vue de la validation de l'UE Initiation à la recherche \smallbreak
         \vfill
         \begin{tabular}{ccc|ccc}
-            \'Etudiants : & Victor DALL\'E & & & Encadrante : & Madame BOLTCHEVA \\
-            & Claire KURTH & & & & 
-            
+            \'Etudiants : & Victor DALL\'E &  &  & Encadrante : & Madame BOLTCHEVA \\
+                          & Claire KURTH   &  &  &              &
         \end{tabular}
     \end{center}
 
@@ -75,7 +74,7 @@ ces opinions devant être considérées comme propres à leurs auteurs. \bigbrea
 \setcounter{page}{1}
 \section*{Introduction}
 \addcontentsline{toc}{section}{Introduction}
-De nos jours, la vision par ordinateur est un domaine en plein essor. La reconnaissance de gestes fait partie intégrante de ce domaine et à ce titre, incarne une révolution dans la manière dont les utilisateurs interagissent avec les systèmes informatiques. Cette technologie est en effet en train de transformer la façon dont nous interagissont avec les machines. Cette avancée offre des opportunités novatrices dans des domaines tels que l'interaction entre l'homme et la machine, 
+De nos jours, la vision par ordinateur est un domaine en plein essor. La reconnaissance de gestes fait partie intégrante de ce domaine et à ce titre, incarne une révolution dans la manière dont les utilisateurs interagissent avec les systèmes informatiques. Cette technologie est en effet en train de transformer la façon dont nous interagissont avec les machines. Cette avancée offre des opportunités novatrices dans des domaines tels que l'interaction entre l'homme et la machine,
 la réalité augmentée ou encore l'accessibilité numérique.
 De nombreuses techniques existent déjà pour permettre la détection des mains. MediaPipe de Google [src] utilise le machine learning pour entrainer un modèle qui détecte les segments composant la main. D'autres travaux ont été réalisés comme ceux de l'équipe du professeur Kalpana Joshi [src] qui utilise les angles formés entre 2 doigts pour détecter la forme de la main (nombre de doigts, main ouverte ou fermée).\bigbreak
 
@@ -83,7 +82,7 @@ Contrairement aux interfaces traditionnelles basées sur le clavier et la souris
 
 Dans ce contexte, ce projet vise à se questionner vis-à-vis d'un système de reconnaissance des mouvements de la main à l’aide d’un classificateur classique Haar-cascade et de le comparer avec un système de reconnaissance de la main sans classificateur.
 L'objectif principal est de concevoir un système capable de détecter et de classifier différents gestes de la main effectués par l'utilisateur,
-tels que le poing fermé, ou alors la main ouverte avec un certains nombre de doigts levés. Ces gestes seront ensuite associés à différentes 
+tels que le poing fermé, ou alors la main ouverte avec un certains nombre de doigts levés. Ces gestes seront ensuite associés à différentes
 actions telles que le lancement d'applications ou encore l'ouverture de sites web.
 Pour réaliser ce projet nous utiliserons principalement la bibliothèque OpenCV. Nous parlerons dans un premier temps plus en détail des techniques de reconnaissance de gestes actuellement utilisées, puis nous expliciterons les notions techniques ainsi que les méthodes que nous exploiterons. Nous verrons ensuite comment nous avons implémenté la reconnaissance de la main sans le classificateur classique Haar-Cascade puis avec ce classificateur.
 
@@ -91,13 +90,32 @@ Pour réaliser ce projet nous utiliserons principalement la bibliothèque OpenCV
 
 \section{Rappel du sujet et encadrement}
 \subsection{Rappel du sujet}
+
+Le but de ce projet est d’implémenter un système de reconnaissance des mouvements de la
+main à l’aide d’un classificateur classique Haar-cascade. Le système doit reconnaître le geste de
+la main de l’utilisateur (poing, un doigt, deux, trois, quatre,...) et le mapper à différentes tâches
+telles que le lancement d’applications comme le bloc-notes, la peinture, et l’ouverture de sites web.
+Le système doit être mis en œuvre avec l’aide de la librairie de "Computer Vision" - OpenCV,
+comme dans l’article [src]. Une extension possible serait l’implémentation d’un système de détection
+des mouvements de la tête ou du corps, tout entier.
+
 \subsection{Encadrement}
+
 \newpage
 
 \section{\'Etat de l'art}
 \subsection{Article de départ}
 \subsection{Médiapipe}
+Médiapipe est un framework open-source développé par Google permettant de construire des pipelines de traitement de données multimédia. Il propose des solutions pour la détection de la main, du visage ou encore de la pose. Il est basé sur des modèles de machine learning notamment grâce à de l'apprentissage via des réseaux de neurones. \bigbreak
+
+[Image de la main détectée par Médiapipe]
+
+
 \subsection{Classificateur classique Haar-cascade}
+Le classificateur Haar-cascade est une méthode de détection d'objets dans une image introduit par Paul Viola et Michael Jones en 2001. Il est basé sur l'utilisation de caractéristiques de type Haar. Ces caractéristiques sont des fenêtres de taille fixe qui sont déplacées sur l'image et qui permettent de calculer la différence de luminosité entre les pixels de la fenêtre. Ces caractéristiques sont ensuite utilisées pour entraîner un classificateur qui permet de détecter des objets dans une image. \bigbreak
+
+Les classificateurs Haar-cascade sont utilisés pour la détection de visages, de voitures, de plaques d'immatriculation, de piétons, de mains ou de tout autres objets. Ils sont très utilisés dans le domaine de la vision par ordinateur et sont très efficaces pour la détection d'objets dans une image. \bigbreak
+
 \newpage
 
 \section{Reconnaissance de la main sans classificateur}
@@ -107,7 +125,21 @@ Pour réaliser ce projet nous utiliserons principalement la bibliothèque OpenCV
 \newpage
 
 \section{Reconnaissance de la main avec classificateur classique Haar-cascade}
-\subsection{...}
+\subsection{Entrainer un classificateur Haar-cascade}
+Pour entrainer un classificateur Haar-cascade, il faut tout d'abord collecter des images positives et négatives. Les images positives sont des images contenant l'objet que l'on souhaite détecter, tandis que les images négatives sont des images ne contenant pas l'objet. Il faut ensuite générer des fichiers de descriptions des images positives et négatives. Ces fichiers contiennent les coordonnées des objets à détecter dans les images positives. Enfin, il faut entrainer le classificateur à l'aide de ces fichiers de descriptions. \bigbreak
+
+L'entrainement du classificateurs en lui-même se fait grâce à ce que l'on appelle des "features". Ces features sont des caractéristiques de l'objet que l'on souhaite détecter, ce sont des patterns de pixels qui permettent de distinguer l'objet des autres éléments de l'image. Il existe différents types de patterns :
+\begin{itemize}
+    \item Les "edges" : ce sont des patterns qui permettent de détecter les contours de l'objet.
+    \item Les "lines" : ce sont des patterns qui permettent de détecter les lignes de l'objet.
+    \item Les "center-surrounder" : ce sont des patterns qui permettent de détecter les changements d'intensité entre le centre d'une région rectangulaire et le reste de la région. Cela permet de détecter des objets de forme particulière.
+\end{itemize}
+
+[Image de features Haar]
+
+Ces features sont ensuite utilisées pour entrainer un classificateur qui permet de détecter l'objet dans une image. Le classificateur est entrainé à l'aide d'un algorithme de machine learning tel que AdaBoost qui permet de déterminer les features les plus pertinentes pour la détection de l'objet. \bigbreak
+
+AdaBoost est un algorithme de machine learning qui permet de construire un classificateur fort à partir de plusieurs classificateurs faibles. Il fonctionne en entrainant itérativement des classificateurs faibles sur des sous-ensembles de données pondérés. À chaque itération, il met à jour les poids des données d'entrainement pour donner plus d'importance aux données mal classées. Il combine ensuite les classificateurs faibles pour former un classificateur fort qui est capable de détecter l'objet dans une image. \bigbreak
 
 \section*{Conclusion}
 \addcontentsline{toc}{section}{Conclusion}
