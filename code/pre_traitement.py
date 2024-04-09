@@ -8,7 +8,7 @@ import numpy as np
 imgBlank = np.zeros((640, 480), np.uint8)
 
 # Load the picture
-img = cv2.imread("database/hands/hand_19.png")
+img = cv2.imread("database/hands/hand_1.png")
 if img is None:
     print("Could not read the image.")
     exit()
@@ -46,6 +46,11 @@ def createMask(scale):
     mask[rec_y : rec_y + rec_height, rec_x : rec_x + rec_width] = 255
     cv2.circle(mask, (rec_x + int(rec_width / 2), rec_y), int(rec_width / 2), 255, -1)
 
+    # mask = ligne
+    # mask = np.zeros((50, 50), np.uint8)
+
+    # mask[23:27, 16:32] = 255
+    
     return mask
 
 
@@ -62,23 +67,58 @@ def detectFingers(imageThres, image):
     width = imageThres.shape[1]
     height = imageThres.shape[0]
 
-    mask = createMask(0.5)
+    mask = createMask(1.25)
 
     mask_width = mask.shape[1]
     mask_height = mask.shape[0]
 
     cmpt = 0
-    for i in range(0, width - mask_width):
-        for j in range(0, height - mask_height):
+    imgBlank = np.ones((20, 200), np.uint8)
+    rectangles = []
+    for i in range(0, width - mask_width, mask_width):
+        for j in range(0, height - mask_height, mask_height):
             pif = imgCopy[j : j + mask_height, i : i + mask_width]
-            roi = pif.copy()
-            res = cv2.bitwise_and(roi, mask)
-            if cv2.countNonZero(res) > 0.1 * cv2.countNonZero(mask):
-                cv2.rectangle(imgRes, (i, j), (i + mask_width, j + mask_height), (255,0,0), 2)
-                cmpt+=1
-                break
+            imgTest = imgCopy.copy()
+            cv2.rectangle(imgTest, (i, j), (i + mask_width, j + mask_height), 255, cv2.FILLED)
+            stack = stackImages(2, ([pif], [imgBlank], [imgTest]))
+            # cv2.imshow("Result", stack)
+            # cv2.waitKey(0)
             
-
+            roi = pif.copy()
+            res = cv2.bitwise_and(mask, roi)
+            if (cv2.countNonZero(res) / (mask_width * mask_height)) > 0.2:
+                # cv2.imshow("Result", res)
+                # cv2.waitKey(0)
+                # cv2.rectangle(imgRes, (i, j), (i + mask_width, j + mask_height), (255,0,0), 2)
+                rectangles.append((i, j, mask_width, mask_height))
+                break
+    # Check les rectangles convexes si connexe on garde celui qui est le plus haut
+    for i in range(len(rectangles)):
+        x, y, w, h = rectangles[i]
+        for j in range(i + 1, len(rectangles)):
+            x2, y2, w2, h2 = rectangles[j]
+            # check si connexe
+            # swap si y2 < y
+            swap = False
+            if y2 < y:
+                swap = True
+                x, y, w, h = rectangles[j]
+                x2, y2, w2, h2 = rectangles[i]
+            if x2 - (x + w) < 10 and y2 - (y + h) < 10:
+                if swap:
+                    rectangles[i] = (0, 0, 0, 0)
+                else:
+                    rectangles[j] = (0, 0, 0, 0)
+            elif (x2 + w2) - x < 10 and (y2 + h2) - y < 10:
+                if swap:
+                    rectangles[i] = (0, 0, 0, 0)
+                else:   
+                    rectangles[j] = (0, 0, 0, 0)
+            
+                
+    
+    for x, y, w, h in rectangles:
+        cv2.rectangle(imgRes, (x, y), (x + w, y + h), (255, 0, 0), 2)
     return imgRes
 
 
@@ -141,5 +181,5 @@ while True:
 
     cv2.imshow("Result", imgStack)
 
-    if cv2.waitKey(0) & 0xFF == ord("q"):
+    if cv2.waitKey(1) & 0xFF == ord("q"):
         break
