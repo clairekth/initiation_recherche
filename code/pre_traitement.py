@@ -49,6 +49,32 @@ def createMask(scale):
     return mask
 
 
+def detectFingers(image, mask):
+    """
+    Move the mask on the image to detect the fingers
+
+    Parameters:
+        - image: the image thresholded
+        - mask: the mask to apply to the image to detect the fingers
+    """
+    imgCopy = image.copy()
+    width = image.shape[1]
+    height = image.shape[0]
+
+    mask_width = mask.shape[1]
+    mask_height = mask.shape[0]
+
+    for i in range(0, width - mask_width):
+        for j in range(0, height - mask_height):
+            pif = imgCopy[j : j + mask_height, i : i + mask_width]
+            roi = pif.copy()
+            res = cv2.bitwise_and(roi, mask)
+            if cv2.countNonZero(res) > 0.9 * cv2.countNonZero(mask):
+                cv2.rectangle(imgCopy, (i, j), (i + mask_width, j + mask_height), 255, 2)
+
+    return imgCopy
+
+
 while True:
     imgCopy = img.copy()
 
@@ -100,11 +126,12 @@ while True:
             #         if angle <= 90:
             #             cv2.circle(imgCopy, far, 5, [0, 0, 255], -1)
 
+    img_finger = detectFingers(mask, createMask(1))
     imgStack = stackImages(
-        0.6, ([img, imgHSV, imgGaussian], [mask, createMask(1), imgCopy])
+        0.6, ([img, imgHSV, imgGaussian], [mask, createMask(1), img_finger])
     )
 
     cv2.imshow("Result", imgStack)
 
-    if cv2.waitKey(1) & 0xFF == ord("q"):
+    if cv2.waitKey(0) & 0xFF == ord("q"):
         break
