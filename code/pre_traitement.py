@@ -35,8 +35,8 @@ def createMask(scale):
     Create a mask that matches the tips of the fingers (square blended with a circle)
     The mask has a certain size and the shapes are centered
     """
-    width = 50 * scale
-    height = 50 * scale
+    width = int(50 * scale)
+    height = int(50 * scale)
     mask = np.zeros((width, height), np.uint8)
 
     rec_width = int(width / 2)
@@ -49,7 +49,7 @@ def createMask(scale):
     return mask
 
 
-def detectFingers(image, mask):
+def detectFingers(imageThres, image):
     """
     Move the mask on the image to detect the fingers
 
@@ -57,22 +57,29 @@ def detectFingers(image, mask):
         - image: the image thresholded
         - mask: the mask to apply to the image to detect the fingers
     """
-    imgCopy = image.copy()
-    width = image.shape[1]
-    height = image.shape[0]
+    imgCopy = imageThres.copy()
+    imgRes = image.copy()
+    width = imageThres.shape[1]
+    height = imageThres.shape[0]
+
+    mask = createMask(0.5)
 
     mask_width = mask.shape[1]
     mask_height = mask.shape[0]
 
+    cmpt = 0
     for i in range(0, width - mask_width):
         for j in range(0, height - mask_height):
             pif = imgCopy[j : j + mask_height, i : i + mask_width]
             roi = pif.copy()
             res = cv2.bitwise_and(roi, mask)
-            if cv2.countNonZero(res) > 0.9 * cv2.countNonZero(mask):
-                cv2.rectangle(imgCopy, (i, j), (i + mask_width, j + mask_height), 255, 2)
+            if cv2.countNonZero(res) > 0.1 * cv2.countNonZero(mask):
+                cv2.rectangle(imgRes, (i, j), (i + mask_width, j + mask_height), (255,0,0), 2)
+                cmpt+=1
+                break
+            
 
-    return imgCopy
+    return imgRes
 
 
 while True:
@@ -126,7 +133,8 @@ while True:
             #         if angle <= 90:
             #             cv2.circle(imgCopy, far, 5, [0, 0, 255], -1)
 
-    img_finger = detectFingers(mask, createMask(1))
+    imgCopy = img.copy()
+    img_finger = detectFingers(mask, imgCopy)
     imgStack = stackImages(
         0.6, ([img, imgHSV, imgGaussian], [mask, createMask(1), img_finger])
     )
