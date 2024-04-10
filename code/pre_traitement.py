@@ -8,7 +8,7 @@ import numpy as np
 imgBlank = np.zeros((640, 480), np.uint8)
 
 # Load the picture
-img = cv2.imread("database/hands/hand_1.png")
+img = cv2.imread("../database/hands/hand_8.png")
 if img is None:
     print("Could not read the image.")
     exit()
@@ -75,8 +75,8 @@ def detectFingers(imageThres, image):
     cmpt = 0
     imgBlank = np.ones((20, 200), np.uint8)
     rectangles = []
-    for i in range(0, width - mask_width, mask_width):
-        for j in range(0, height - mask_height, mask_height):
+    for i in range(0, width - mask_width, mask_width//2):
+        for j in range(0, height - mask_height, mask_height//2 ):
             pif = imgCopy[j : j + mask_height, i : i + mask_width]
             imgTest = imgCopy.copy()
             cv2.rectangle(imgTest, (i, j), (i + mask_width, j + mask_height), 255, cv2.FILLED)
@@ -93,27 +93,27 @@ def detectFingers(imageThres, image):
                 rectangles.append((i, j, mask_width, mask_height))
                 break
     # Check les rectangles convexes si connexe on garde celui qui est le plus haut
-    for i in range(len(rectangles)):
-        x, y, w, h = rectangles[i]
-        for j in range(i + 1, len(rectangles)):
-            x2, y2, w2, h2 = rectangles[j]
-            # check si connexe
-            # swap si y2 < y
-            swap = False
-            if y2 < y:
-                swap = True
-                x, y, w, h = rectangles[j]
-                x2, y2, w2, h2 = rectangles[i]
-            if x2 - (x + w) < 10 and y2 - (y + h) < 10:
-                if swap:
-                    rectangles[i] = (0, 0, 0, 0)
-                else:
-                    rectangles[j] = (0, 0, 0, 0)
-            elif (x2 + w2) - x < 10 and (y2 + h2) - y < 10:
-                if swap:
-                    rectangles[i] = (0, 0, 0, 0)
-                else:   
-                    rectangles[j] = (0, 0, 0, 0)
+    # for i in range(len(rectangles)):
+    #     x, y, w, h = rectangles[i]
+    #     for j in range(i + 1, len(rectangles)):
+    #         x2, y2, w2, h2 = rectangles[j]
+    #         # check si connexe
+    #         # swap si y2 < y
+    #         swap = False
+    #         if y2 < y:
+    #             swap = True
+    #             x, y, w, h = rectangles[j]
+    #             x2, y2, w2, h2 = rectangles[i]
+    #         if x2 - (x + w) < 10 and y2 - (y + h) < 10:
+    #             if swap:
+    #                 rectangles[i] = (0, 0, 0, 0)
+    #             else:
+    #                 rectangles[j] = (0, 0, 0, 0)
+    #         elif (x2 + w2) - x < 10 and (y2 + h2) - y < 10:
+    #             if swap:
+    #                 rectangles[i] = (0, 0, 0, 0)
+    #             else:   
+    #                 rectangles[j] = (0, 0, 0, 0)
             
                 
     

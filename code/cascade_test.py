@@ -1,6 +1,6 @@
 import cv2
 
-handCascade = cv2.CascadeClassifier(".\\cascade\\cascade_6_All_Depth3_04.xml")
+handCascade = cv2.CascadeClassifier(".\\cascade\\cascade2.xml")
 if handCascade.empty():
     raise IOError("Unable to load the hand cascade classifier xml file")
 color = (255, 0, 255)
