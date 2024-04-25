@@ -80,9 +80,9 @@ def detectFingers(imageThres, image):
             pif = imgCopy[j : j + mask_height, i : i + mask_width]
             imgTest = imgCopy.copy()
             cv2.rectangle(imgTest, (i, j), (i + mask_width, j + mask_height), 255, cv2.FILLED)
-            stack = stackImages(2, ([pif], [imgBlank], [imgTest]))
-            cv2.imshow("Result", stack)
-            cv2.waitKey(0)
+            # stack = stackImages(2, ([pif], [imgBlank], [imgTest]))
+            # cv2.imshow("Result", stack)
+            # cv2.waitKey(0)
             
             roi = pif.copy()
             res = cv2.bitwise_and(mask, roi)

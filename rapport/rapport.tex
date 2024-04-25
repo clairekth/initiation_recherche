@@ -10,6 +10,7 @@
 \usepackage{imakeidx} 
 \usepackage{tcolorbox}
 \usepackage{caption}
+\usepackage{verbatim}
 
 \setlength{\parindent}{1cm}
 \makeindex
@@ -165,7 +166,9 @@ Ces features sont des caractéristiques de l'objet que l'on souhaite détecter, 
     \item Les "center-surrounder" : ce sont des patterns qui permettent de détecter les changements d'intensité entre le centre d'une région rectangulaire et le reste de la région. Cela permet de détecter des objets de forme particulière.
 \end{itemize}
 
+\bigbreak
 
+Pour détecter ces patterns, l'algorithme utilise des fenêtres de taille fixe qui sont déplacées sur l'image. Ces fenêtres permettent de calculer la différence de luminosité entre les pixels de la fenêtre. Ces différences de luminosité sont ensuite utilisées pour déterminer si le pattern est présent dans l'image. 
 
 \bigbreak
 
@@ -175,46 +178,119 @@ AdaBoost est un algorithme d'apprentissage supervisé qui permet de construire u
 Au début, chaque élément de la base de données à le même poids. L'algorithme va ensuite sélectionner un classifieur faible (par exemple, un arbre de décision simple) qui performe légèrement mieux que l'aléatoire. Ce classifieur va être utilisé pour prédire les éléments de la base de données. Les exemples mal classés reçoivent un poids plus élevé, tandis que les exemples correctement classés reçoivent un poids plus faible. Ainsi, les exemples difficiles à classer ont plus d'influence sur la formation du classifieur final. Les poids des classifieurs faibles sont déterminés en fonction de leur précision relative. Les classifieurs les plus précis ont un poids plus élevé. Enfin, le classifieur final est une combinaison linéaire des classifieurs faibles pondérés par leur précision relative. \bigbreak
 
 
-[Src : https://www.almabetter.com/bytes/tutorials/data-science/adaboost-algorithm]
+{\LARGE Src : https://www.almabetter.com/bytes/tutorials/data-science/adaboost-algorithm}
 
 \subsection{Nos entrainements}
 \subsubsection{Avec une base de données d'images de mains}
 \paragraph{Méthodologie}
-Pour notre entrainement, nous avons collecté 10 000 images négatives et 5 000 images positives de mains. Pour les images positives, nous avons ensuite utilisé la librairie OpenCV pour générer les fichiers de descriptions des images positives. Les fichiers de descriptions contiennent les coordonnées des mains dans les images positives. Nous avons ensuite entrainé le classifieur à l'aide de ces fichiers de descriptions. \'Etant donné que les images positives ne contiennent que la main, le fichier de description comprend seulement la taille et la hauteur de l'image. \bigbreak
+Pour notre entrainement, nous avons collecté 10 000 images négatives (Fig. \ref{fig:ex_neg}) et 5 000 images positives de mains (Fig. \ref{fig:ex_pos}). Nous avons dû pour les images positives, annoter les images (dans un fichier texte) afin de donner le nombre de mains présentes et les coordonnées de la main dans l'image (Fig. \ref{fig:ex_desc}). Ensuite, grâce à ce fichier et à OpenCV, nous avons généré un fichier vec qui contient les informations des images positives. Nous avons ensuite entrainé le classifieur à l'aide de ce fichiers.
+\bigbreak
+
 
 \begin{minipage}[t]{0.5\textwidth}
     \begin{center}
-        \includegraphics[width=\textwidth]{images/ex_pos.jpg}
-        \captionof{figure}{Image positive 1}
+        \includegraphics[width=0.5\textwidth]{images/ex_neg.jpg}
+        \captionof{figure}{Exemple d'image négative}
+        \label{fig:ex_neg}
+    \end{center}
+\end{minipage}
+\begin{minipage}[t]{0.45\textwidth}
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/ex_pos.jpg}
+        \captionof{figure}{Exemeple d'image positive}
+        \label{fig:ex_pos}
     \end{center}
 \end{minipage}
 
-Nous sommes ensuite passés à l'entrainement. Nous avons utilisé pour celà OpenCV qui propose un programme pour entrainer un classifieur Haar-cascade. Nous avons testé plusieurs cas : avec 5, 10, 15 et 20 étapes, avec des profondeurs d'arbres maximum différentes, avec plus d'images positives que négatives et vice-versa. Enfin, avons aussi testé le nombre de "Faux positif" maximum autorisé, c'est-à-dire le nombre maximum d'images négatives mal classées autorisées. \bigbreak
+\bigbreak \bigbreak \bigbreak
 
-Faire un tab récap pour les heures ??? \bigbreak
+\begin{center}
+    \begin{verbatim}
+        positives\Hand_0000002.jpg 1 0 0 50 38
+        positives\Hand_0000003.jpg 1 0 0 50 38
+        positives\Hand_0000004.jpg 1 0 0 50 38
+    \end{verbatim}
+    \captionof{figure}{Exemple de fichier de description}
+    \label{fig:ex_desc}
+\end{center}
+
+
+\bigbreak \bigbreak
+
+Nous sommes ensuite passés à l'entrainement. Nous avons utilisé pour celà OpenCV qui propose un programme pour entrainer un classifieur Haar-cascade. Nous avons testé plusieurs cas : avec 5, 10, 15 et 20 étapes, avec des profondeurs d'arbres maximum différentes, avec plus d'images positives que négatives et inversement. Enfin, avons aussi testé le nombre de "Faux positif" maximum autorisé, c'est-à-dire le nombre maximum d'images négatives mal classées autorisées. \'A la fin de l'entrainement, nous récupérons un fichier xml qui sera ensuite utilisé pour la détection.\bigbreak
+
+{\LARGE Faire un tab récap pour les heures}  \bigbreak
+
+\noindent \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    Test & Nombre d'étapes & Profondeur d'arbre & Nombre de faux positifs & Nombres d'heures & Commentaires \\
+    \hline    
+\end{tabular}
+
+\bigbreak
+{\LARGE JSP SI ON METS UN EXEMPLE DES COMMANDES ??}
 
 \paragraph{Résultats}
+Nous voulions obtenir un classifieur qui détecte la main dans une image comme suivant : 
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{images/res_attendu.png}
+    \captionof{figure}{Résultat attendu}
+\end{center}
+
+{\LARGE A COMPLETER}
+
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/cascade0.png}
+    \captionof{figure}{Test 1}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/cascade1.png}
+    \captionof{figure}{Test 2}
+\end{minipage}
+
+
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/cascade2.png}
+    \captionof{figure}{Test 3}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/cascade3.png}
+    \captionof{figure}{Test 4}
+\end{minipage}
+
 
 \paragraph{Conclusion}
 Les résultats ne sont pas entièrement satisfaisant. En effet, le classifieur ne détecte pas toute la main mais seulement plusieurs parties de la main. Celà est certainement dû au fait que les images positives ne contienent que la main sans "background" et que les features utilisées ne sont pas suffisamment pertinentes pour détecter la main dans une image. \bigbreak
 
 \subsubsection{En créant nous même des images positives}
 \paragraph{Méthodologie}
-N'ayant pas obtenus de résultats satisfaisants avec la base de données d'images de mains, nous avons décidé de créer nous même des images positives. Pour cela, nous avons utilisé la librairie OpenCV pour ajouter une image de main aux images positives. Nous avons ensuite généré les fichiers de descriptions des images positives et entrainé le classifieur à l'aide de ces fichiers. \bigbreak
+N'ayant pas obtenus de résultats satisfaisants avec la base de données d'images de mains, nous avons décidé de créer nous même des images positives. Pour cela, nous avons utilisé la librairie OpenCV pour ajouter une image de main aux images positives (Fig. \ref{fig:ex_pos_neg}). Nous avons ensuite généré les fichiers de descriptions des images positives et entrainé le classifieur à l'aide de ces fichiers. \bigbreak
 
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{images/ex_pos_neg.jpg}
+    \captionof{figure}{Exemple d'image positive créée à partir d'une image négative}
+    \label{fig:ex_pos_neg}
+\end{center}
 
-[Photo ex neg et pos]
+Comme précédemment, nous avons tester différents paramètres pour l'entrainement du classifieur. \bigbreak
 
+{\LARGE TABLEAU}
 \paragraph{Résultats}
+
+{\LARGE TO DO}
 
 \paragraph{Conclusion}
 Les résultats ne sont pas beaucoup plus satisfaisant. On obtient les mêmes résultats que précédemment. \bigbreak
 
-Il faudrait essayer de prendre une base de données de mains contenant des background différents et annoter les images pour voir si celà améliore les résultats. \bigbreak
+Il faudrait essayer de prendre une base de données de mains contenant des background différents et annoter nous mêmes les images pour voir si celà améliore les résultats. \bigbreak
 
 
-\section{Reconnaissance de la main sans classifieur}
-\subsection{Avec Convexe Hull}
+\section{Reconnaissance du mouvement de la main sans classifieur}
+\subsection{Détection de la main}
 \subsubsection{Méthodologie}
 Pour réussir à détecter la main sans classifieur, nous avons dû tester plusieurs méthodes. En effet, plusieurs paramètres interviennent afin d'avoir une détection de la main optimale.
 
@@ -223,16 +299,68 @@ On a dû jouer sur plusieurs paramètres :
     \item Le format de la couleur de l'image : GreyScale ou HSV
     \item Flou : avec ou sans, quel type de flou (Gaussien ou Bilatéral)
     \item Thresholding : pour binariser l'image. Il y avait là plusieurs paramètres possibles : le seuil et le type de thresholding (binaire, binaire inversé, tronqué, to zero, to zero inversé)
+    \item Contours : pour détecter les contours de la main. Là aussi, plusieurs paramètres possibles.
 \end{itemize}
 
 \subsubsection{Expériences et résultats}
-Pour trouver les meilleures paramètres, nous avons testé plusieurs combinaisons de paramètres.
+Pour trouver les meilleures paramètres, nous avons testé plusieurs combinaisons de paramètres, avec ou sans flou, avec ou sans Canny ...
 
-blablabla
+\bigbreak
 
-\subsubsection{Détection des doigts}
+Tout d'abord, nous avons essayé en essayant de mettre l'images en gris, puis de flouter l'image avec un flou gaussien, puis de binariser l'image avec un thresholding binaire. Enfin, nous avons utilisé Canny pour détecter les contours de la main et nous avons tracer le convexe hull de la main. Les résultats sont plutôt bons puisque nous avons capturé l'essentiel de la main même si il manque une grosse partie du pouce.\bigbreak
+\includegraphics[width=\textwidth]{images/pre_ttt_1.png}
+\captionof{figure}{Résultat de la détection de la main : \\ Thresholding : seuil entre 200-255, TRESH\_BINARY \\ Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
+\bigbreak
 
-\subsection{Sans Convexe Hull}
+\bigbreak
+
+Nous avons aussi essayé sans flou, les résultats étaient moins bons puisque nous pouvons voir plusieurs convex hulls pour une seule main. 
+\bigbreak
+
+\includegraphics[width=\textwidth]{images/pre_ttt_2.png}
+\captionof{figure}{Résultat de la détection de la main : \\ Thresholding : seuil entre 198-255, TRESH\_BINARY \\ Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
+
+\bigbreak
+
+Nous avons ensuite essayé sans flou et sans Canny. Les résultats sont encores moins bons puisque nous avons plusieurs convex hulls voir même certains hors de la main. \bigbreak
+\includegraphics[width=\textwidth]{images/pre_ttt_3.png}
+\captionof{figure}{Résultat de la détection de la main : \\ Thresholding : seuil entre 196-239, TRESH\_BINARY \\ Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
+
+\bigbreak
+
+Les résultats ne sont pas exceptionnels mais nous nous attendions à ce qu'ils soient meilleurs en passant l'image en HSV plutôt qu'en GreyScale.  \bigbreak
+
+\includegraphics[width=\textwidth]{images/pre_ttt_4.png}
+\captionof{figure}{Résultat de la détection de la main : \\ Thresholding : seuil entre 223-255, TRESH\_BINARY \\ Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
+\bigbreak
+
+On voit clairement ici que les résultats sont meilleurs puisque nous avons bien capturé l'ensemble de la main. De plus, même sur une image de mauvaise qualité, en jouant sur les paramètres, nous avons réussi à capturer la main. \bigbreak
+
+\includegraphics[width=\textwidth]{images/pre_ttt_5.png}
+\captionof{figure}{Résultat de la détection de la main : \\ Flou : X = 41, Y = 27, Sigma = 22 \\ Thresholding : seuil entre 11-255, TRESH\_BINARY \\ Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
+
+\bigbreak
+
+Enfin, nous avons essayé sans passer par la fonction thresholding et canny mais en créant nous même un masque en fonction de la saturation, de la valeur et de la teinte. \bigbreak
+
+\includegraphics[width=\textwidth]{images/pre_ttt_6.png}
+\captionof{figure}{Résultat de la détection de la main : Hue : 0 - 94, Saturation : 37 - 180, Value : 145 - 238}
+
+\bigbreak
+
+Les résultats sont bons. Cependant, les résultats obtenus sont très dépendant des valeurs des paramètres. 
+
+\subsubsection{Conclusion}
+Même si les résultats en passant l'image en HSV sont concluants, il reste encore des améliorations à apporter puisque la détection est très dépendante des paramètres utilisés. Il faudrait donc trouver une méthode pour que le programme puisse trouver les meilleurs paramètres pour la détection de la main. \bigbreak
+
+
+\subsection{Détection des doigts}
+\subsubsection{Sans Convexe Hull}
+Pour la détection des doigts, nous avons créer un masque ayant la forme d'un doigts que nous passons ensuite sur l'image. Nous déplaçons ensuite ce masque sur l'image et calculons le nombre de pixels blancs dans le masque. Si ce nombre est entre un certains seuil, alors nous considérons que le doigt est présent. \bigbreak
+
+\includegraphics[width=\textwidth]{images/detect_fingers.png}
+\captionof{figure}{Détection des doigts sans Convexe Hull. Hue : 8 - 67 ; Saturation : 97 - 128 ; Value : 185 - 239 ; Seuil : 73 - 100}
+
 
 \newpage
 
