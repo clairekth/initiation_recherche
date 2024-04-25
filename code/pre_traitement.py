@@ -27,6 +27,8 @@ cv2.createTrackbar("Sat Min", "Parameters", 70, 255, lambda x: x)
 cv2.createTrackbar("Sat Max", "Parameters", 255, 255, lambda x: x)
 cv2.createTrackbar("Val Min", "Parameters", 75, 255, lambda x: x)
 cv2.createTrackbar("Val Max", "Parameters", 255, 255, lambda x: x)
+cv2.createTrackbar("Rate min", "Parameters", 0, 100, lambda x: x)
+cv2.createTrackbar("Rate max", "Parameters", 100, 100, lambda x: x)
 
 
 # Mask that matches the tips of the fingers (square blended with a circle)
@@ -46,80 +48,62 @@ def createMask(scale):
     mask[rec_y : rec_y + rec_height, rec_x : rec_x + rec_width] = 255
     cv2.circle(mask, (rec_x + int(rec_width / 2), rec_y), int(rec_width / 2), 255, -1)
 
-    # mask = ligne
-    # mask = np.zeros((50, 50), np.uint8)
+    # cv2.line(mask, (width//3, height//2), (2*width//3, height//2), 255, 4)
 
-    # mask[23:27, 16:32] = 255
-    
+    # cv2.circle(mask, (width//2, height//2), int(width/2.5), 255, -1)
+
     return mask
 
 
-def detectFingers(imageThres, image):
+def countFinger(imageThres, image, scale=1., display=False):
     """
-    Move the mask on the image to detect the fingers
+    Count the number of fingers in the image and draw rectangles around them
 
-    Parameters:
-        - image: the image thresholded
-        - mask: the mask to apply to the image to detect the fingers
+    Parameters
+    ----------
+    imageThres : np.ndarray
+        Image with the threshold applied
+    image : np.ndarray
+        Original image
     """
-    imgCopy = imageThres.copy()
-    imgRes = image.copy()
-    width = imageThres.shape[1]
-    height = imageThres.shape[0]
+    fingers = []
+    mask = createMask(scale)
+    finalImage = image.copy()
 
-    mask = createMask(1.25)
-
-    mask_width = mask.shape[1]
     mask_height = mask.shape[0]
+    mask_width = mask.shape[1]
 
-    cmpt = 0
-    imgBlank = np.ones((20, 200), np.uint8)
-    rectangles = []
-    for i in range(0, width - mask_width, mask_width//2):
-        for j in range(0, height - mask_height, mask_height//2 ):
-            pif = imgCopy[j : j + mask_height, i : i + mask_width]
-            imgTest = imgCopy.copy()
-            cv2.rectangle(imgTest, (i, j), (i + mask_width, j + mask_height), 255, cv2.FILLED)
-            stack = stackImages(2, ([pif], [imgBlank], [imgTest]))
-            # cv2.imshow("Result", stack)
-            # cv2.waitKey(0)
-            
-            roi = pif.copy()
-            res = cv2.bitwise_and(mask, roi)
-            if (cv2.countNonZero(res) / (mask_width * mask_height)) > 0.2:
-                # cv2.imshow("Result", res)
-                # cv2.waitKey(0)
-                # cv2.rectangle(imgRes, (i, j), (i + mask_width, j + mask_height), (255,0,0), 2)
-                rectangles.append((i, j, mask_width, mask_height))
+    image_width = image.shape[1]
+    image_height = image.shape[0]
+
+    rate_min = cv2.getTrackbarPos("Rate min", "Parameters") / 100
+    rate_max = cv2.getTrackbarPos("Rate max", "Parameters") / 100
+
+    if display:
+        cv2.namedWindow("Fingers")
+
+    for x in range(0, image_width - mask_width, 10):
+        for y in range(0, image_height - mask_height, 10):
+            imgShow = image.copy()
+            roi = imageThres[y : y + mask_height, x : x + mask_width]
+            cv2.rectangle(imgShow, (x, y), (x + mask_width, y + mask_height), col[0], 2)
+            bitxnor = cv2.bitwise_xor(roi, mask)
+            bitxnor = cv2.bitwise_not(bitxnor)
+            rate = cv2.countNonZero(bitxnor) / (mask_width * mask_height)
+            if rate_min < rate < rate_max:
+                cv2.rectangle(
+                    finalImage, (x, y), (x + mask_width, y + mask_height), (0,0,255), 2
+                )
+                fingers.append((x, y))
                 break
-    # Check les rectangles convexes si connexe on garde celui qui est le plus haut
-    # for i in range(len(rectangles)):
-    #     x, y, w, h = rectangles[i]
-    #     for j in range(i + 1, len(rectangles)):
-    #         x2, y2, w2, h2 = rectangles[j]
-    #         # check si connexe
-    #         # swap si y2 < y
-    #         swap = False
-    #         if y2 < y:
-    #             swap = True
-    #             x, y, w, h = rectangles[j]
-    #             x2, y2, w2, h2 = rectangles[i]
-    #         if x2 - (x + w) < 10 and y2 - (y + h) < 10:
-    #             if swap:
-    #                 rectangles[i] = (0, 0, 0, 0)
-    #             else:
-    #                 rectangles[j] = (0, 0, 0, 0)
-    #         elif (x2 + w2) - x < 10 and (y2 + h2) - y < 10:
-    #             if swap:
-    #                 rectangles[i] = (0, 0, 0, 0)
-    #             else:   
-    #                 rectangles[j] = (0, 0, 0, 0)
-            
-                
-    
-    for x, y, w, h in rectangles:
-        cv2.rectangle(imgRes, (x, y), (x + w, y + h), (255, 0, 0), 2)
-    return imgRes
+            print(f"Rate: {rate}")
+            if display:
+                stack = stackImages(0.5, ([image, roi, bitxnor, imgShow]))
+                cv2.imshow("Fingers", stack)
+                if cv2.waitKey(0) & 0xFF == ord("q"):
+                    exit(0)
+
+    return finalImage
 
 
 while True:
@@ -144,40 +128,12 @@ while True:
 
     mask = cv2.inRange(imgGaussian, lower, upper)
 
-    # Contour
-    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    i = 0
-    for cnt in contours:
-        area = cv2.contourArea(cnt)
-        if area > 100:
-            hull = cv2.convexHull(cnt)
-            cv2.drawContours(imgCopy, [hull], -1, col[i], 3)
-            i += 1
-            if i == 255:
-                i = 0
-
-            # # Defects
-            # defects = cv2.convexityDefects(cnt, hull)
-            # if defects is not None:
-            #     for i in range(defects.shape[0]):
-            #         s, e, f, d = defects[i, 0]
-            #         start = tuple(cnt[s][0])
-            #         end = tuple(cnt[e][0])
-            #         far = tuple(cnt[f][0])
-
-            #         a = math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2)
-            #         b = math.sqrt((far[0] - start[0]) ** 2 + (far[1] - start[1]) ** 2)
-            #         c = math.sqrt((end[0] - far[0]) ** 2 + (end[1] - far[1]) ** 2)
-            #         angle = math.acos((b**2 + c**2 - a**2) / (2 * b * c)) * 57
-
-            #         if angle <= 90:
-            #             cv2.circle(imgCopy, far, 5, [0, 0, 255], -1)
-
     imgCopy = img.copy()
-    img_finger = detectFingers(mask, imgCopy)
-    imgStack = stackImages(
-        0.6, ([img, imgHSV, imgGaussian], [mask, createMask(1), img_finger])
-    )
+    # fingers = countFinger(mask, imgCopy)[0]
+    # imgStack = stackImages(
+    #     0.6, ([img, imgHSV, imgGaussian], [mask, createMask(1), fingers[0]])
+    # )
+    imgStack = stackImages(0.9, ([countFinger(mask, imgCopy, 0.6), createMask(1)]))
 
     cv2.imshow("Result", imgStack)
 

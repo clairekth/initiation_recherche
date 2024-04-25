@@ -9,4 +9,5 @@ database/*
 
 # code files/folders
 env/
+.venv/
 __pycache__/
