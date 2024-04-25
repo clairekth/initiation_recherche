@@ -140,10 +140,10 @@ L'entrainement du classifieurs en lui-même se fait grâce à ce que l'on appell
 
 \begin{minipage}[t]{0.35\textwidth}
     \begin{center}
-        \includegraphics[width=\textwidth]{images/haar_features.jpg}  
-        \captionof{figure}{Features de Haar comme utilisées par Viola et Jones.} 
+        \includegraphics[width=\textwidth]{images/haar_features.jpg}
+        \captionof{figure}{Features de Haar comme utilisées par Viola et Jones.}
         \label{fig:haar_features_1}
-    \end{center} 
+    \end{center}
 \end{minipage}\hspace{1.5cm}
 \begin{minipage}[t]{0.45\textwidth}
     \begin{center}
@@ -171,7 +171,7 @@ Ces features sont des caractéristiques de l'objet que l'on souhaite détecter, 
 
 Ces features sont ensuite utilisées pour entrainer un classifieur qui permet de détecter l'objet dans une image. Le classifieur est entrainé à l'aide d'un algorithme de machine learning tel que AdaBoost qui permet de déterminer les features les plus pertinentes pour la détection de l'objet. \bigbreak
 
-AdaBoost est un algorithme d'apprentissage supervisé qui permet de construire un classifieur fort à partir de plusieurs classifieurs faibles. 
+AdaBoost est un algorithme d'apprentissage supervisé qui permet de construire un classifieur fort à partir de plusieurs classifieurs faibles.
 Au début, chaque élément de la base de données à le même poids. L'algorithme va ensuite sélectionner un classifieur faible (par exemple, un arbre de décision simple) qui performe légèrement mieux que l'aléatoire. Ce classifieur va être utilisé pour prédire les éléments de la base de données. Les exemples mal classés reçoivent un poids plus élevé, tandis que les exemples correctement classés reçoivent un poids plus faible. Ainsi, les exemples difficiles à classer ont plus d'influence sur la formation du classifieur final. Les poids des classifieurs faibles sont déterminés en fonction de leur précision relative. Les classifieurs les plus précis ont un poids plus élevé. Enfin, le classifieur final est une combinaison linéaire des classifieurs faibles pondérés par leur précision relative. \bigbreak
 
 
@@ -180,9 +180,16 @@ Au début, chaque élément de la base de données à le même poids. L'algorith
 \subsection{Nos entrainements}
 \subsubsection{Avec une base de données d'images de mains}
 \paragraph{Méthodologie}
-Pour notre entrainement, nous avons collecté 10 000 images négatives et 5 000 images positives de mains. Pour les images positives, nous avons ensuite utilisé la librairie OpenCV pour générer les fichiers de descriptions des images positives. Les fichiers de descriptions contiennent les coordonnées des mains dans les images positives. Nous avons ensuite entrainé le classifieur à l'aide de ces fichiers de descriptions. \'Etant donné que les images positives ne contenaient que la main, la description comprenait la taille et la hauteur de l'image. \bigbreak
+Pour notre entrainement, nous avons collecté 10 000 images négatives et 5 000 images positives de mains. Pour les images positives, nous avons ensuite utilisé la librairie OpenCV pour générer les fichiers de descriptions des images positives. Les fichiers de descriptions contiennent les coordonnées des mains dans les images positives. Nous avons ensuite entrainé le classifieur à l'aide de ces fichiers de descriptions. \'Etant donné que les images positives ne contiennent que la main, le fichier de description comprend seulement la taille et la hauteur de l'image. \bigbreak
 
-Nous sommes ensuite passés à l'entrainement. Nous avons utilisé pour celà OpenCV qui propose un programme pour entrainer un classifieur Haar-cascade. Nous avons testé plusieurs cas : avec 5, 10, 15 et 20 étapes, avec des profondeurs d'arbres maximum différentes, avec plus d'images positives que négatives et vice-versa. Enfin, avons aussi testé le nombre de "Faux positif" maximum autorisé, c'est-à-dire le nombre maximum d'images négatives mal classées autorisées. \bigbreak 
+\begin{minipage}[t]{0.5\textwidth}
+    \begin{center}
+        \includegraphics[width=\textwidth]{images/ex_pos.jpg}
+        \captionof{figure}{Image positive 1}
+    \end{center}
+\end{minipage}
+
+Nous sommes ensuite passés à l'entrainement. Nous avons utilisé pour celà OpenCV qui propose un programme pour entrainer un classifieur Haar-cascade. Nous avons testé plusieurs cas : avec 5, 10, 15 et 20 étapes, avec des profondeurs d'arbres maximum différentes, avec plus d'images positives que négatives et vice-versa. Enfin, avons aussi testé le nombre de "Faux positif" maximum autorisé, c'est-à-dire le nombre maximum d'images négatives mal classées autorisées. \bigbreak
 
 Faire un tab récap pour les heures ??? \bigbreak
 
@@ -207,29 +214,31 @@ Il faudrait essayer de prendre une base de données de mains contenant des backg
 
 
 \section{Reconnaissance de la main sans classifieur}
-\subsection{Méthodologie}
-Pour réussir à détecter la main sans classifieur, nous avons dû tester plusieurs méthodes. En effet, plusieurs paramètres interviennent afin d'avoir une détection de la main optimale. 
+\subsection{Avec Convexe Hull}
+\subsubsection{Méthodologie}
+Pour réussir à détecter la main sans classifieur, nous avons dû tester plusieurs méthodes. En effet, plusieurs paramètres interviennent afin d'avoir une détection de la main optimale.
 
-On a dû jouer sur plusieurs paramètres : 
+On a dû jouer sur plusieurs paramètres :
 \begin{itemize}
     \item Le format de la couleur de l'image : GreyScale ou HSV
     \item Flou : avec ou sans, quel type de flou (Gaussien ou Bilatéral)
     \item Thresholding : pour binariser l'image. Il y avait là plusieurs paramètres possibles : le seuil et le type de thresholding (binaire, binaire inversé, tronqué, to zero, to zero inversé)
 \end{itemize}
 
-\subsection{Expériences et résultats}
-Pour trouver les meilleures paramètres, nous avons testé plusieurs combinaisons de paramètres. 
+\subsubsection{Expériences et résultats}
+Pour trouver les meilleures paramètres, nous avons testé plusieurs combinaisons de paramètres.
 
 blablabla
 
-\subsection{Détection des doigts}
+\subsubsection{Détection des doigts}
 
+\subsection{Sans Convexe Hull}
 
 \newpage
 
 \section{Fusion des deux systèmes}
 \subsection{Méthodologie}
-Nous avons un classifieur d'une part qui détecte une portion de la main et d'autres part un système qui permet de détecter la main si on a bien configuré les paramètres. Nous allons donc fusionner ces deux systèmes : si le classifieur détecte une portion de la main, on utilise la plus grande portion de la main détectée afin de récupéré tout d'abord la couleur de la main puis 
+Nous avons un classifieur d'une part qui détecte une portion de la main et d'autres part un système qui permet de détecter la main si on a bien configuré les paramètres. Nous allons donc fusionner ces deux systèmes : si le classifieur détecte une portion de la main, on utilise la plus grande portion de la main détectée afin de récupéré tout d'abord la couleur de la main puis
 \subsection{Expériences et résultats}
 \subsection{Conclusion}
 \newpage
