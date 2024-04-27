@@ -117,6 +117,8 @@ des mouvements de la tête ou du corps, tout entier.
 
 \section{\'Etat de l'art}
 \subsection{Article de départ}
+L'article sur lequel nous nous basons, Static Hand Gesture and Face Recognition System {\LARGE SOURCE} propose un système de reconnaissance de gestes de la main. Ce système est créé à partir d'une image, passée en HSV à laquelle ils ont ajouté un Flou et un Thresholding. Le Thresholding permet de généré une image binaire :  chaque pixel est comparé à un seuil, si la valeur du pixel est supérieur à ce seuil le pixel est blanc, sinon il est noir. Ils extraient ensuite les contours avant de tracer le Convex Hull, le polygone de la main. Enfin, ils calculent des "Convexity Defect" c'est-à-dire des points éloignés de points convexe. Dans ce cas ci, les points convexes sont le bout des doigts et donc les defects sont le trou entre 2 doigts. Un defect est donc compté si l'angle entre 2 doigts est supérieur à 90°. \bigbreak
+
 \subsection{Médiapipe}
 Médiapipe est un framework open-source développé par Google permettant de construire des pipelines de traitement de données multimédia. Il propose des solutions pour la détection de la main, du visage ou encore de la pose. Il est basé sur des modèles de machine learning notamment grâce à de l'apprentissage via des réseaux de neurones. \bigbreak
 
@@ -124,9 +126,15 @@ Médiapipe est un framework open-source développé par Google permettant de con
 
 
 \subsection{classifieur classique Haar-cascade}
-Le classifieur Haar-cascade est une méthode de détection d'objets dans une image introduit par Paul Viola et Michael Jones en 2001 [src]. Il est basé sur l'utilisation de caractéristiques de type Haar. Ces caractéristiques sont des fenêtres de taille fixe qui sont déplacées sur l'image et qui permettent de calculer la différence de luminosité entre les pixels de la fenêtre. Ces caractéristiques sont ensuite utilisées pour entraîner un classifieur qui permet de détecter des objets dans une image. \bigbreak
+Le classifieur Haar-cascade est une méthode de détection d'objets dans une image introduit par Paul Viola et Michael Jones en 2001 [src]. Il est basé sur l'utilisation de caractéristiques (ou features) de type Haar. Ces caractéristiques sont des fenêtres de taille fixe qui sont déplacées sur l'image et qui permettent de calculer la différence de luminosité entre les pixels de la fenêtre. Ces caractéristiques sont ensuite utilisées pour entraîner un classifieur qui permet de détecter des objets dans une image. \bigbreak
 
-Les classifieurs Haar-cascade sont utilisés pour la détection de visages, de voitures, de plaques d'immatriculation, de piétons, de mains ou de tout autres objets. Ils sont très utilisés dans le domaine de la vision par ordinateur et sont très efficaces pour la détection d'objets dans une image. \bigbreak
+\begin{center}
+    \includegraphics[width=0.2\textwidth]{images/visage.png}
+    \captionof{figure}{Exemple de détection de visage avec un classifieur Haar-cascade}
+    \label{fig:visage}
+\end{center}
+
+Les classifieurs Haar-cascade sont utilisés pour la détection de visages (Fig. \ref{fig:visage}), de voitures, de plaques d'immatriculation, de piétons, de mains ou de tout autres objets. Ils sont très utilisés dans le domaine de la vision par ordinateur et sont très efficaces pour la détection d'objets dans une image. \bigbreak
 
 
 
@@ -217,15 +225,28 @@ Pour notre entrainement, nous avons collecté 10 000 images négatives (Fig. \re
 
 \bigbreak \bigbreak
 
-Nous sommes ensuite passés à l'entrainement. Nous avons utilisé pour celà OpenCV qui propose un programme pour entrainer un classifieur Haar-cascade. Nous avons testé plusieurs cas : avec 5, 10, 15 et 20 étapes, avec des profondeurs d'arbres maximum différentes, avec plus d'images positives que négatives et inversement. Enfin, avons aussi testé le nombre de "Faux positif" maximum autorisé, c'est-à-dire le nombre maximum d'images négatives mal classées autorisées. \'A la fin de l'entrainement, nous récupérons un fichier xml qui sera ensuite utilisé pour la détection.\bigbreak
+Nous sommes ensuite passés à l'entrainement. Nous avons utilisé pour celà OpenCV qui propose un programme pour entrainer un classifieur Haar-cascade. Nous avons testé plusieurs cas : avec 5, 10, 15 et 20 étapes, avec des profondeurs d'arbres maximum différentes, avec plus d'images positives que négatives et inversement. Nous avons également testé différentes valeurs pour le seuil d'acceptation du ratio break. Ce seuil détermine à quel point le modèle continue à apprendre avec précision et quand il doit s'arrêter. Enfin, nous avons testés avec deux modes différents : par défaut et 'ALL'. Le mode par défaut utilisent les features de bases (Fig. \ref{fig:haar_features_1}) tandis que le mode 'ALL' utilisent les features un peu plus complexes (Fig. \ref{fig:haar_features_2}). \'A la fin de l'entrainement, nous récupérons un fichier xml qui sera ensuite utilisé pour la détection.\bigbreak
 
-{\LARGE Faire un tab récap pour les heures}  \bigbreak
+\bigbreak
 
-\noindent \begin{tabular}{|c|c|c|c|c|c|}
-    \hline
-    Test & Nombre d'étapes & Profondeur d'arbre & Nombre de faux positifs & Nombres d'heures & Commentaires \\
-    \hline    
-\end{tabular}
+\noindent Voici un tableau récapitulatif des différents tests que nous avons effectués : \bigbreak
+
+\begin{center} 
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        Test & Nombre de & Nombre de & Nombre & Profondeur & Acceptance  & Mode & Temps \\
+        & positifs & négatifs & d'étapes & d'arbre & Ratio Break &  &  \\ 
+        \hline 
+        1 & 4 000 & 10 000 & 7 & 1 & désactivé & Défaut & 1h10 \\ 
+        \hline
+        2 & 4 000 & 10 000 & 8 & 1 & 1.0e-5 & Défaut & 40min \\
+        \hline
+        3 & 4 000 & 2 000 & 10 & 3 & 1.0e-5 & All & 5h \\
+        \hline
+        4 & 4 000 & 2 000 & 6 & 1 & 1.0e-5 & Défaut & 4mn \\
+        \hline
+    \end{tabular}
+\end{center}
 
 \bigbreak
 {\LARGE JSP SI ON METS UN EXEMPLE DES COMMANDES ??}
@@ -237,17 +258,17 @@ Nous voulions obtenir un classifieur qui détecte la main dans une image comme s
     \captionof{figure}{Résultat attendu}
 \end{center}
 
-{\LARGE A COMPLETER}
-
 \begin{minipage}{0.45\textwidth}
     \centering
     \includegraphics[width=\textwidth]{images/cascade0.png}
     \captionof{figure}{Test 1}
+    \label{fig:res_cascade0}
 \end{minipage}
 \begin{minipage}{0.45\textwidth}
     \centering
     \includegraphics[width=\textwidth]{images/cascade1.png}
     \captionof{figure}{Test 2}
+    \label{fig:res_cascade1}
 \end{minipage}
 
 
@@ -255,16 +276,21 @@ Nous voulions obtenir un classifieur qui détecte la main dans une image comme s
     \centering
     \includegraphics[width=\textwidth]{images/cascade2.png}
     \captionof{figure}{Test 3}
+    \label{fig:res_cascade2}
 \end{minipage}
 \begin{minipage}{0.45\textwidth}
     \centering
     \includegraphics[width=\textwidth]{images/cascade3.png}
     \captionof{figure}{Test 4}
+    \label{fig:res_cascade3}
 \end{minipage}
 
+\bigbreak
+
+Les classifieurs 1 (Fig. \ref{fig:res_cascade0}) et 2 (Fig. \ref{fig:res_cascade1}) ne détectent pas entièrement la main dans l'image, seulement plusieurs portions plus ou moins grandes. Le classifieur 4 (Fig. \ref{fig:res_cascade3}) détecte bien la main mais détecte aussi d'autres objets dans l'image. Le classifieur 3 (Fig. \ref{fig:res_cascade2}) est le moins satisfaisant puisqu'il ne détecte rien du tout, certainement dû à un surapprentissage. \bigbreak
 
 \paragraph{Conclusion}
-Les résultats ne sont pas entièrement satisfaisant. En effet, le classifieur ne détecte pas toute la main mais seulement plusieurs parties de la main. Celà est certainement dû au fait que les images positives ne contienent que la main sans "background" et que les features utilisées ne sont pas suffisamment pertinentes pour détecter la main dans une image. \bigbreak
+Les résultats ne sont pas entièrement satisfaisant. En effet, les différents classifieurs, lorsqu'ils détectent la main, ne la détectent pas entièrement mais seulement plusieurs parties. Celà est certainement dû au fait que les images positives ne contienent que la main sans "background". \bigbreak
 
 \subsubsection{En créant nous même des images positives}
 \paragraph{Méthodologie}
@@ -276,17 +302,76 @@ N'ayant pas obtenus de résultats satisfaisants avec la base de données d'image
     \label{fig:ex_pos_neg}
 \end{center}
 
-Comme précédemment, nous avons tester différents paramètres pour l'entrainement du classifieur. \bigbreak
+\noindent Comme précédemment, nous avons tester différents paramètres pour l'entrainement du classifieur. \bigbreak
 
-{\LARGE TABLEAU}
+\begin{center} 
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        Test & Nombre de & Nombre de & Nombre & Profondeur & Acceptance  & Mode & Temps \\
+        & positifs & négatifs & d'étapes & d'arbre & Ratio Break &  &  \\ 
+        \hline 
+        5 & 8 000 & 6 000 & 15 & 1 & 1.0e-5 & Défaut & 4h05 \\
+        \hline
+        6 & 8 000 & 6 000 & 10 & 1 & 1.0e-5 & Défaut & 1h53 \\
+        \hline
+        7 & 8 000 & 6 000 & 5 & 1 & 1.0e-5 & Défaut & 35min \\
+        \hline
+        8 & 5 000 & 8 000 & 9 & 1 & 1.0e-5 & All & 2h49 \\
+        \hline
+        9 & 5 000 & 8 000 & 5 & 1 & 1.0e-5 & All & 1h25 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+
 \paragraph{Résultats}
 
-{\LARGE TO DO}
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/cascade4.png}
+    \captionof{figure}{Test 5}
+    \label{fig:res_cascade4}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/cascade5.png}
+    \captionof{figure}{Test 6}
+    \label{fig:res_cascade5}
+\end{minipage}
+
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/cascade6.png}
+    \captionof{figure}{Test 7}
+    \label{fig:res_cascade6}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/cascade7.png}
+    \captionof{figure}{Test 8}
+    \label{fig:res_cascade7}
+\end{minipage}
+
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/cascade8.png}
+    \captionof{figure}{Test 9}
+    \label{fig:res_cascade8}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/cascade9.png}
+    \captionof{figure}{Test 10}
+    \label{fig:res_cascade9}
+\end{minipage}
+\bigbreak
+
+Les résultats ne sont pas satisfaisants. Le classifieur 5 (Fig. \ref{fig:res_cascade4}) ne détecte rien du tout, certainement dû à un surapprentissage. Les classifieurs 7 (Fig. \ref{fig:res_cascade6}), 8 (Fig. \ref{fig:res_cascade7}) et 10 (Fig. \ref{fig:res_cascade9}) détectent bien la main mais détectent aussi beaucoup d'autres objets dans l'image. Les classifieurs 6 (Fig. \ref{fig:res_cascade5}) et 9 (Fig. \ref{fig:res_cascade8}) ne détectent pas entièrement la main dans l'image, seulement plusieurs portions plus ou moins grandes. Ils détectent aussi notamment une partie de la bouche. \bigbreak
 
 \paragraph{Conclusion}
-Les résultats ne sont pas beaucoup plus satisfaisant. On obtient les mêmes résultats que précédemment. \bigbreak
+Les résultats ne sont pas beaucoup plus satisfaisant. On obtient dans l'ensemble,les mêmes résultats que précédemment c'est-à-dire des détections partiels de la main et non la main entières pour les classifieurs les mieux entrainés. \bigbreak
 
-Il faudrait essayer de prendre une base de données de mains contenant des background différents et annoter nous mêmes les images pour voir si celà améliore les résultats. \bigbreak
+Il faudrait essayer de prendre une base de données de mains contenant des background différents et annoter nous mêmes les images, c'est-à-dire l'emplacement des mains dans l'image, pour voir si celà améliore les résultats. \bigbreak
 
 
 \section{Reconnaissance du mouvement de la main sans classifieur}
@@ -307,9 +392,12 @@ Pour trouver les meilleures paramètres, nous avons testé plusieurs combinaison
 
 \bigbreak
 
-Tout d'abord, nous avons essayé en essayant de mettre l'images en gris, puis de flouter l'image avec un flou gaussien, puis de binariser l'image avec un thresholding binaire. Enfin, nous avons utilisé Canny pour détecter les contours de la main et nous avons tracer le convexe hull de la main. Les résultats sont plutôt bons puisque nous avons capturé l'essentiel de la main même si il manque une grosse partie du pouce.\bigbreak
-\includegraphics[width=\textwidth]{images/pre_ttt_1.png}
-\captionof{figure}{Résultat de la détection de la main : \\ Thresholding : seuil entre 200-255, TRESH\_BINARY \\ Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
+Tout d'abord, nous avons essayé en essayant de mettre l'images en gris, puis de flouter l'image avec un flou gaussien, puis de binariser l'image avec un thresholding binaire. Enfin, nous avons utilisé Canny pour détecter les contours de la main et nous avons tracer le convex hull de la main. Les résultats sont plutôt bons puisque nous avons capturé l'essentiel de la main même si il manque une grosse partie du pouce.\bigbreak
+
+\begin{center}
+    \includegraphics[width=\textwidth]{images/pre_ttt_1.png}
+    \captionof{figure}{Résultat de la détection de la main : Thresholding : seuil entre 200-255, TRESH\_BINARY, Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
+\end{center}
 \bigbreak
 
 \bigbreak
@@ -317,50 +405,58 @@ Tout d'abord, nous avons essayé en essayant de mettre l'images en gris, puis de
 Nous avons aussi essayé sans flou, les résultats étaient moins bons puisque nous pouvons voir plusieurs convex hulls pour une seule main. 
 \bigbreak
 
-\includegraphics[width=\textwidth]{images/pre_ttt_2.png}
-\captionof{figure}{Résultat de la détection de la main : \\ Thresholding : seuil entre 198-255, TRESH\_BINARY \\ Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
-
+\begin{center}
+    \includegraphics[width=\textwidth]{images/pre_ttt_2.png}
+    \captionof{figure}{Résultat de la détection de la main : Thresholding : seuil entre 198-255, TRESH\_BINARY, Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
+\end{center}
 \bigbreak
 
 Nous avons ensuite essayé sans flou et sans Canny. Les résultats sont encores moins bons puisque nous avons plusieurs convex hulls voir même certains hors de la main. \bigbreak
-\includegraphics[width=\textwidth]{images/pre_ttt_3.png}
-\captionof{figure}{Résultat de la détection de la main : \\ Thresholding : seuil entre 196-239, TRESH\_BINARY \\ Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
 
+\begin{center}
+    \includegraphics[width=\textwidth]{images/pre_ttt_3.png}
+    \captionof{figure}{Résultat de la détection de la main : Thresholding : seuil entre 196-239, TRESH\_BINARY, Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
+\end{center}
 \bigbreak
 
 Les résultats ne sont pas exceptionnels mais nous nous attendions à ce qu'ils soient meilleurs en passant l'image en HSV plutôt qu'en GreyScale.  \bigbreak
 
-\includegraphics[width=\textwidth]{images/pre_ttt_4.png}
-\captionof{figure}{Résultat de la détection de la main : \\ Thresholding : seuil entre 223-255, TRESH\_BINARY \\ Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
+\begin{center}
+    \includegraphics[width=\textwidth]{images/pre_ttt_4.png}
+    \captionof{figure}{Résultat de la détection de la main : Thresholding : seuil entre 223-255, TRESH\_BINARY, Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
+\end{center}
 \bigbreak
 
 On voit clairement ici que les résultats sont meilleurs puisque nous avons bien capturé l'ensemble de la main. De plus, même sur une image de mauvaise qualité, en jouant sur les paramètres, nous avons réussi à capturer la main. \bigbreak
 
-\includegraphics[width=\textwidth]{images/pre_ttt_5.png}
-\captionof{figure}{Résultat de la détection de la main : \\ Flou : X = 41, Y = 27, Sigma = 22 \\ Thresholding : seuil entre 11-255, TRESH\_BINARY \\ Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
-
+\begin{center}
+    \includegraphics[width=\textwidth]{images/pre_ttt_5.png}
+    \captionof{figure}{Résultat de la détection de la main : Flou : X = 41, Y = 27, Sigma = 22 ; Thresholding : seuil entre 11-255, TRESH\_BINARY ; Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
+    \end{center}
 \bigbreak
 
 Enfin, nous avons essayé sans passer par la fonction thresholding et canny mais en créant nous même un masque en fonction de la saturation, de la valeur et de la teinte. \bigbreak
 
-\includegraphics[width=\textwidth]{images/pre_ttt_6.png}
-\captionof{figure}{Résultat de la détection de la main : Hue : 0 - 94, Saturation : 37 - 180, Value : 145 - 238}
-
+\begin{center}
+    \includegraphics[width=\textwidth]{images/pre_ttt_6.png}
+    \captionof{figure}{Résultat de la détection de la main : Hue : 0 - 94, Saturation : 37 - 180, Value : 145 - 238}
+\end{center}
 \bigbreak
 
-Les résultats sont bons. Cependant, les résultats obtenus sont très dépendant des valeurs des paramètres. 
+Les résultats obtenus sont bons. Nous arrivons bien a détecter la main. Cependant, ces résultats sont très dépendant des valeurs des paramètres. 
 
 \subsubsection{Conclusion}
 Même si les résultats en passant l'image en HSV sont concluants, il reste encore des améliorations à apporter puisque la détection est très dépendante des paramètres utilisés. Il faudrait donc trouver une méthode pour que le programme puisse trouver les meilleurs paramètres pour la détection de la main. \bigbreak
 
 
 \subsection{Détection des doigts}
-\subsubsection{Sans Convexe Hull}
+\subsubsection{Sans Convex Hull}
 Pour la détection des doigts, nous avons créer un masque ayant la forme d'un doigts que nous passons ensuite sur l'image. Nous déplaçons ensuite ce masque sur l'image et calculons le nombre de pixels blancs dans le masque. Si ce nombre est entre un certains seuil, alors nous considérons que le doigt est présent. \bigbreak
 
-\includegraphics[width=\textwidth]{images/detect_fingers.png}
-\captionof{figure}{Détection des doigts sans Convexe Hull. Hue : 8 - 67 ; Saturation : 97 - 128 ; Value : 185 - 239 ; Seuil : 73 - 100}
-
+\begin{center}
+    \includegraphics[width=\textwidth]{images/detect_fingers.png}
+    \captionof{figure}{Détection des doigts sans Convex Hull. Hue : 8 - 67 ; Saturation : 97 - 128 ; Value : 185 - 239 ; Seuil : 73 - 100}
+\end{center}
 
 \newpage
 
