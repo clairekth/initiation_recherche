@@ -8,7 +8,7 @@ import numpy as np
 imgBlank = np.zeros((640, 480), np.uint8)
 
 # Load the picture
-img = cv2.imread("../database/hands/.png")
+img = cv2.imread("../database/hands/hand_1.png")
 if img is None:
     print("Could not read the image.")
     exit()
@@ -82,8 +82,8 @@ def countFinger(imageThres, image, scale=1., display=False):
     if display:
         cv2.namedWindow("Fingers")
 
-    for x in range(0, image_width - mask_width, 10):
-        for y in range(0, image_height - mask_height, 10):
+    for x in range(0, image_width - mask_width, mask_width // 2):
+        for y in range(0, image_height - mask_height, mask_height // 2):
             imgShow = image.copy()
             roi = imageThres[y : y + mask_height, x : x + mask_width]
             cv2.rectangle(imgShow, (x, y), (x + mask_width, y + mask_height), col[0], 2)
@@ -128,12 +128,24 @@ while True:
 
     mask = cv2.inRange(imgGaussian, lower, upper)
 
+    # contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    # for cnt in contours:
+    #     area = cv2.contourArea(cnt)
+    #     if area > 100:
+    #         hull = cv2.convexHull(cnt)
+    #         cv2.drawContours(imgCopy, [hull], -1, col[0], 3)
+    
+
     imgCopy = img.copy()
-    # fingers = countFinger(mask, imgCopy)[0]
+    fingers = countFinger(mask, imgCopy)
+    imgStack = stackImages(
+         0.6, ([img, imgHSV, imgGaussian], [mask, createMask(1), fingers])
+    )
     # imgStack = stackImages(
-    #     0.6, ([img, imgHSV, imgGaussian], [mask, createMask(1), fingers[0]])
+    #     0.6, ([img, imgHSV, imgGaussian], [mask, imgCopy, imgBlank])
     # )
-    imgStack = stackImages(0.9, ([countFinger(mask, imgCopy, 0.6), createMask(1)]))
+    # imgStack = stackImages(0.9, ([countFinger(mask, imgCopy, 0.6), createMask(1)]))
 
     cv2.imshow("Result", imgStack)
 
