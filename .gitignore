@@ -4,8 +4,6 @@ rapport/rapport.*
 !rapport/rapport.tex
 !rapport/rapport.pdf
 
-database/*
-
 
 # code files/folders
 env/
