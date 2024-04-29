@@ -1,6 +1,6 @@
 import cv2
 
-handCascade = cv2.CascadeClassifier("./cascade/cascade9.xml")
+handCascade = cv2.CascadeClassifier("code/cascade/cascade1.xml")
 if handCascade.empty():
     raise IOError("Unable to load the hand cascade classifier xml file")
 color = (255, 0, 255)
@@ -9,7 +9,7 @@ frameHeight = 480
 
 # img = cv2.imread("C:\\Users\\clair\\Documents\\initiation_recherche\\database\\hands\\left_5_fingers.png")
 # img = cv2.imread("C:\\Users\\clair\\Documents\\initiation_recherche\\database\\hands\\hand_15.png")
-img = cv2.imread("../database/hands/hand_15.png")
+img = cv2.imread("database/hands/hand_19.png")
 if img is None:
     raise IOError("Unable to load the image file")
 

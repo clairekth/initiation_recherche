@@ -8,7 +8,7 @@ import numpy as np
 imgBlank = np.zeros((640, 480), np.uint8)
 
 # Load the picture
-img = cv2.imread("../database/hands/hand_1.png")
+img = cv2.imread("database/hands/hand_1.png")
 if img is None:
     print("Could not read the image.")
     exit()
