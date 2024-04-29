@@ -369,9 +369,11 @@ N'ayant pas obtenus de résultats satisfaisants avec la base de données d'image
 Les résultats ne sont pas satisfaisants. Le classifieur 5 (Fig. \ref{fig:res_cascade4}) ne détecte rien du tout, certainement dû à un surapprentissage. Les classifieurs 7 (Fig. \ref{fig:res_cascade6}), 8 (Fig. \ref{fig:res_cascade7}) et 10 (Fig. \ref{fig:res_cascade9}) détectent bien la main mais détectent aussi beaucoup d'autres objets dans l'image. Les classifieurs 6 (Fig. \ref{fig:res_cascade5}) et 9 (Fig. \ref{fig:res_cascade8}) ne détectent pas entièrement la main dans l'image, seulement plusieurs portions plus ou moins grandes. Ils détectent aussi notamment une partie de la bouche. \bigbreak
 
 \paragraph{Conclusion}
-Les résultats ne sont pas beaucoup plus satisfaisant. On obtient dans l'ensemble,les mêmes résultats que précédemment c'est-à-dire des détections partiels de la main et non la main entières pour les classifieurs les mieux entrainés. \bigbreak
+Les résultats ne sont pas beaucoup plus satisfaisant. On obtient dans l'ensemble,les mêmes résultats que précédemment c'est-à-dire des détections partiels de la main et non la main entières pour les classifieurs les mieux entrainés.
 
 Il faudrait essayer de prendre une base de données de mains contenant des background différents et annoter nous mêmes les images, c'est-à-dire l'emplacement des mains dans l'image, pour voir si celà améliore les résultats. \bigbreak
+
+Pour reconnaitre chaque mouvement indépendament les uns des autres, il faudrait entrainer une cascade par mouvement ce qui n'est pas forcément très pratique.
 
 
 \section{Reconnaissance du mouvement de la main sans classifieur}
