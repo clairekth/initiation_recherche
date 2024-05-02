@@ -49,8 +49,8 @@ def cluster(list):
     
     y_moy = y_tot / len(clusters)
 
-    res = [cluster for cluster in clusters if cluster[1] <=  0.5 * y_moy or cluster[0] == x_max]
-
+    # res = [cluster for cluster in clusters if cluster[1] <=  0.5 * y_moy or cluster[0] == x_max]
+    res = [cluster for cluster in clusters if cluster[1] <=  0.5 * y_moy]
     filtered = []
 
     for i in range(0, len(res)) :
@@ -76,13 +76,15 @@ def cluster(list):
     # res = [cluster for cluster in res if all(abs(cluster[0] - other_cluster[0]) >= 30 for other_cluster in res if other_cluster != cluster)]
 
     print("Clusters:")
-    print(filtered)
+    print(res)
     
     return filtered
 
 def unique_count_app(a):
     colors, count = np.unique(a.reshape(-1,a.shape[-1]), axis=0, return_counts=True)
     return colors[count.argmax()]
+
+imgBlank = np.zeros((200, 200), np.uint8)
 
 cv2.namedWindow("Parameters")
 cv2.resizeWindow("Parameters", 640, 480)
@@ -100,7 +102,8 @@ handCascade = cv2.CascadeClassifier("code/cascade/cascade1.xml")
 if handCascade.empty():
     raise IOError("Unable to load the hand cascade classifier xml file")
 
-img = cv2.imread("database/hands/hand_19.png")
+# img = cv2.imread("database/hands/hand_19.png")
+img = cv2.imread("database/hands/right_hand_3_fingers.png")
 if img is None:
     raise IOError("Unable to load the image file")
 
@@ -122,24 +125,31 @@ while True:
     v_min = cv2.getTrackbarPos("Val Min", "Parameters")
     v_max = cv2.getTrackbarPos("Val Max", "Parameters")
 
-    hands = handCascade.detectMultiScale(imgGray, scaleFactor=1.2, minNeighbors=1, minSize=(50, 30))
-    color = (255, 255, 255)
-    biggest_scare = -np.inf
-    x_max, y_max, w_max, h_max = 0,0,0,0
-    for x, y, w, h in hands:
-        if w*h > biggest_scare :
-            biggest_scare = w*h
-            x_max, y_max, w_max, h_max = x, y, w, h
+    # hands = handCascade.detectMultiScale(imgGray, scaleFactor=1.2, minNeighbors=1, minSize=(50, 30))
+    # color = (255, 255, 255)
+    # biggest_scare = -np.inf
+    # x_max, y_max, w_max, h_max = 0,0,0,0
+    # for x, y, w, h in hands:
+    #     if w*h > biggest_scare :
+    #         biggest_scare = w*h
+    #         x_max, y_max, w_max, h_max = x, y, w, h
+
 
     imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     imgGaussian = cv2.GaussianBlur(imgHSV, (7, 7), 1)
 
-    roi = imgHSV[y_max:y_max+h_max, x_max:x_max+w_max]
+    # roi = imgHSV[y_max:y_max+h_max, x_max:x_max+w_max]
+    # cv2.rectangle(imgRec, (x_max, y_max), (x_max+w_max, y_max+h_max), color, 2)
 
-    h,s,v = unique_count_app(roi)
-    epsilon = 45
+    # h,s,v = unique_count_app(roi)
+    # epsilon = 45
 
-    print(h,s,v)
+    # Création d'une image couleur unis HSV
+    # imgColor = np.zeros((200, 200, 3), np.uint8)
+    # imgColor[:] = [h,s,v]
+    # imgColor = cv2.cvtColor(imgColor, cv2.COLOR_HSV2BGR)
+
+    # print(h,s,v)
     # h_min, s_min, v_min = h-epsilon, s-epsilon, v-epsilon
     # h_max, s_max, v_max = h+(2*epsilon), 255, 255
 
@@ -153,21 +163,28 @@ while True:
 
     for cnt in contours:
         area = cv2.contourArea(cnt)
-        if area > 5000:
+        if area > 10000:
             hull = cv2.convexHull(cnt)
 
             cv2.drawContours(imgCopy, [hull], -1, (0, 255, 0), 2)
-            
+            imgPt = imgCopy.copy()
 
-            print(hull)
+
+            # print(hull)
 
             unique_points = cluster(hull)
             print("Unique points:")
             print(unique_points)
             for x, y in unique_points:
-                cv2.circle(imgCopy, (x,y), 5, (255,0,255), -1)
+                cv2.circle(imgPt, (x,y), 5, (255,0,255), -1)
 
-    stack = stackImages(0.8, ([imgCopy, roi, mask]))
+            # unique_points = cv2.convexHull(cnt, returnPoints=True)
+            # for point in unique_points:
+            #     x, y = point[0]
+            #     cv2.circle(imgPt, (x,y), 5, (255,0,255), -1)
+
+
+    stack = stackImages(0.8, ([img, imgHSV, mask], [imgCopy, imgPt, imgBlank]))
 
     cv2.imshow("Result.jpg", stack)
 
