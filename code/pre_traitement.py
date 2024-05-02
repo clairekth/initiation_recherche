@@ -45,10 +45,10 @@ def createMask(scale):
     rec_height = int(height / 2)
     rec_x = int(width / 2 - rec_width / 2)
     rec_y = int(height - rec_height)
-    mask[rec_y : rec_y + rec_height, rec_x : rec_x + rec_width] = 255
-    cv2.circle(mask, (rec_x + int(rec_width / 2), rec_y), int(rec_width / 2), 255, -1)
+    # mask[rec_y : rec_y + rec_height, rec_x : rec_x + rec_width] = 255
+    # cv2.circle(mask, (rec_x + int(rec_width / 2), rec_y), int(rec_width / 2), 255, -1)
 
-    # cv2.line(mask, (width//3, height//2), (2*width//3, height//2), 255, 4)
+    cv2.line(mask, (width//3, height//2), (2*width//3, height//2), 255, 4)
 
     # cv2.circle(mask, (width//2, height//2), int(width/2.5), 255, -1)
 

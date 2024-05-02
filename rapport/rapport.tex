@@ -191,7 +191,7 @@ Au début, chaque élément de la base de données à le même poids. L'algorith
 \subsection{Nos entrainements}
 \subsubsection{Avec une base de données d'images de mains}
 \paragraph{Méthodologie}
-Pour notre entrainement, nous avons collecté 10 000 images négatives (Fig. \ref{fig:ex_neg}) et 5 000 images positives de mains (Fig. \ref{fig:ex_pos}). Nous avons dû pour les images positives, annoter les images (dans un fichier texte) afin de donner le nombre de mains présentes et les coordonnées de la main dans l'image (Fig. \ref{fig:ex_desc}). Ensuite, grâce à ce fichier et à OpenCV, nous avons généré un fichier vec qui contient les informations des images positives. Nous avons ensuite entrainé le classifieur à l'aide de ce fichiers.
+Pour notre entrainement, nous avons collecté 10 000 images négatives (Fig. \ref{fig:ex_neg}) et 5 000 images positives de mains (Fig. \ref{fig:ex_pos}). Nous avons dû pour les images positives, annoter les images (dans un fichier texte) afin de donner le nombre de mains présentes et les coordonnées de la main dans l'image (Fig. \ref{fig:ex_desc}). \'Etant donné que seule une main était présente et que le fond est blanc, la zone où est située la main est donc l'image entière. Ensuite, grâce à ce fichier et à OpenCV, nous avons généré un fichier vec qui contient les informations des images positives. Nous avons ensuite entrainé le classifieur à l'aide de ce fichiers.
 \bigbreak
 
 
@@ -449,7 +449,16 @@ Même si les résultats en passant l'image en HSV sont concluants, il reste enco
 
 \section{Fusion des deux méthodes}
 \subsection{Méthodologie}
-Nous avons un classifieur d'une part qui détecte une portion de la main et d'autres part un système qui permet de détecter la main si on a bien configuré les paramètres. Nous allons donc fusionner ces deux systèmes : si le classifieur détecte une portion de la main, on utilise la plus grande portion de la main détectée afin de récupéré tout d'abord la couleur de la main puis
+Nous avons un classifieur d'une part qui détecte une portion de la main et d'autres part un système qui permet de détecter la main si on a bien configuré les paramètres. Nous avons donc essayer de fusionner ces deux méthodes pour avoir une meilleure détection de la main. 
+
+\begin{center}
+    \includegraphics[width=\textwidth]{images/pipeline_combinaison.png}
+    \captionof{figure}{Pipeline de la fusion des deux méthodes}
+    \label{fig:pipeline_combinaison}
+\end{center}
+
+La méthodologie est la suivante (Fig. \ref{fig:pipeline_combinaison}) : à partir d'un image que nous convertissons en niveau de gris, nous essayons de détecter la main grâce à un classifieur Haar-cascade. Nos classifieurs détectant plusieurs zone au niveau de la main, nous récupérons la plus grosse. Nous passons ensuite cette zone en HSV afin de récupéré la teinte, saturation et valeur majoritaire de la zone. Nous créons ensuite un masque en fonction de ces valeurs et d'un epsilon afin d'avoir un seuil minimum et un seuil maximum. Nous passons ensuite ce masque sur l'image et affichons le Convex Hull correspondant. \bigbreak 
+
 \subsection{Expériences et résultats}
 
 
@@ -485,17 +494,57 @@ De plus, récupéré la couleur majoritaire de la zone détectée ne semble pas 
 
 \subsection{Sans Convex Hull}
 
+\subsubsection{Méthodologie}
 Pour la détection des doigts, nous avons créer différents masques que nous passons ensuite sur l'image. Nous déplaçons ensuite ce masque sur l'image et calculons le nombre de pixels blancs dans le masque. Si ce nombre est entre un certains seuil, alors nous considérons que le doigt est présent. \bigbreak
 
 \begin{center}
+    \includegraphics[width=\textwidth]{images/pipeline_detect_fingers_sans_convex_hull.png}
+    \captionof{figure}{Pipeline de la détection des doigts sans Convex Hull}
+    \label{fig:pipeline_detect_fingers_sans_convex_hull}
+\end{center}
+
+\subsubsection{Expériences et résultats}
+\begin{center}
+    \includegraphics[width=\textwidth]{images/detect_fingers_mask_4.png}
+    \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 10 - 43 ; Saturation : 79 - 150 ; Valeur : 174 - 237 ; Seuil : 65 - 75}
+    \label{fig:detect_fingers_mask_4}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=\textwidth]{images/detect_fingers_mask_5.png}
+    \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 9 - 41 ; Saturation : 79 - 150 ; Valeur : 202 - 255 ; Seuil : 62 - 75}
+    \label{fig:detect_fingers_mask_5}
+\end{center}
+
+\begin{center}
     \includegraphics[width=\textwidth]{images/detect_fingers.png}
-    \captionof{figure}{Détection des doigts sans Convex Hull. Hue : 8 - 67 ; Saturation : 97 - 128 ; Value : 185 - 239 ; Seuil : 73 - 100}
+    \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 8 - 67 ; Saturation : 97 - 128 ; Valeur : 185 - 239 ; Seuil : 73 - 100}
+    \label{fig:detect_fingers}
+\end{center}
+
+
+\begin{center}
+    \includegraphics[width=\textwidth]{images/detect_fingers_mask_2.png}
+    \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 8 - 59 ; Saturation : 66 - 98 ; Valeur : 112 - 255 ; Seuil : 54 - 57}
+    \label{fig:detect_fingers_mask_2}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=\textwidth]{images/detect_fingers_mask_3.png}
+    \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 10 - 72 ; Saturation : 75 - 147 ; Valeur : 193 - 255 ; Seuil : 71 - 100}
+    \label{fig:detect_fingers_mask_3}
 \end{center}
 
 \newpage
 
+
 \subsection{Avec Convex Hull}
 \subsubsection{Méthodologie}
+\begin{center}
+    \includegraphics[width=\textwidth]{images/pipeline_detect_fingers_avec_convex_hull.png}
+    \captionof{figure}{Pipeline de la détection des doigts avec Convex Hull}
+    \label{fig:pipeline_detect_fingers_avec_convex_hull}
+\end{center}
 
 \subsubsection{Résultats}
 
@@ -583,10 +632,9 @@ Là les résultats sont bons (Fig. \ref{fig:res_2_convex_hull_filter_2_y_2_x}). 
     \label{fig:res_5_4_3_convex_hull_2_y_2x}
 \end{center}
 
-Nous avons donc re-tester avec ces nouveaux filtres sur plusieurs images avec 5, 4 et 3 doigts (Fig. \ref{fig:res_5_4_3_convex_hull_2_y_2x}). Les résultats ne sont pas aussi bons. En effe,t nous pouvons voir qu'il n'y a que deux points sur l'image de 5 doigts et deux sur l'image de 3 doigts. \bigbreak
+Nous avons donc re-tester avec ces nouveaux filtres sur plusieurs images avec 5, 4 et 3 doigts (Fig. \ref{fig:res_5_4_3_convex_hull_2_y_2x}). Les résultats ne sont pas aussi bons. En effet, nous pouvons voir qu'il n'y a que deux points sur l'image de 5 doigts et deux sur l'image de 3 doigts. \bigbreak
 
 \subsubsection{Conclusion}
-
 
 \section*{Conclusion}
 \addcontentsline{toc}{section}{Conclusion}
