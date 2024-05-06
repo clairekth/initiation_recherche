@@ -149,7 +149,7 @@ Les classifieurs Haar-cascade sont utilisés pour la détection de visages (Fig.
 
 \section{Reconnaissance de la main avec un classifieur Haar-cascade}
 \subsection{Entrainer un classifieur Haar-cascade}
-Pour entrainer un classifieur Haar-cascade, il faut tout d'abord collecter des images positives et négatives. Les images positives sont des images contenant l'objet que l'on souhaite détecter, tandis que les images négatives sont des images ne contenant pas l'objet. Il faut ensuite générer des fichiers de descriptions des images positives et négatives. Ces fichiers contiennent les coordonnées des objets à détecter dans les images positives. Enfin, il faut entrainer le classifieur à l'aide de ces fichiers de descriptions. \bigbreak
+Pour entrainer un classifieur Haar-cascade \cite{mittal_haar_2024}, il faut tout d'abord collecter des images positives et négatives. Les images positives sont des images contenant l'objet que l'on souhaite détecter, tandis que les images négatives sont des images ne contenant pas l'objet. Il faut ensuite générer des fichiers de descriptions des images positives et négatives. Ces fichiers contiennent les coordonnées des objets à détecter dans les images positives. Enfin, il faut entrainer le classifieur à l'aide de ces fichiers de descriptions. \bigbreak
 
 L'entrainement du classifieurs en lui-même se fait grâce à ce que l'on appelle des "features". Ces dernières ont été introduites par Viola et Jones en 2001 (Fig. \ref{fig:haar_features_1}). Par la suite, d'autres features ont été ajoutées (Fig. \ref{fig:haar_features_2}) afin d'améliorer la détection d'objets dans une image.
 \bigbreak \bigbreak
@@ -157,14 +157,14 @@ L'entrainement du classifieurs en lui-même se fait grâce à ce que l'on appell
 \begin{minipage}[t]{0.35\textwidth}
     \begin{center}
         \includegraphics[width=\textwidth]{images/haar_features.jpg}
-        \captionof{figure}{Features de Haar comme utilisées par Viola et Jones.}
+        \captionof{figure}{Features de Haar comme utilisées par Viola et Jones \cite{opencv}.}
         \label{fig:haar_features_1}
     \end{center}
 \end{minipage}\hspace{1.5cm}
 \begin{minipage}[t]{0.45\textwidth}
     \begin{center}
         \includegraphics[width=0.8\textwidth]{images/haar_feature_2.jpg}
-        \captionof{figure}{Features de Haar supplémentaires.}
+        \captionof{figure}{Features de Haar supplémentaires \cite{features_2}.}
         \label{fig:haar_features_2}
     \end{center}
 \end{minipage}
