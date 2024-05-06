@@ -96,11 +96,12 @@ De nombreuses techniques existent déjà pour permettre la détection des mains.
 
 Contrairement aux interfaces traditionnelles basées sur le clavier et la souris, la reconnaissance des gestes permet aux utilisateurs de communiquer plus simplement avec les ordinateurs. Ils peuvent désormais avoir recours à leurs mains ou à leur corps pour contrôler les applications, ou encore naviguer dans des environnements virtuels. Cette approche favorise une expérience utilisateur plus immersive et ergonomique, ouvrant ainsi de nouvelles perspectives dans des domaines variés tels que le divertissement interactif, l'éducation, ou encore la médecine. Comme dit précédemment, la reconnaissance des mouvements joue un rôle crucial dans l’accessibilité numérique en permettant à des personnes porteuses d'un handicap physique  ou moteur de pouvoir communiquer et d'interagir avec des outils numériques plus facilement. En effet, celà permet de passer outre les obstacles liés à l’utilisation des outils traditionnels (tels que le clavier, la souris, la télécommande …) grâce à la simple utilisation de mouvements du corps. Cette nouvelle manière d'interagir avec un système numérique est déjà utilisée dans plusieurs domaines notamment le sport avec des applications de coaching personnel qui permettent de suivre les mouvements de l'utilisateur et ainsi lui donner des conseils pour améliorer sa technique, ou encore sa posture. Ce nouveau concept d'interraction permet également de pouvoir contrôler des appareils tels que des téléviseurs où par un simple geste, nous pouvons par exemple gérer le son ou changer de chaîne. \bigbreak
 
-Dans ce contexte, ce projet vise à comprendre les mécanismes et problèmatiques liés à la reconnaissance des gestes de la main.
-L'objectif principal est de concevoir un système capable de détecter et de classifier différents gestes de la main effectués par l'utilisateur,
-tels que le poing fermé, ou alors la main ouverte avec un certains nombre de doigts levés. Ces gestes seront ensuite associés à différentes
-actions telles que le lancement d'applications ou encore l'ouverture de sites web.
-Pour réaliser ce projet nous utiliserons principalement la bibliothèque OpenCV. Nous parlerons dans un premier temps plus en détail des techniques de reconnaissance de gestes actuellement utilisées, puis nous verrons comment nous avons essayé de mettre en place notre système de reconnaissance de la main. Tout d'abord avec un classifieur Haar-cascade puis par traitement d'images. Nous verrons comment nous avons essayé de fusionner ces deux méthodes pour obtenir une meilleure détection de la main. Enfin, nous verrons comment nous avons essayé de détecter les mouvements de la main. 
+Dans ce contexte, ce projet vise à comprendre les mécanismes et les problématiques liés à la reconnaissance des gestes de la main.
+L'objectif principal est de concevoir un système capable de détecter et de classifier différentes positions précises de la main effectuées par l'utilisateur.
+Ces positions sont des gestes simples tels que le poing fermé ou alors un certain nombre de doigts levés.
+Ces gestes seront ensuite associés à différentes actions telles que le lancement d'applications ou encore l'ouverture de sites web.
+Pour réaliser ce projet nous utiliserons principalement la bibliothèque OpenCV et le langage de programmation Python en version 3.
+Nous parlerons dans un premier temps plus en détail des techniques de reconnaissance de gestes actuellement utilisées, puis nous verrons comment nous avons mis en place notre système de reconnaissance de la main. Tout d'abord avec un classifieur Haar-cascade puis par traitement d'images. Nous exposerons ensuite comment nous avons fusionné ces deux méthodes pour obtenir une meilleure détection de la main. Enfin, nous expliciterons comment nous avons détecté les mouvements de la main à l'aide des techniques de reconnaissance de gestes que nous avons mises en place.
 
 \newpage
 
@@ -121,10 +122,10 @@ des mouvements de la tête ou du corps, tout entier.
 
 \section{\'Etat de l'art}
 \subsection{Article de départ}
-L'article sur lequel nous nous basons, \textit{Static Hand Gesture and Face Recognition System} \cite{joshi_static_2021} propose un système de reconnaissance de gestes de la main. Ce système est créé à partir d'une image, passée en HSV à laquelle ils ont ajouté un Flou et un Thresholding. Le Thresholding permet de généré une image binaire :  chaque pixel est comparé à un seuil, si la valeur du pixel est supérieur à ce seuil le pixel est blanc, sinon il est noir. Ils extraient ensuite les contours avant de tracer le Convex Hull, le polygone de la main. Enfin, ils calculent des "Convexity Defect" c'est-à-dire des points éloignés de points convexe. Dans ce cas ci, les points convexes sont le bout des doigts et donc les defects sont le trou entre 2 doigts. Un defect est donc compté si l'angle entre 2 doigts est supérieur à 90°. 
+L'article sur lequel nous nous basons, \textit{Static Hand Gesture and Face Recognition System} \cite{joshi_static_2021} propose un système de reconnaissance de gestes de la main. Ce système est créé à partir d'une image, passée en HSV à laquelle les chercheurs ont ajouté un flou gaussien et un seuillage (thresholding). Le thresholding permet de générer une image binaire : chaque pixel est comparé à un seuil, si la valeur du pixel est supérieure à ce seuil le pixel est blanc, sinon il est noir. Les membres de l'équipe de recherche extraient ensuite les contours avant de tracer le Convex Hull, le polygone entourant la main. Enfin, ils calculent des "Convexity Defect" c'est-à-dire des points éloignés de points convexe. Dans ce cas ci, les points convexes sont le bout des doigts et donc les defects sont le trou entre 2 doigts. Un defect est donc compté si l'angle entre 2 doigts est supérieur à 90°.
 
-\subsection{Médiapipe}
-Médiapipe est un framework open-source développé par Google permettant de construire des pipelines de traitement de données multimédia. Il propose des solutions pour la détection de la main, du visage ou encore de la pose. Il est basé sur des modèles de machine learning notamment grâce à de l'apprentissage via des réseaux de neurones. \bigbreak
+\subsection{Mediapipe}
+Mediapipe \cite{mediapipe} est un framework open-source développé par Google permettant de construire des pipelines de traitement de données multimédia. Il propose des solutions pour la détection de la main, du visage ou encore du corps entier. Il est basé sur des modèles de machine learning notamment grâce à de l'apprentissage via des réseaux de neurones. \bigbreak
 
 \begin{center}
     \includegraphics[width=0.5\textwidth]{images/mediapipe_ex.png}
@@ -141,9 +142,8 @@ Le classifieur Haar-cascade est une méthode de détection d'objets dans une ima
     \label{fig:visage}
 \end{center}
 
-Les classifieurs Haar-cascade sont utilisés pour la détection de visages (Fig. \ref{fig:visage}), de voitures, de plaques d'immatriculation, de piétons, de mains ou de tout autres objets. Ils sont très utilisés dans le domaine de la vision par ordinateur et sont très efficaces pour la détection d'objets dans une image. 
-
-
+Les classifieurs Haar-cascade sont utilisés pour la détection de visages (Fig. \ref{fig:visage}), de voitures, de plaques d'immatriculation, de piétons ou de tout autres objets. Ils sont utilisés dans le domaine de la vision par ordinateur et sont efficaces pour la détection d'objets dans une image.
+Cependant, ils tendent à être remplacés par les réseaux de neurones profonds tels que les réseaux neuronaux convolutifs (CNN) qui sont plus performants pour la détection d'objets dans une image.
 
 \newpage
 
@@ -650,9 +650,6 @@ En synthèse, notre exploration des méthodes de détection des mains et des doi
 Les réseaux de neurones apparaissent actuellement comme la méthode la plus prometteuse pour détecter les mouvements.Leur capacité à s'adapter à divers types d'images et à apprendre les meilleures représentations pour la détection des doigts offre un potentiel significatif pour améliorer la précision et la robustesse des systèmes de détection. \bigbreak
 
 \newpage
-
-\section*{Annexes}
-\addcontentsline{toc}{section}{Annexes}
 
 \section*{Bibliographie}
 \addcontentsline{toc}{section}{Bibliographie}
