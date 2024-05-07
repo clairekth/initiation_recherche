@@ -152,9 +152,9 @@ Cependant, ils tendent à être remplacés par les réseaux de neurones profonds
 
 \section{Reconnaissance de la main avec un classifieur Haar-cascade}
 \subsection{Entrainer un classifieur Haar-cascade}
-Pour entrainer un classifieur Haar-cascade \cite{mittal_haar_2024}, il faut tout d'abord collecter des images positives et négatives. Les images positives sont des images contenant l'objet que l'on souhaite détecter, tandis que les images négatives sont des images ne contenant pas l'objet. Il faut ensuite générer des fichiers de descriptions des images positives et négatives. Ces fichiers contiennent les coordonnées des objets à détecter dans les images positives. Enfin, il faut entrainer le classifieur à l'aide de ces fichiers de descriptions. \bigbreak
+Pour entrainer un classifieur Haar-cascade \cite{mittal_haar_2024}, il faut tout d'abord collecter des images positives et négatives. Les images positives sont des images contenant l'objet que nous souhaitons détecter, tandis que les images négatives sont des images ne contenant pas l'objet. Il faut ensuite générer des fichiers de descriptions des images positives et négatives. Ces fichiers contiennent les coordonnées des objets à détecter dans les images positives. Enfin, il faut entrainer le classifieur à l'aide de ces fichiers de descriptions. \bigbreak
 
-L'entrainement du classifieurs en lui-même se fait grâce à ce que l'on appelle des "features". Ces dernières ont été introduites par Viola et Jones en 2001 (Fig. \ref{fig:haar_features_1}). Par la suite, d'autres features ont été ajoutées (Fig. \ref{fig:haar_features_2}) afin d'améliorer la détection d'objets dans une image.
+L'entrainement du classifieurs en lui-même se fait grâce à des "features". Ces dernières ont été introduites par Viola et Jones en 2001 (Fig. \ref{fig:haar_features_1}). Par la suite, d'autres features ont été ajoutées (Fig. \ref{fig:haar_features_2}) afin d'améliorer la détection d'objets dans une image.
 \bigbreak \bigbreak
 
 \begin{minipage}[t]{0.35\textwidth}
@@ -175,7 +175,7 @@ L'entrainement du classifieurs en lui-même se fait grâce à ce que l'on appell
 \bigbreak \bigbreak
 
 
-Ces features sont des caractéristiques de l'objet que l'on souhaite détecter, ce sont des patterns de pixels qui permettent de distinguer l'objet des autres éléments de l'image.
+Ces features sont des caractéristiques de l'objet que nous souhaitons détecter, ce sont des patterns de pixels qui permettent de distinguer l'objet des autres éléments de l'image.
 
 \noindent Il existe différents types de patterns :
 \begin{itemize}[label=-]
@@ -260,19 +260,19 @@ Nous sommes ensuite passés à l'entrainement. Nous avons utilisé pour celà Op
 \paragraph{Résultats}
 Nous voulions obtenir un classifieur qui détecte la main dans une image comme suivant : 
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{images/res_attendu.png}
+    \includegraphics[width=0.4\textwidth]{images/res_attendu.png}
     \captionof{figure}{Résultat attendu}
 \end{center}
 
 \begin{minipage}{0.45\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{images/cascade0.png}
+    \includegraphics[width=0.9\textwidth]{images/cascade0.png}
     \captionof{figure}{Test 1}
     \label{fig:res_cascade0}
 \end{minipage}
 \begin{minipage}{0.45\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{images/cascade1.png}
+    \includegraphics[width=0.9\textwidth]{images/cascade1.png}
     \captionof{figure}{Test 2}
     \label{fig:res_cascade1}
 \end{minipage}
@@ -280,13 +280,13 @@ Nous voulions obtenir un classifieur qui détecte la main dans une image comme s
 
 \begin{minipage}{0.45\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{images/cascade2.png}
+    \includegraphics[width=0.9\textwidth]{images/cascade2.png}
     \captionof{figure}{Test 3}
     \label{fig:res_cascade2}
 \end{minipage}
 \begin{minipage}{0.45\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{images/cascade3.png}
+    \includegraphics[width=0.9\textwidth]{images/cascade3.png}
     \captionof{figure}{Test 4}
     \label{fig:res_cascade3}
 \end{minipage}
@@ -303,7 +303,7 @@ Les résultats ne sont pas entièrement satisfaisant. En effet, les différents 
 N'ayant pas obtenus de résultats satisfaisants avec la base de données d'images de mains, nous avons décidé de créer nous même des images positives. Pour cela, nous avons utilisé la librairie OpenCV pour ajouter une image de main aux images positives (Fig. \ref{fig:ex_pos_neg}). Nous avons ensuite généré les fichiers de descriptions des images positives et entrainé le classifieur à l'aide de ces fichiers. \bigbreak
 
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{images/ex_pos_neg.jpg}
+    \includegraphics[width=0.4\textwidth]{images/ex_pos_neg.jpg}
     \captionof{figure}{Exemple d'image positive créée à partir d'une image négative}
     \label{fig:ex_pos_neg}
 \end{center}
@@ -375,7 +375,7 @@ N'ayant pas obtenus de résultats satisfaisants avec la base de données d'image
 Les résultats ne sont pas satisfaisants. Le classifieur 5 (Fig. \ref{fig:res_cascade4}) ne détecte rien du tout, certainement dû à un surapprentissage. Les classifieurs 7 (Fig. \ref{fig:res_cascade6}), 8 (Fig. \ref{fig:res_cascade7}) et 10 (Fig. \ref{fig:res_cascade9}) détectent bien la main mais détectent aussi beaucoup d'autres objets dans l'image. Les classifieurs 6 (Fig. \ref{fig:res_cascade5}) et 9 (Fig. \ref{fig:res_cascade8}) ne détectent pas entièrement la main dans l'image, seulement plusieurs portions plus ou moins grandes. Ils détectent aussi notamment une partie de la bouche. 
 
 \paragraph{Conclusion}
-Les résultats ne sont pas beaucoup plus satisfaisant. On obtient dans l'ensemble,les mêmes résultats que précédemment c'est-à-dire des détections partiels de la main et non la main entières pour les classifieurs les mieux entrainés.
+Les résultats ne sont pas beaucoup plus satisfaisant. Nous obtenons dans l'ensemble,les mêmes résultats que précédemment c'est-à-dire des détections partiels de la main et non la main entières pour les classifieurs les mieux entrainés.
 
 Il faudrait essayer de prendre une base de données de mains contenant des background différents et annoter nous mêmes les images, c'est-à-dire l'emplacement des mains dans l'image, pour voir si celà améliore les résultats. 
 
@@ -430,7 +430,7 @@ Les résultats ne sont pas exceptionnels mais nous nous attendions à ce qu'ils 
 \end{center}
 \bigbreak
 
-On voit clairement ici que les résultats sont meilleurs puisque nous avons bien capturé l'ensemble de la main. De plus, même sur une image de mauvaise qualité, en jouant sur les paramètres, nous avons réussi à capturer la main. \bigbreak
+Nous pouvons clairement voir ici que les résultats sont meilleurs puisque nous avons bien capturé l'ensemble de la main. De plus, même sur une image de mauvaise qualité, en jouant sur les paramètres, nous avons réussi à capturer la main. \bigbreak
 
 \begin{center}
     \includegraphics[width=\textwidth]{images/pre_ttt_5.png}
@@ -451,13 +451,14 @@ Les résultats obtenus sont bons. Nous arrivons bien a détecter la main. Cepend
 \subsection{Conclusion}
 Même si les résultats en passant l'image en HSV sont concluants, il reste encore des améliorations à apporter puisque la détection est très dépendante des paramètres utilisés. Il faudrait donc trouver une méthode pour que le programme puisse trouver les meilleurs paramètres pour la détection de la main. 
 
+\newpage
 
 \section{Fusion des deux méthodes}
 \subsection{Méthodologie}
 Nous avons un classifieur d'une part qui détecte une portion de la main et d'autres part un système qui permet de détecter la main si les paramètres sont biens configurés. Nous avons donc essayer de fusionner ces deux méthodes pour avoir une meilleure détection de la main. 
 
 \begin{center}
-    \includegraphics[width=\textwidth]{images/pipeline_combinaison.png}
+    \includegraphics[width=0.9\textwidth]{images/pipeline_combinaison.png}
     \captionof{figure}{Pipeline de la fusion des deux méthodes}
     \label{fig:pipeline_combinaison}
 \end{center}
@@ -468,17 +469,18 @@ La méthodologie est la suivante (Fig. \ref{fig:pipeline_combinaison}) : à part
 
 
 \begin{center}
-    \includegraphics[width=\textwidth]{images/res_combinaison_5_doigts.png}
+    \includegraphics[width=0.78\textwidth]{images/res_combinaison_5_doigts.png}
     \captionof{figure}{Résultat de la fusion des deux méthodes.}
     \label{fig:res_combinaison_5_doigts}
 \end{center}
 
-Nous pouvons voir (Fig. \ref{fig:res_combinaison_5_doigts}) que la fusion des deux méthodes fonctionne bien. Nous avons bien détecté la main et les 5 doigts. \bigbreak
+\bigbreak
 
+Nous pouvons voir (Fig. \ref{fig:res_combinaison_5_doigts}) que la fusion des deux méthodes fonctionne bien. Nous avons bien détecté la main et les 5 doigts.
 Cependant, cette méthode ne fonctionne ne semble fonctionner qu'avec une main ouverte et 5 doigts levés. \bigbreak
 
 \begin{center}
-    \includegraphics[width=\textwidth]{images/res_combinaison_2_doigts.png}
+    \includegraphics[width=0.8\textwidth]{images/res_combinaison_2_doigts.png}
     \captionof{figure}{Résultat de la fusion des deux méthodes avec 2 doigts levé.}
     \label{fig:res_combinaison_2_doigts}
 \end{center}
@@ -500,7 +502,7 @@ De plus, récupéré la couleur majoritaire de la zone détectée ne semble pas 
 \subsection{Sans Convex Hull}
 
 \subsubsection{Méthodologie}
-Nous avons une image que nous passons en HSV à laquelle on ajoute un Flou Gaussien. Avec un système de trackbars nous ajustons ensuite les valeurs minimales et maximales pour la teinte, la luminosité et la valeur afin d'avoir un masque qui ne détecte que la main. Nous passons ensuite ce masque sur l'image et détectons les contours de la main. Pour la détection des doigts, nous avons ensuite créer différents masques que nous passons ensuite sur l'image. Nous déplaçons ensuite ce masque sur l'image et calculons le nombre de pixels blancs dans le masque. Si ce nombre est entre un certains seuil, alors nous considérons que le doigt est présent. \bigbreak
+Nous avons une image que nous passons en HSV à laquelle nous ajoutons un Flou Gaussien. Avec un système de trackbars nous ajustons ensuite les valeurs minimales et maximales pour la teinte, la luminosité et la valeur afin d'avoir un masque qui ne détecte que la main. Nous passons ensuite ce masque sur l'image et détectons les contours de la main. Pour la détection des doigts, nous avons ensuite créer différents masques que nous passons ensuite sur l'image. Nous déplaçons ensuite ce masque sur l'image et calculons le nombre de pixels blancs dans le masque. Si ce nombre est entre un certains seuil, alors nous considérons que le doigt est présent. \bigbreak
 
 \begin{center}
     \includegraphics[width=\textwidth]{images/pipeline_detect_fingers_sans_convex_hull.png}
@@ -547,7 +549,7 @@ Nous avons une image que nous passons en HSV à laquelle on ajoute un Flou Gauss
 
 \subsection{Avec Convex Hull}
 \subsubsection{Méthodologie}
-Le début est le même que précédemment. Nous avons une image que nous passons en HSV à laquelle on ajoute un Flou Gaussien. Avec un système de trackbars nous ajustons ensuite les valeurs minimales et maximales pour la teinte, la luminosité et la valeur afin d'avoir un masque qui ne détecte que la main. Nous passons ensuite ce masque sur l'image et détectons les contours de la main. Nous utilisons ensuite la fonction Convex Hull d'OpenCV pour tracer le contour de la main. Nous récupérons ensuite les points du Convex Hull et les affichons sur l'image. Nous créons ensuite des filtres afin de n'avoir seulement les points qui nous intérésse. \bigbreak
+Le début est le même que précédemment. Nous avons une image que nous passons en HSV à laquelle nous ajoutons un Flou Gaussien. Avec un système de trackbars nous ajustons ensuite les valeurs minimales et maximales pour la teinte, la luminosité et la valeur afin d'avoir un masque qui ne détecte que la main. Nous passons ensuite ce masque sur l'image et détectons les contours de la main. Nous utilisons ensuite la fonction Convex Hull d'OpenCV pour tracer le contour de la main. Nous récupérons ensuite les points du Convex Hull et les affichons sur l'image. Nous créons ensuite des filtres afin de n'avoir seulement les points qui nous intérésse. \bigbreak
 
 \begin{center}
     \includegraphics[width=\textwidth]{images/pipeline_detect_fingers_avec_convex_hull.png}
