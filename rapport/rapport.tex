@@ -510,12 +510,14 @@ Nous avons une image que nous passons en HSV à laquelle on ajoute un Flou Gauss
 
 \subsubsection{Expériences et résultats}
 
-{\LARGE TO DO}
 \begin{center}
     \includegraphics[width=\textwidth]{images/detect_fingers_mask_4.png}
     \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 10 - 43 ; Saturation : 79 - 150 ; Valeur : 174 - 237 ; Seuil : 65 - 75}
     \label{fig:detect_fingers_mask_4}
 \end{center}
+
+Dans cet exemple (Fig. \ref{fig:detect_fingers_mask_4}), nous avons réalisé un masque de type circulaire pour faire correspondre
+le bout des doigts avec le masque. Le résultat n'est pas probant car les zones détectées ne correspondent pas aux doigts.
 
 \begin{center}
     \includegraphics[width=\textwidth]{images/detect_fingers_mask_5.png}
@@ -523,11 +525,17 @@ Nous avons une image que nous passons en HSV à laquelle on ajoute un Flou Gauss
     \label{fig:detect_fingers_mask_5}
 \end{center}
 
+Ici, le masque a été modifié pour être de forme rectangulaire. Le résultat (Fig. \ref{fig:detect_fingers_mask_5}) est meilleur que précédemment mais il reste des zones non désirées.
+On remarque que les zones détectées correspondent pour certaines au bout des doigts comme souhaité.
+
+
 \begin{center}
     \includegraphics[width=\textwidth]{images/detect_fingers.png}
     \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 8 - 67 ; Saturation : 97 - 128 ; Valeur : 185 - 239 ; Seuil : 73 - 100}
     \label{fig:detect_fingers}
 \end{center}
+
+Dans cette tentative (Fig. \ref{fig:detect_fingers}), le masque a été de nouveau modifié pour être épouser la forme d'un doigt avec une partie rectangulaire et arrondie au sommet. On retrouve un peu moins d'anomalies que précédemment. Cependant, il reste des zones non désirées ainsi que des doigts non détectés (le majeur).
 
 
 \begin{center}
@@ -536,11 +544,20 @@ Nous avons une image que nous passons en HSV à laquelle on ajoute un Flou Gauss
     \label{fig:detect_fingers_mask_2}
 \end{center}
 
+Dans cette avant-dernière tentative (Fig. \ref{fig:detect_fingers_mask_2}), le masque a été modifié pour être de forme rectangulaire et plus petit. Le résultat est meilleur que précédemment mais il reste des zones non désirées. On peut noter que cette fois, on peut retrouver au moins un carré de détection par doigt.
+
 \begin{center}
     \includegraphics[width=\textwidth]{images/detect_fingers_mask_3.png}
     \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 10 - 72 ; Saturation : 75 - 147 ; Valeur : 193 - 255 ; Seuil : 71 - 100}
     \label{fig:detect_fingers_mask_3}
 \end{center}
+
+Dans ce dernier exemple (Fig. \ref{fig:detect_fingers_mask_3}), le masque contient toujours une partie rectangulaire mais la partie représentant le bout du doigt a été fortement agrandie.
+Le résultat présenté est le meilleur en terme de précision de détection des doigts. Cependant, on note que le pouce n'est pas détecté et que les 2 derniers doigts n'ont pas vu leur sommet détecté mais seulement une zone vers le milieu du doigt. On remarque aussi une détection supplémentaire au niveau de la paume de la main.
+
+\subsubsection{Conclusion}
+La détection des doigts sans Convex Hull est une méthode perfectible. En effet, les résultats obtenus ne sont pas tout à fait satisfaisants. Les zones détectées ne correspondent pas toujours aux doigts. Il reste des zones non désirées et des doigts non détectés. Il faudrait donc trouver une méthode pour que le programme puisse trouver les meilleurs paramètres pour la détection des doigts.
+Aussi, le programme est toujours dépendant de la détection préalable de la main. Si la main n'est pas détectée, la détection des doigts ne pourra pas être effectuée. Cela passe par le réglage des paramètres de filtrage HSV qui eux sont manuels.
 
 \newpage
 
