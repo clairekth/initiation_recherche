@@ -14,6 +14,7 @@
 \usepackage{pdfpages}
 \usepackage[style=numeric]{biblatex}
 \usepackage{enumitem}
+\usepackage[pdftex]{hyperref}
 
 \addbibresource{IR.bib}
 \setlength{\parindent}{1cm}
@@ -63,11 +64,11 @@
 
         %% Milieu de la page
         \vfill
-        {\Large Reconnaissance des mouvements de la main} \smallbreak
+        {\Large Système de reconnaissance des mouvements de la main} \smallbreak
         Rapport \smallbreak en vue de la validation de l'UE Initiation à la recherche \smallbreak
         \vfill
         \begin{tabular}{ccc|ccc}
-            \'Etudiants : & Victor DALL\'E &  &  & Encadrante : & Madame BOLTCHEVA \\
+            \'Etudiants : & Victor DALL\'E &  &  & Encadrante : & Madame Dobrina BOLTCHEVA \\
                           & Claire KURTH   &  &  &              &
         \end{tabular}
     \end{center}
@@ -81,7 +82,7 @@ ces opinions devant être considérées comme propres à leurs auteurs. \bigbrea
 
 \newpage
 \section*{Remerciements}
-Nous souhaitons exprimer notre gratitude la plus sincère envers Madame Boltcheva pour son accompagnement, son soutien et son expertise tout au long de notre projet d'initiation à la recherche. Son engagement, sa patience et ses conseils précieux ont considérablement enrichi notre expérience et ont joué un rôle essentiel dans ce projet. Nous exprimons notre gratitude pour l'occasion qui nous a été offerte de collaborer avec elle, et nous exprimons notre profonde reconnaissance pour son engagement envers notre développement académique académique. Nous tenons aussi à exprimer notre reconnaissance envers nos familles, nos amis et tous ceux qui ont participé de près ou de loin à la concrétisation de ce projet. 
+Nous souhaitons exprimer notre gratitude la plus sincère envers Madame Dobrina Boltcheva pour son accompagnement, son soutien et son expertise tout au long de notre projet d'initiation à la recherche. Son engagement, sa patience et ses conseils précieux ont considérablement enrichi notre expérience et ont joué un rôle essentiel dans ce projet. Nous exprimons notre gratitude pour l'occasion qui nous a été offerte de collaborer avec elle, et nous exprimons notre profonde reconnaissance pour son engagement envers notre développement académique. Nous tenons aussi à exprimer notre reconnaissance envers nos familles, nos amis et tous ceux qui ont participé de près ou de loin à la concrétisation de ce projet.
 
 \newpage
 \tableofcontents
@@ -91,11 +92,11 @@ Nous souhaitons exprimer notre gratitude la plus sincère envers Madame Boltchev
 \setcounter{page}{1}
 \section*{Introduction}
 \addcontentsline{toc}{section}{Introduction}
-De nos jours, la vision par ordinateur est un domaine en plein essor. La reconnaissance de gestes fait partie intégrante de ce domaine et à ce titre, incarne une révolution dans la manière dont les utilisateurs interagissent avec les systèmes informatiques. Cette technologie est en effet en train de transformer la façon dont nous interagissont avec les machines. Cette avancée offre des opportunités novatrices dans des domaines tels que l'interaction entre l'homme et la machine,
+De nos jours, la vision par ordinateur représente un domaine en plein essor. La reconnaissance de gestes fait partie intégrante de ce domaine et à ce titre, incarne une révolution dans la manière dont les utilisateurs interagissent avec les systèmes informatiques. Cette technologie est en effet en train de transformer la façon dont nous interagissons avec les machines. Cette avancée offre des opportunités novatrices dans des domaines tels que l'interaction entre l'homme et la machine,
 la réalité augmentée ou encore l'accessibilité numérique.
-De nombreuses techniques existent déjà pour permettre la détection des mains. MediaPipe de Google \cite{mediapipe} utilise le machine learning pour entrainer un modèle qui détecte les segments composant la main. D'autres travaux ont été réalisés comme ceux de l'équipe du professeur Kalpana Joshi \cite{joshi_static_2021} qui utilise les angles formés entre 2 doigts pour détecter la forme de la main (nombre de doigts, main ouverte ou fermée).\bigbreak
+De nombreuses techniques existent déjà pour permettre la détection des mains. MediaPipe, développé par Google \cite{mediapipe} utilise le machine learning pour entrainer un modèle qui détecte les segments composant la main. D'autres travaux ont été réalisés comme ceux de l'équipe du professeur Kalpana Joshi \cite{joshi_static_2021} qui utilise les angles formés entre 2 doigts pour détecter la forme de la main (nombre de doigts, main ouverte ou fermée).\vspace{2mm}
 
-Contrairement aux interfaces traditionnelles basées sur le clavier et la souris, la reconnaissance des gestes permet aux utilisateurs de communiquer plus simplement avec les ordinateurs. Ils peuvent désormais avoir recours à leurs mains ou à leur corps pour contrôler les applications, ou encore naviguer dans des environnements virtuels. Cette approche favorise une expérience utilisateur plus immersive et ergonomique, ouvrant ainsi de nouvelles perspectives dans des domaines variés tels que le divertissement interactif, l'éducation, ou encore la médecine. Comme dit précédemment, la reconnaissance des mouvements joue un rôle crucial dans l’accessibilité numérique en permettant à des personnes porteuses d'un handicap physique  ou moteur de pouvoir communiquer et d'interagir avec des outils numériques plus facilement. En effet, celà permet de passer outre les obstacles liés à l’utilisation des outils traditionnels (tels que le clavier, la souris, la télécommande …) grâce à la simple utilisation de mouvements du corps. Cette nouvelle manière d'interagir avec un système numérique est déjà utilisée dans plusieurs domaines notamment le sport avec des applications de coaching personnel qui permettent de suivre les mouvements de l'utilisateur et ainsi lui donner des conseils pour améliorer sa technique, ou encore sa posture. Ce nouveau concept d'interraction permet également de pouvoir contrôler des appareils tels que des téléviseurs où par un simple geste, nous pouvons par exemple gérer le son ou changer de chaîne. \bigbreak
+Contrairement aux interfaces traditionnelles basées sur le clavier et la souris, la reconnaissance des gestes permet aux utilisateurs de communiquer plus simplement avec les ordinateurs. Ils peuvent désormais avoir recours à leurs mains ou à leur corps pour contrôler les applications, ou encore naviguer dans des environnements virtuels. Cette approche favorise une expérience utilisateur plus immersive et ergonomique, ouvrant ainsi de nouvelles perspectives dans des domaines variés tels que le divertissement interactif, l'éducation, ou encore la médecine. Comme dit précédemment, la reconnaissance des mouvements joue un rôle crucial dans l’accessibilité numérique en permettant à des personnes porteuses d'un handicap physique  ou moteur de pouvoir communiquer et d'interagir avec des outils numériques plus facilement. En effet, celà permet de passer outre les obstacles liés à l’utilisation des outils traditionnels (tels que le clavier, la souris, la télécommande …) grâce à la simple utilisation de mouvements du corps. Cette nouvelle manière d'interagir avec un système numérique est déjà utilisée dans plusieurs domaines notamment le sport avec des applications de coaching personnel qui permettent de suivre les mouvements de l'utilisateur et ainsi lui donner des conseils pour améliorer sa technique, ou encore sa posture. Ce nouveau concept d'interraction permet également de pouvoir contrôler des appareils tels que des téléviseurs où par un simple geste, nous pouvons par exemple gérer le son ou changer de chaîne. \vspace{2mm}
 
 Dans ce contexte, ce projet vise à comprendre les mécanismes et les problématiques liés à la reconnaissance des gestes de la main.
 L'objectif principal est de concevoir un système capable de détecter et de classifier différentes positions précises de la main effectuées par l'utilisateur.
@@ -111,33 +112,35 @@ Nous parlerons dans un premier temps plus en détail des techniques de reconnais
 
 Le but de ce projet est d’implémenter un système de reconnaissance des mouvements de la
 main à l’aide d’un classifieur classique Haar-cascade. Le système doit reconnaître le geste de
-la main de l’utilisateur (poing, un doigt, deux, trois, quatre,...) et le mapper à différentes tâches
-telles que le lancement d’applications comme le bloc-notes, la peinture, et l’ouverture de sites web.
+la main de l’utilisateur (poing, un doigt, deux, trois, etc.) et le faire correspondre à différentes tâches comme le lancement d’applications : le bloc-notes, la caméra, l’ouverture de sites web, etc. \\
+L'objectif de ce projet est également de comprendre les mécanismes et les problématiques liés à la reconnaissance des gestes de la main à travers différentes techniques de traitement d’images.
 Le système doit être mis en œuvre avec l’aide de la librairie de "Computer Vision" - OpenCV,
 comme dans l’article \cite{joshi_static_2021}. Une extension possible serait l’implémentation d’un système de détection
-des mouvements de la tête ou du corps, tout entier.
+des mouvements de la tête, ou du corps tout entier.
 
 \subsection{Encadrement}
-Nous avons été encadré par Madame Dobrina Boltcheva, enseignante-chercheuse à l'Université de Lorraine. Elle fait partie de l'équipe PIXEL du Laboratoire Lorrain de Recherche en Informatique et ses Applications (LORIA). Cette équipe fait de la recherche en traitement numérique de la géométrie et s'intéresse particulièrement aux techniques de paramétrisation, de maillage et de reconstruction d'objets à partir de nuages de points 3D.
+Pendant tout ce semestre, dans le cadre de l'\textit{UE Initiation à la recherche}, nous avons été encadré par Madame Dobrina Boltcheva, enseignante-chercheuse à l'Université de Lorraine.
+Elle fait partie de l'équipe PIXEL du Laboratoire Lorrain de Recherche en Informatique et ses Applications (LORIA).
+C'est une équipe de recherche en traitement numérique de la géométrie et s'intéresse particulièrement aux techniques de paramétrisation, de maillage et de reconstruction d'objets à partir de nuages de points 3D.
 
 
 \newpage
 
-\section{\'Etat de l'art}
+\section{\'Etat de l'art et technologies utilisées pour la reconnaissance des gestes de la main}
 \subsection{Article de départ}
-L'article sur lequel nous nous basons, \textit{Static Hand Gesture and Face Recognition System} \cite{joshi_static_2021} propose un système de reconnaissance de gestes de la main. Ce système est créé à partir d'une image, passée en HSV à laquelle les chercheurs ont ajouté un flou gaussien et un seuillage (thresholding). Le thresholding permet de générer une image binaire : chaque pixel est comparé à un seuil, si la valeur du pixel est supérieure à ce seuil le pixel est blanc, sinon il est noir. Les membres de l'équipe de recherche extraient ensuite les contours avant de tracer le Convex Hull, le polygone entourant la main. Enfin, ils calculent des "Convexity Defect" c'est-à-dire des points éloignés de points convexe. Dans ce cas ci, les points convexes sont le bout des doigts et donc les defects sont le trou entre 2 doigts. Un defect est donc compté si l'angle entre 2 doigts est supérieur à 90°.
+L'article sur lequel nous nous basons, \textit{Static Hand Gesture and Face Recognition System} \cite{joshi_static_2021} propose un système de reconnaissance de gestes de la main. Ce système est créé à partir d'une image, passée en HSV à laquelle les chercheurs ont ajouté un flou gaussien et un seuillage (thresholding). Le thresholding permet de générer une image binaire : chaque pixel est comparé à un seuil, si la valeur du pixel est supérieure à ce seuil le pixel est blanc, sinon il est noir. Les membres de l'équipe de recherche extraient ensuite les contours avant de tracer le Convex Hull, le polygone entourant la main. Enfin, ils calculent des "Convexity Defect" c'est-à-dire des points éloignés de points convexe. Dans ce cas ci, les points convexes sont le bout des doigts et donc les defects sont l'espace creux entre 2 doigts. Un defect est donc compté si l'angle entre 2 doigts est inférieur à 90°.
 
 \subsection{Mediapipe}
-Mediapipe \cite{mediapipe} est un framework open-source développé par Google permettant de construire des pipelines de traitement de données multimédia. Il propose des solutions pour la détection de la main, du visage ou encore du corps entier. Il est basé sur des modèles de machine learning notamment grâce à de l'apprentissage via des réseaux de neurones. \bigbreak
+Mediapipe \cite{mediapipe} est un framework open-source développé par Google permettant de construire des pipelines de traitement de données multimédia. Il propose des solutions pour la détection de la main, du visage ou encore du corps entier. Il est basé sur des modèles de machine learning notamment grâce à de l'apprentissage via des réseaux profonds de neurones. \bigbreak
 
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{images/mediapipe_ex.png}
-    \captionof{figure}{Exemple de détection de la main avec Médiapipe}
+    \includegraphics[width=0.4\textwidth]{images/mediapipe_ex.png}
+    \captionof{figure}{Exemple de détection de la main avec Mediapipe}
 \end{center}
 
 
 \subsection{Classifieur Haar-cascade}
-Le classifieur Haar-cascade est une méthode de détection d'objets dans une image introduit par Paul Viola et Michael Jones en 2001 \cite{viola_rapid_2001}. Il est basé sur l'utilisation de caractéristiques (ou features) de type Haar. Ces caractéristiques sont des fenêtres de taille fixe qui sont déplacées sur l'image et qui permettent de calculer la différence de luminosité entre les pixels de la fenêtre. Ces caractéristiques sont ensuite utilisées pour entraîner un classifieur qui permet de détecter des objets dans une image. \bigbreak
+Le classifieur Haar-cascade est une méthode de détection d'objets dans une image introduit par Paul Viola et Michael Jones en 2001 \cite{viola_rapid_2001}. Il est basé sur l'utilisation de caractéristiques (ou features) de type Haar. Ces caractéristiques sont des fenêtres de taille fixe qui sont déplacées sur l'image et qui permettent de calculer la différence de luminosité plusieurs zones spécifiques de la fenêtre. Ces caractéristiques sont ensuite utilisées pour entraîner un classifieur qui permet de détecter des objets dans une image. \bigbreak
 
 \begin{center}
     \includegraphics[width=0.2\textwidth]{images/visage.png}
@@ -145,29 +148,29 @@ Le classifieur Haar-cascade est une méthode de détection d'objets dans une ima
     \label{fig:visage}
 \end{center}
 
-Les classifieurs Haar-cascade sont utilisés pour la détection de visages (Fig. \ref{fig:visage}), de voitures, de plaques d'immatriculation, de piétons ou de tout autres objets. Ils sont utilisés dans le domaine de la vision par ordinateur et sont efficaces pour la détection d'objets dans une image.
-Cependant, ils tendent à être remplacés par les réseaux de neurones profonds tels que les réseaux neuronaux convolutifs (CNN) qui sont plus performants pour la détection d'objets dans une image.
+Les classifieurs Haar-cascade sont utilisés pour la détection de visages (Fig. \ref{fig:visage}), de voitures, de plaques d'immatriculation, de piétons ou de tout autres objets. Ils sont utilisés dans le domaine de la vision par ordinateur et sont efficaces pour la détection d'objets.
+Cependant, ils tendent à être remplacés par les réseaux de neurones profonds tels que les réseaux neuronaux convolutifs (CNN) qui sont plus performants pour la détection d'objets.
 
 \newpage
 
 \section{Reconnaissance de la main avec un classifieur Haar-cascade}
 \subsection{Entrainer un classifieur Haar-cascade}
-Pour entrainer un classifieur Haar-cascade \cite{mittal_haar_2024}, il faut tout d'abord collecter des images positives et négatives. Les images positives sont des images contenant l'objet que nous souhaitons détecter, tandis que les images négatives sont des images ne contenant pas l'objet. Il faut ensuite générer des fichiers de descriptions des images positives et négatives. Ces fichiers contiennent les coordonnées des objets à détecter dans les images positives. Enfin, il faut entrainer le classifieur à l'aide de ces fichiers de descriptions. \bigbreak
+Pour entrainer un classifieur Haar-cascade \cite{mittal_haar_2024}, il faut tout d'abord collecter des images positives et négatives. Les images positives sont des images contenant l'objet que nous souhaitons détecter, tandis que les images négatives sont des images ne contenant pas l'objet. Il faut ensuite générer des fichiers de description des images positives et négatives. Ces fichiers contiennent les coordonnées des objets à détecter dans les images positives. Enfin, il faut entrainer le classifieur à l'aide de ces fichiers de description. \bigbreak
 
-L'entrainement du classifieurs en lui-même se fait grâce à des "features". Ces dernières ont été introduites par Viola et Jones en 2001 (Fig. \ref{fig:haar_features_1}). Par la suite, d'autres features ont été ajoutées (Fig. \ref{fig:haar_features_2}) afin d'améliorer la détection d'objets dans une image.
+L'entrainement du classifieur en lui-même se fait grâce à des "features". Ces dernières ont été introduites par Viola et Jones en 2001 (Fig. \ref{fig:haar_features_1}). Par la suite, d'autres features ont été ajoutées (Fig. \ref{fig:haar_features_2}) afin d'améliorer la détection d'objets dans une image.
 \bigbreak \bigbreak
 
 \begin{minipage}[t]{0.35\textwidth}
     \begin{center}
         \includegraphics[width=\textwidth]{images/haar_features.jpg}
-        \captionof{figure}{Features de Haar comme utilisées par Viola et Jones \cite{opencv}.}
+        \captionof{figure}{Features de Haar comme utilisées par Viola et Jones \cite{opencv}}
         \label{fig:haar_features_1}
     \end{center}
 \end{minipage}\hspace{1.5cm}
 \begin{minipage}[t]{0.45\textwidth}
     \begin{center}
         \includegraphics[width=0.8\textwidth]{images/haar_feature_2.jpg}
-        \captionof{figure}{Features de Haar supplémentaires \cite{features_2}.}
+        \captionof{figure}{Features de Haar supplémentaires \cite{features_2}}
         \label{fig:haar_features_2}
     \end{center}
 \end{minipage}
@@ -198,7 +201,7 @@ Au début, chaque élément de la base de données à le même poids. L'algorith
 \subsection{Nos entrainements}
 \subsubsection{Avec une base de données d'images de mains}
 \paragraph{Méthodologie}
-Pour notre entrainement, nous avons collecté 10 000 images négatives (Fig. \ref{fig:ex_neg}) \cite{negatives, bdd_animal} et 5 000 images positives de mains (Fig. \ref{fig:ex_pos}) \cite{afifi201911kHands}. Nous avons dû pour les images positives, annoter les images (dans un fichier texte) afin de donner le nombre de mains présentes et les coordonnées de la main dans l'image (Fig. \ref{fig:ex_desc}). \'Etant donné que seule une main était présente et que le fond est blanc, la zone où est située la main est donc l'image entière. Ensuite, grâce à ce fichier et à OpenCV, nous avons généré un fichier vec qui contient les informations des images positives. Nous avons ensuite entrainé le classifieur à l'aide de ce fichiers.
+Pour notre entrainement, nous avons collecté 10 000 images négatives (Fig. \ref{fig:ex_neg}) \cite{negatives, bdd_animal} et 5 000 images positives de mains (Fig. \ref{fig:ex_pos}) \cite{afifi201911kHands}. Nous avons dû pour les images positives, les annoter (dans un fichier texte) afin de donner le nombre de mains présentes et les coordonnées de celles-ci dans l'image (Fig. \ref{fig:ex_desc}). \'Etant donné que seule une main était présente et que le fond est blanc, la zone où est située la main est donc l'image entière. Ensuite, grâce à ce fichier et à OpenCV, nous avons généré un fichier vec qui contient les informations des images positives. Nous avons ensuite entrainé le classifieur à l'aide de ce fichier.
 \bigbreak
 
 
@@ -212,7 +215,7 @@ Pour notre entrainement, nous avons collecté 10 000 images négatives (Fig. \re
 \begin{minipage}[t]{0.45\textwidth}
     \begin{center}
         \includegraphics[width=0.5\textwidth]{images/ex_pos.jpg}
-        \captionof{figure}{Exemeple d'image positive}
+        \captionof{figure}{Exemple d'image positive}
         \label{fig:ex_pos}
     \end{center}
 \end{minipage}
@@ -232,7 +235,7 @@ Pour notre entrainement, nous avons collecté 10 000 images négatives (Fig. \re
 
 \bigbreak \bigbreak
 
-Nous sommes ensuite passés à l'entrainement. Nous avons utilisé pour celà OpenCV \cite{opencv} qui propose un programme pour entrainer un classifieur Haar-cascade. Nous avons testé plusieurs cas : avec 5, 10, 15 et 20 étapes, avec des profondeurs d'arbres maximum différentes, avec plus d'images positives que négatives et inversement. Nous avons également testé différentes valeurs pour le seuil d'acceptation du ratio break. Ce seuil détermine à quel point le modèle continue à apprendre avec précision et quand il doit s'arrêter. Enfin, nous avons testés avec deux modes différents : par défaut et 'ALL'. Le mode par défaut utilisent les features de bases (Fig. \ref{fig:haar_features_1}) tandis que le mode 'ALL' utilisent les features un peu plus complexes (Fig. \ref{fig:haar_features_2}). \'A la fin de l'entrainement, nous récupérons un fichier xml qui sera ensuite utilisé pour la détection.\bigbreak
+Nous sommes ensuite passés à l'entrainement. Nous avons utilisé pour cela OpenCV \cite{opencv} qui propose un programme pour entrainer un classifieur Haar-cascade. Nous avons testé plusieurs cas : avec 5, 10, 15 et 20 étapes, avec des profondeurs d'arbres maximum différentes, avec plus d'images positives que négatives et inversement. Nous avons également testé différentes valeurs pour le seuil d'acceptation du ratio break. Ce seuil détermine à quel point le modèle continue à apprendre avec précision et quand il doit s'arrêter. Enfin, nous avons testés avec deux modes différents :  'Default' et 'All'. Le mode 'Default' utilise les features de bases (Fig. \ref{fig:haar_features_1}) tandis que le mode 'All' utilise les features un peu plus complexes (Fig. \ref{fig:haar_features_2}). \'A la fin de l'entrainement, nous récupérons un fichier XML qui sera ensuite utilisé pour la détection.\bigbreak
 
 \bigbreak
 
@@ -244,19 +247,19 @@ Nous sommes ensuite passés à l'entrainement. Nous avons utilisé pour celà Op
         Test & Nombre de & Nombre de & Nombre & Profondeur & Acceptance  & Mode & Temps \\
         & positifs & négatifs & d'étapes & d'arbre & Ratio Break &  &  \\ 
         \hline 
-        1 & 4 000 & 10 000 & 7 & 1 & désactivé & Défaut & 1h10 \\ 
+        1 & 4 000 & 10 000 & 7 & 1 & désactivé & Default & 1h10 \\ 
         \hline
-        2 & 4 000 & 10 000 & 8 & 1 & 1.0e-5 & Défaut & 40min \\
+        2 & 4 000 & 10 000 & 8 & 1 & 1.0e-5 & Default & 40min \\
         \hline
         3 & 4 000 & 2 000 & 10 & 3 & 1.0e-5 & All & 5h \\
         \hline
-        4 & 4 000 & 2 000 & 6 & 1 & 1.0e-5 & Défaut & 4mn \\
+        4 & 4 000 & 2 000 & 6 & 1 & 1.0e-5 & Default & 4mn \\
         \hline
     \end{tabular}
 \end{center}
 
 \bigbreak
-
+\newpage
 \paragraph{Résultats}
 Nous voulions obtenir un classifieur qui détecte la main dans une image comme suivant : 
 \begin{center}
@@ -296,11 +299,11 @@ Nous voulions obtenir un classifieur qui détecte la main dans une image comme s
 Les classifieurs 1 (Fig. \ref{fig:res_cascade0}) et 2 (Fig. \ref{fig:res_cascade1}) ne détectent pas entièrement la main dans l'image, seulement plusieurs portions plus ou moins grandes. Le classifieur 4 (Fig. \ref{fig:res_cascade3}) détecte bien la main mais détecte aussi d'autres objets dans l'image. Le classifieur 3 (Fig. \ref{fig:res_cascade2}) est le moins satisfaisant puisqu'il ne détecte rien du tout, certainement dû à un surapprentissage.
 
 \paragraph{Conclusion}
-Les résultats ne sont pas entièrement satisfaisant. En effet, les différents classifieurs, lorsqu'ils détectent la main, ne la détectent pas entièrement mais seulement plusieurs parties. Celà est certainement dû au fait que les images positives ne contienent que la main sans "background". 
+Les résultats ne sont pas entièrement satisfaisants. En effet, les différents classifieurs, lorsqu'ils détectent la main, ne la détectent pas entièrement mais seulement plusieurs parties. Cela est certainement dû au fait que les images positives ne contiennent que la main sans "background". 
 
 \subsubsection{En créant nous même des images positives}
 \paragraph{Méthodologie}
-N'ayant pas obtenus de résultats satisfaisants avec la base de données d'images de mains, nous avons décidé de créer nous même des images positives. Pour cela, nous avons utilisé la librairie OpenCV pour ajouter une image de main aux images positives (Fig. \ref{fig:ex_pos_neg}). Nous avons ensuite généré les fichiers de descriptions des images positives et entrainé le classifieur à l'aide de ces fichiers. \bigbreak
+N'ayant pas obtenus de résultats satisfaisants avec la base de données d'images de mains, nous avons décidé de créer nous même des images positives. Pour cela, nous avons utilisé la librairie OpenCV pour ajouter une image de main aux images négatives (Fig. \ref{fig:ex_pos_neg}). Nous avons ensuite généré les fichiers de description des images positives et entrainé le classifieur à l'aide de ces fichiers. \bigbreak
 
 \begin{center}
     \includegraphics[width=0.4\textwidth]{images/ex_pos_neg.jpg}
@@ -308,7 +311,7 @@ N'ayant pas obtenus de résultats satisfaisants avec la base de données d'image
     \label{fig:ex_pos_neg}
 \end{center}
 
-\noindent Comme précédemment, nous avons tester différents paramètres pour l'entrainement du classifieur. \bigbreak
+\noindent Comme précédemment, nous avons testé différents paramètres pour l'entrainement du classifieur. \bigbreak
 
 \begin{center} 
     \begin{tabular}{|c|c|c|c|c|c|c|c|}
@@ -316,11 +319,11 @@ N'ayant pas obtenus de résultats satisfaisants avec la base de données d'image
         Test & Nombre de & Nombre de & Nombre & Profondeur & Acceptance  & Mode & Temps \\
         & positifs & négatifs & d'étapes & d'arbre & Ratio Break &  &  \\ 
         \hline 
-        5 & 8 000 & 6 000 & 15 & 1 & 1.0e-5 & Défaut & 4h05 \\
+        5 & 8 000 & 6 000 & 15 & 1 & 1.0e-5 & Default & 4h05 \\
         \hline
-        6 & 8 000 & 6 000 & 10 & 1 & 1.0e-5 & Défaut & 1h53 \\
+        6 & 8 000 & 6 000 & 10 & 1 & 1.0e-5 & Default & 1h53 \\
         \hline
-        7 & 8 000 & 6 000 & 5 & 1 & 1.0e-5 & Défaut & 35min \\
+        7 & 8 000 & 6 000 & 5 & 1 & 1.0e-5 & Default & 35min \\
         \hline
         8 & 5 000 & 8 000 & 9 & 1 & 1.0e-5 & All & 2h49 \\
         \hline
@@ -375,9 +378,10 @@ N'ayant pas obtenus de résultats satisfaisants avec la base de données d'image
 Les résultats ne sont pas satisfaisants. Le classifieur 5 (Fig. \ref{fig:res_cascade4}) ne détecte rien du tout, certainement dû à un surapprentissage. Les classifieurs 7 (Fig. \ref{fig:res_cascade6}), 8 (Fig. \ref{fig:res_cascade7}) et 10 (Fig. \ref{fig:res_cascade9}) détectent bien la main mais détectent aussi beaucoup d'autres objets dans l'image. Les classifieurs 6 (Fig. \ref{fig:res_cascade5}) et 9 (Fig. \ref{fig:res_cascade8}) ne détectent pas entièrement la main dans l'image, seulement plusieurs portions plus ou moins grandes. Ils détectent aussi notamment une partie de la bouche. 
 
 \paragraph{Conclusion}
-Les résultats ne sont pas beaucoup plus satisfaisant. Nous obtenons dans l'ensemble,les mêmes résultats que précédemment c'est-à-dire des détections partiels de la main et non la main entières pour les classifieurs les mieux entrainés.
+Les résultats ne sont pas beaucoup plus satisfaisant. Nous obtenons dans l'ensemble, les mêmes résultats que précédemment c'est-à-dire des détections partielles de la main et non la main entière pour les classifieurs les mieux entrainés.
 
-Il faudrait essayer de prendre une base de données de mains contenant des background différents et annoter nous mêmes les images, c'est-à-dire l'emplacement des mains dans l'image, pour voir si celà améliore les résultats. 
+Une piste d'amélioration serait d'obtenir une base de données contenant des images de mains avec des fonds et des positions différentes.
+Il faudrait également annoter manuellement les images positives pour sélectionner les coordonnées de la main dans l'image. Cela permettrait au classifieur de mieux apprendre à détecter la main dans une image et ainsi d'obtenir de meilleurs résultats.
 
 \section{Reconnaissance de la main par traitement d'image}
 \subsection{Méthodologie}
@@ -391,71 +395,57 @@ Nous avons dû jouer sur plusieurs paramètres :
 \end{itemize}
 
 \subsection{Expériences et résultats}
-Pour trouver les meilleures paramètres, nous avons testé plusieurs combinaisons de paramètres, avec ou sans flou, avec ou sans Canny ...
+Pour trouver les meilleures paramètres, nous avons testé plusieurs combinaisons de paramètres, avec ou sans flou, avec ou sans Canny, etc.
 
 \bigbreak
 
-Tout d'abord, nous avons essayé en essayant de mettre l'images en gris, puis de flouter l'image avec un flou gaussien, puis de binariser l'image avec un thresholding binaire. Enfin, nous avons utilisé Canny pour détecter les contours de la main et nous avons tracer le convex hull de la main. Les résultats sont plutôt bons puisque nous avons capturé l'essentiel de la main même si il manque une grosse partie du pouce.\bigbreak
-
+Tout d'abord, nous avons essayé de transformer l'image en niveaux de gris, puis de flouter l'image avec un flou gaussien, puis de binariser l'image avec un thresholding binaire. Enfin, nous avons utilisé Canny pour détecter les contours de la main et nous avons tracé le convex hull de la main. Les résultats sont plutôt bons puisque nous avons capturé l'essentiel de la main même si il manque une grosse partie du pouce.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/pre_ttt_1.png}
+    \includegraphics[width=0.9\textwidth]{images/pre_ttt_1.png}
     \captionof{figure}{Résultat de la détection de la main : Thresholding : seuil entre 200-255, TRESH\_BINARY, Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
 \end{center}
 \bigbreak
 
-\bigbreak
-
-Nous avons aussi essayé sans flou, les résultats étaient moins bons puisque nous pouvons voir plusieurs convex hulls pour une seule main. 
-\bigbreak
-
+Nous avons aussi essayé sans flou, les résultats étaient moins bons puisque nous pouvons voir plusieurs convex hulls pour une seule main.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/pre_ttt_2.png}
+    \includegraphics[width=0.9\textwidth]{images/pre_ttt_2.png}
     \captionof{figure}{Résultat de la détection de la main : Thresholding : seuil entre 198-255, TRESH\_BINARY, Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
 \end{center}
 \bigbreak
 
-Nous avons ensuite essayé sans flou et sans Canny. Les résultats sont encores moins bons puisque nous avons plusieurs convex hulls voir même certains hors de la main. \bigbreak
-
+Nous avons ensuite essayé sans flou et sans Canny. Les résultats sont encores moins bons puisque nous avons plusieurs convex hulls voir même certains hors de la main.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/pre_ttt_3.png}
+    \includegraphics[width=0.9\textwidth]{images/pre_ttt_3.png}
     \captionof{figure}{Résultat de la détection de la main : Thresholding : seuil entre 196-239, TRESH\_BINARY, Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
 \end{center}
 \bigbreak
 
-Les résultats ne sont pas exceptionnels mais nous nous attendions à ce qu'ils soient meilleurs en passant l'image en HSV plutôt qu'en GreyScale.  \bigbreak
-
+Les résultats ne sont pas exceptionnels mais nous nous attendions à ce qu'ils soient meilleurs en passant l'image en HSV plutôt qu'en GreyScale.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/pre_ttt_4.png}
+    \includegraphics[width=0.9\textwidth]{images/pre_ttt_4.png}
     \captionof{figure}{Résultat de la détection de la main : Thresholding : seuil entre 223-255, TRESH\_BINARY, Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
 \end{center}
 \bigbreak
-
-Nous pouvons clairement voir ici que les résultats sont meilleurs puisque nous avons bien capturé l'ensemble de la main. De plus, même sur une image de mauvaise qualité, en jouant sur les paramètres, nous avons réussi à capturer la main. \bigbreak
-
+\newpage
+Nous pouvons clairement voir ici que les résultats sont meilleurs puisque nous avons bien capturé l'ensemble de la main. De plus, même sur une image de mauvaise qualité, en jouant sur les paramètres, nous avons réussi à capturer la main.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/pre_ttt_5.png}
+    \includegraphics[width=0.9\textwidth]{images/pre_ttt_5.png}
     \captionof{figure}{Résultat de la détection de la main : Flou : X = 41, Y = 27, Sigma = 22 ; Thresholding : seuil entre 11-255, TRESH\_BINARY ; Contours : RETR\_EXTERNAL, CHAIN\_APPROX\_SIMPLE}
     \end{center}
 \bigbreak
 
-Enfin, nous avons essayé sans passer par les fonctions thresholding et canny d'OpenCV mais en créant nous même un masque en fonction de la saturation, de la valeur et de la teinte. \bigbreak
-
+Enfin, nous avons essayé sans passer par les fonctions thresholding et canny d'OpenCV mais en créant nous même un masque en fonction de la saturation, de la valeur et de la teinte.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/pre_ttt_6.png}
+    \includegraphics[width=0.9\textwidth]{images/pre_ttt_6.png}
     \captionof{figure}{Résultat de la détection de la main : Hue : 0 - 94, Saturation : 37 - 180, Value : 145 - 238}
 \end{center}
-\bigbreak
-
-Les résultats obtenus sont bons. Nous arrivons bien a détecter la main. Cependant, ces résultats sont très dépendant des valeurs des paramètres. 
-
-\subsection{Conclusion}
-Même si les résultats en passant l'image en HSV sont concluants, il reste encore des améliorations à apporter puisque la détection est très dépendante des paramètres utilisés. Il faudrait donc trouver une méthode pour que le programme puisse trouver les meilleurs paramètres pour la détection de la main. 
-
 \newpage
+\subsection{Conclusion}
+Même si les résultats en passant l'image en HSV sont concluants, il reste encore des améliorations à apporter puisque la détection est très dépendante des paramètres utilisés. Il faudrait donc trouver une méthode pour que le programme puisse trouver les meilleurs paramètres pour la détection de la main. Cependant, l'objectif qui était de détecter la main sans classifieur est atteint car dans la plupart des cas, nous avons bien détecté la main.
 
 \section{Fusion des deux méthodes}
 \subsection{Méthodologie}
-Nous avons un classifieur d'une part qui détecte une portion de la main et d'autres part un système qui permet de détecter la main si les paramètres sont biens configurés. Nous avons donc essayer de fusionner ces deux méthodes pour avoir une meilleure détection de la main. 
+Nous avons un classifieur d'une part qui détecte une portion de la main et d'autre part un système qui permet de détecter la main si les paramètres sont biens configurés. Nous allons donc dans cette partie, essayer de fusionner les deux méthodes pour obtenir une détection automatique de la main sans avoir à régler des paramètres.
 
 \begin{center}
     \includegraphics[width=0.9\textwidth]{images/pipeline_combinaison.png}
@@ -463,35 +453,29 @@ Nous avons un classifieur d'une part qui détecte une portion de la main et d'au
     \label{fig:pipeline_combinaison}
 \end{center}
 
-La méthodologie est la suivante (Fig. \ref{fig:pipeline_combinaison}) : à partir d'un image que nous convertissons en niveau de gris, nous essayons de détecter la main grâce à un classifieur Haar-cascade. Nos classifieurs détectant plusieurs zone au niveau de la main, nous récupérons la plus grosse. Nous passons ensuite cette zone en HSV afin de récupéré la teinte, saturation et valeur majoritaire de la zone. Nous créons ensuite un masque en fonction de ces valeurs et d'un epsilon afin d'avoir un seuil minimum et un seuil maximum. Nous passons ensuite ce masque sur l'image et affichons le Convex Hull correspondant.  
-
+La méthodologie est la suivante (Fig. \ref{fig:pipeline_combinaison}) : à partir d'un image que nous convertissons en niveau de gris, nous essayons de détecter la main grâce à un classifieur Haar-cascade entrainé. Nos classifieurs détectant plusieurs zone au niveau de la main, nous récupérons la plus grosse. Nous passons ensuite cette zone en HSV afin de récupérer la teinte, saturation et la valeur majoritaire de la zone. Nous créons ensuite un masque en fonction de ces valeurs et d'un epsilon afin d'avoir un seuil minimum et un seuil maximum. Nous passons ensuite ce masque sur l'image et affichons le Convex Hull correspondant.
+\newpage
 \subsection{Expériences et résultats}
 
-
+Nous pouvons voir (Fig. \ref{fig:res_combinaison_5_doigts}) que la fusion des deux méthodes fonctionne bien. Nous avons bien détecté la main et les 5 doigts.
+Cependant, cette méthode ne semble fonctionner qu'avec une main ouverte et 5 doigts levés.
 \begin{center}
-    \includegraphics[width=0.78\textwidth]{images/res_combinaison_5_doigts.png}
+    \includegraphics[width=0.8\textwidth]{images/res_combinaison_5_doigts.png}
     \captionof{figure}{Résultat de la fusion des deux méthodes.}
     \label{fig:res_combinaison_5_doigts}
 \end{center}
-
 \bigbreak
 
-Nous pouvons voir (Fig. \ref{fig:res_combinaison_5_doigts}) que la fusion des deux méthodes fonctionne bien. Nous avons bien détecté la main et les 5 doigts.
-Cependant, cette méthode ne fonctionne ne semble fonctionner qu'avec une main ouverte et 5 doigts levés. \bigbreak
-
+En effet, lorsque nous avons ensuite essayé avec 2 doigts levés (Fig. \ref{fig:res_combinaison_2_doigts}), une partie de la main est bien détecté. Cependant, étant donné que nous récupérons la couleur majoritaire de la zone détecté, nous avons ici la couleur du fond de l'image et non de la main car même si la zone représentant une partie de la main semble être légèrement plus grande, les nuances de couleurs y sont aussi beaucoup plus nombreuses.
 \begin{center}
     \includegraphics[width=0.8\textwidth]{images/res_combinaison_2_doigts.png}
-    \captionof{figure}{Résultat de la fusion des deux méthodes avec 2 doigts levé.}
+    \captionof{figure}{Résultat de la fusion des deux méthodes avec 2 doigts levés.}
     \label{fig:res_combinaison_2_doigts}
 \end{center}
 
-En effet, lorsque nous avons ensuite essayé avec 2 doigts levés (Fig. \ref{fig:res_combinaison_2_doigts}), une partie de la main est bien détecté. Cependant, étant donné que nous récupérons la couleur majoritaire de la zone détecté, nous avons ici la couleur du fond de l'image et non de la main car même si la zone représentant une partie de la main semble être légèrement plus grande, les nuances de couleurs y sont aussi beaucoup plus nombreuses. 
-
 \subsection{Conclusion}
 Cette méthode rencontre deux problèmes principaux. Tout d'abord, elle fonctionne beaucoup mieux sur une main ouverte avec 5 doigts levés car le classifieur a été entrainé pour reconnaitre une main ouverte. 
-De plus, récupéré la couleur majoritaire de la zone détectée ne semble pas être la meilleure méthode pour récupérer la couleur de la main. En effet, comme nous avons pu le voir précédemment, les variations dû à la luminosité ou à la qualité de l'image peuvent faire en sorte que la couleur majoritaire ne soit pas la couleur de la main. Enfin, afin d'avoir une meilleure détection, nous utilisons un paramètre "epsilon" qui permet d'avoir une plage de données plus ou moins grande pour la teinte, la saturation et la valeur. Cependant, ce paramètre peut être problèmatique car il dépend de la qualité de l'image. \bigbreak
-
-\bigbreak
+De plus, récupérer la couleur majoritaire de la zone détectée ne semble pas être la meilleure méthode pour récupérer la couleur de la main. En effet, comme nous avons pu le voir précédemment, les variations dûes à la luminosité ou à la qualité de l'image peuvent faire en sorte que la couleur majoritaire ne soit pas la couleur de la main. Enfin, dans le but d'avoir une meilleure détection, nous utilisons un paramètre "epsilon" qui permet d'avoir un intervalle de valeurs plus ou moins grand pour la teinte, la saturation et la valeur. Cependant, ce paramètre peut être problématique car il dépend de la qualité de l'image.
 
 
 \newpage
@@ -502,7 +486,7 @@ De plus, récupéré la couleur majoritaire de la zone détectée ne semble pas 
 \subsection{Sans Convex Hull}
 
 \subsubsection{Méthodologie}
-Nous avons une image que nous passons en HSV à laquelle nous ajoutons un Flou Gaussien. Avec un système de trackbars nous ajustons ensuite les valeurs minimales et maximales pour la teinte, la luminosité et la valeur afin d'avoir un masque qui ne détecte que la main. Nous passons ensuite ce masque sur l'image et détectons les contours de la main. Pour la détection des doigts, nous avons ensuite créer différents masques que nous passons ensuite sur l'image. Nous déplaçons ensuite ce masque sur l'image et calculons le nombre de pixels blancs dans le masque. Si ce nombre est entre un certains seuil, alors nous considérons que le doigt est présent. \bigbreak
+Nous avons une image que nous passons en HSV à laquelle nous ajoutons un flou Gaussien. Avec un système de trackbars nous ajustons ensuite les valeurs minimales et maximales pour la teinte, la luminosité et la valeur afin d'avoir un masque qui ne détecte que la main. Nous passons ensuite ce masque sur l'image et détectons les contours de la main. Pour la détection des doigts, nous avons ensuite créé différents masques que nous passons ensuite sur l'image. Nous déplaçons ensuite ce masque sur l'image et calculons le nombre de pixels blancs dans le masque. Si ce nombre est entre un certains seuil, alors nous considérons que le doigt est présent. \bigbreak
 
 \begin{center}
     \includegraphics[width=\textwidth]{images/pipeline_detect_fingers_sans_convex_hull.png}
@@ -512,50 +496,48 @@ Nous avons une image que nous passons en HSV à laquelle nous ajoutons un Flou G
 
 \subsubsection{Expériences et résultats}
 
+Dans cet exemple (Fig. \ref{fig:detect_fingers_mask_4}), nous avons réalisé un masque de type circulaire pour faire correspondre
+le bout des doigts avec le masque. Le résultat n'est pas probant car les zones détectées ne correspondent pas aux doigts.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/detect_fingers_mask_4.png}
+    \includegraphics[width=0.8\textwidth]{images/detect_fingers_mask_4.png}
     \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 10 - 43 ; Saturation : 79 - 150 ; Valeur : 174 - 237 ; Seuil : 65 - 75}
     \label{fig:detect_fingers_mask_4}
 \end{center}
+\bigbreak
 
-Dans cet exemple (Fig. \ref{fig:detect_fingers_mask_4}), nous avons réalisé un masque de type circulaire pour faire correspondre
-le bout des doigts avec le masque. Le résultat n'est pas probant car les zones détectées ne correspondent pas aux doigts.
-
-\begin{center}
-    \includegraphics[width=\textwidth]{images/detect_fingers_mask_5.png}
-    \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 9 - 41 ; Saturation : 79 - 150 ; Valeur : 202 - 255 ; Seuil : 62 - 75}
-    \label{fig:detect_fingers_mask_5}
-\end{center}
 
 Ici, le masque a été modifié pour être de forme rectangulaire. Le résultat (Fig. \ref{fig:detect_fingers_mask_5}) est meilleur que précédemment mais il reste des zones non désirées.
 On remarque que les zones détectées correspondent pour certaines au bout des doigts comme souhaité.
-
-
 \begin{center}
-    \includegraphics[width=\textwidth]{images/detect_fingers.png}
+    \includegraphics[width=0.8\textwidth]{images/detect_fingers_mask_5.png}
+    \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 9 - 41 ; Saturation : 79 - 150 ; Valeur : 202 - 255 ; Seuil : 62 - 75}
+    \label{fig:detect_fingers_mask_5}
+\end{center}
+\newpage
+
+Dans cette tentative (Fig. \ref{fig:detect_fingers}), le masque a été de nouveau modifié pour être épouser la forme d'un doigt avec une partie rectangulaire et arrondie au sommet. On retrouve un peu moins d'anomalies que précédemment. Cependant, il reste des zones non désirées ainsi que des doigts non détectés (le majeur).
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/detect_fingers.png}
     \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 8 - 67 ; Saturation : 97 - 128 ; Valeur : 185 - 239 ; Seuil : 73 - 100}
     \label{fig:detect_fingers}
 \end{center}
+\bigbreak
 
-Dans cette tentative (Fig. \ref{fig:detect_fingers}), le masque a été de nouveau modifié pour être épouser la forme d'un doigt avec une partie rectangulaire et arrondie au sommet. On retrouve un peu moins d'anomalies que précédemment. Cependant, il reste des zones non désirées ainsi que des doigts non détectés (le majeur).
-
-
+Dans cette avant-dernière tentative (Fig. \ref{fig:detect_fingers_mask_2}), le masque a été modifié pour être de forme rectangulaire et plus petit. Le résultat est meilleur que précédemment mais il reste des zones non désirées. On peut noter que cette fois, on peut retrouver au moins un carré de détection par doigt.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/detect_fingers_mask_2.png}
+    \includegraphics[width=0.8\textwidth]{images/detect_fingers_mask_2.png}
     \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 8 - 59 ; Saturation : 66 - 98 ; Valeur : 112 - 255 ; Seuil : 54 - 57}
     \label{fig:detect_fingers_mask_2}
 \end{center}
-
-Dans cette avant-dernière tentative (Fig. \ref{fig:detect_fingers_mask_2}), le masque a été modifié pour être de forme rectangulaire et plus petit. Le résultat est meilleur que précédemment mais il reste des zones non désirées. On peut noter que cette fois, on peut retrouver au moins un carré de détection par doigt.
-
-\begin{center}
-    \includegraphics[width=\textwidth]{images/detect_fingers_mask_3.png}
-    \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 10 - 72 ; Saturation : 75 - 147 ; Valeur : 193 - 255 ; Seuil : 71 - 100}
-    \label{fig:detect_fingers_mask_3}
-\end{center}
+\newpage
 
 Dans ce dernier exemple (Fig. \ref{fig:detect_fingers_mask_3}), le masque contient toujours une partie rectangulaire mais la partie représentant le bout du doigt a été fortement agrandie.
 Le résultat présenté est le meilleur en terme de précision de détection des doigts. Cependant, on note que le pouce n'est pas détecté et que les 2 derniers doigts n'ont pas vu leur sommet détecté mais seulement une zone vers le milieu du doigt. On remarque aussi une détection supplémentaire au niveau de la paume de la main.
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{images/detect_fingers_mask_3.png}
+    \captionof{figure}{Détection des doigts sans Convex Hull. Teinte : 10 - 72 ; Saturation : 75 - 147 ; Valeur : 193 - 255 ; Seuil : 71 - 100}
+    \label{fig:detect_fingers_mask_3}
+\end{center}
 
 \subsubsection{Conclusion}
 La détection des doigts sans Convex Hull est une méthode perfectible. En effet, les résultats obtenus ne sont pas tout à fait satisfaisants. Les zones détectées ne correspondent pas toujours aux doigts. Il reste des zones non désirées et des doigts non détectés. Il faudrait donc trouver une méthode pour que le programme puisse trouver les meilleurs paramètres pour la détection des doigts.
@@ -566,7 +548,8 @@ Aussi, le programme est toujours dépendant de la détection préalable de la ma
 
 \subsection{Avec Convex Hull}
 \subsubsection{Méthodologie}
-Le début est le même que précédemment. Nous avons une image que nous passons en HSV à laquelle nous ajoutons un Flou Gaussien. Avec un système de trackbars nous ajustons ensuite les valeurs minimales et maximales pour la teinte, la luminosité et la valeur afin d'avoir un masque qui ne détecte que la main. Nous passons ensuite ce masque sur l'image et détectons les contours de la main. Nous utilisons ensuite la fonction Convex Hull d'OpenCV pour tracer le contour de la main. Nous récupérons ensuite les points du Convex Hull et les affichons sur l'image. Nous créons ensuite des filtres afin de n'avoir seulement les points qui nous intérésse. \bigbreak
+Le début est le même que précédemment. Nous avons une image que nous passons en HSV à laquelle nous ajoutons un flou Gaussien. Avec un système de trackbars nous ajustons ensuite les valeurs minimales et maximales pour la teinte, la luminosité et la valeur afin d'avoir un masque qui ne détecte que la main. Nous passons ensuite ce masque sur l'image et détectons les contours de la main. Nous utilisons ensuite la fonction Convex Hull d'OpenCV pour tracer le contour de la main. Nous récupérons ensuite les points du Convex Hull et les affichons sur l'image. Nous créons ensuite des filtres afin de n'avoir seulement les points qui nous intéressent.
+\bigbreak
 
 \begin{center}
     \includegraphics[width=\textwidth]{images/pipeline_detect_fingers_avec_convex_hull.png}
@@ -574,96 +557,89 @@ Le début est le même que précédemment. Nous avons une image que nous passons
     \label{fig:pipeline_detect_fingers_avec_convex_hull}
 \end{center}
 
-\subsubsection{Résultats}
+\subsubsection{Expériences et résultats}
 
+Comme nous pouvons le voir (Fig. \ref{fig:res_5_convex_hull_no_filter_pt}), la détection des doigts est plutôt bonne. Nous avons bien des petits cercles qui apparaissent au bout des doigts. Cependant, étant donné que nous affichons les sommets du Convex Hull, nous avons plusieurs points au bout de chaque doigts ainsi qu'en bas de la main.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/res_5_convex_hull_no_filter_pt.png}
-    \captionof{figure}{Résultat obtenus avec Convex Hull}
+    \includegraphics[width=0.5\textwidth]{images/res_5_convex_hull_no_filter_pt.png}
+    \captionof{figure}{Résultat obtenu avec Convex Hull}
     \label{fig:res_5_convex_hull_no_filter_pt}
 \end{center}
+\bigbreak
 
-Comme nous pouvons le voir (Fig. \ref{fig:res_5_convex_hull_no_filter_pt}), la détection des doigts est plutôt bonne. Nous avons bien des petits cercles qui apparaissent au bout des doigts. Cependant, étant donné que nous affichons les sommets du Convex Hull, nous avons plusieurs points au bout de chaque doigts ainsi qu'en bas de la main. \bigbreak
+Nous avons donc essayé de filtrer les points : tout d'abord au niveau des doigts nous gardons un seul point par doigt. Ensuite, nous filtrons les points en bas de la main : si la coordonnée y d'un point est 1.5 fois inférieure à la moyenne des coordonnées y de tous les points, alors nous le supprimons.\bigbreak
 
-Nous avons donc essayé de filtrer les points : tout d'abord au niveau des doigts nous gardons un seul point par doigt. Ensuite, nous filtrons les points en bas de la main : si la coordonnée y d'un point est 1.5 fois inférieur à la moyenne des coordonnées y des points, alors nous le supprimons. \bigbreak
-
+Les résultats sont meilleurs (Fig. \ref{fig:res_5_convex_hull_filter_1_y}). Nous avons bien un seul point par doigt et les points en bas de la main ont été supprimés. 
 \begin{center}
-    \includegraphics[width=\textwidth]{images/res_5_convex_hull_filter_1_y.png}
-    \captionof{figure}{Résultat obtenus avec Convex Hull et filtrage des points}
+    \includegraphics[width=0.6\textwidth]{images/res_5_convex_hull_filter_1_y.png}
+    \captionof{figure}{Résultat obtenu avec Convex Hull et filtrage des points}
     \label{fig:res_5_convex_hull_filter_1_y}
 \end{center}
-
-Les résultats sont meilleurs (Fig. \ref{fig:res_5_convex_hull_filter_1_y}). Nous avons bien un seul point par doigt et les points en bas de la main ont été supprimés. \bigbreak
+\bigbreak
 
 Nous avons donc ensuite essayé sur d'autres images avec moins de doigts levés. \bigbreak
 
+Les résultats (Fig. \ref{fig:res_4_convex_hull_filter_1_y}) sont bons avec 4 doigts, nous avons bien seulement 4 points au bout de chaque doigts.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/res_4_convex_hull_filter_1_y.png}
-    \captionof{figure}{Résultat obtenus avec Convex Hull et filtrage des points}
+    \includegraphics[width=0.5\textwidth]{images/res_4_convex_hull_filter_1_y.png}
+    \captionof{figure}{Résultat obtenu avec Convex Hull et filtrage des points}
     \label{fig:res_4_convex_hull_filter_1_y}
 \end{center}
-
-Les résultats (Fig. \ref{fig:res_4_convex_hull_filter_1_y}) sont bons avec 4 doigts, nous avons bien seulement 4 points au bout de chaque doigts.
-Lorsque nous sommes passés à 3 doigts cependant, celà marchait moins bien. \bigbreak
-
+\newpage
+Nous avons testé ensuite, notre pipeline sur une image avec 3 doigts levés.
+Comme nous pouvons le voir nous avons 2 points à gauche qui ne sont pas des doigts et qui n'ont pas été filtrés.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/res_3_convex_hull_filter_1_y.png}
-    \captionof{figure}{Résultat obtenus avec Convex Hull et filtrage des points}
+    \includegraphics[width=0.6\textwidth]{images/res_3_convex_hull_filter_1_y.png}
+    \captionof{figure}{Résultat obtenu avec Convex Hull et filtrage des points}
     \label{fig:res_3_convex_hull_filter_1_y}
 \end{center}
-
-En effet, comme nous pouvons le voir nous avons 2 points à gauche qui ne sont pas des doigts et qui n'ont pas été filtré. \'Etant donné que ces points étaient l'un au dessus de l'autre nous nous sommes dis que nous pouvons les filtrer en fonction de leur coordonnées x : si la coordonnée x est quasiment la même pour deux points, alors nous les supprimons. \bigbreak
-
+\bigbreak
+\'Etant donné que ces points étaient sur un même axe vertical nous avons décidé de les filtrer en fonction de leur coordonnées x : si la coordonnée x est sensiblement identique pour deux points, alors nous les supprimons.
+Les résultats (Fig. \ref{fig:res_3_convex_hull_filter_1_y_1_x}) sont meilleurs avec cette nouvelle approche. Nous avons bien seulement 3 points au bout de chaque doigts.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/res_3_convex_hull_filter_1_y_1_x.png}
-    \captionof{figure}{Résultat obtenus avec Convex Hull et filtrage des points}
+    \includegraphics[width=0.6\textwidth]{images/res_3_convex_hull_filter_1_y_1_x.png}
+    \captionof{figure}{Résultat obtenu avec Convex Hull et filtrage des points}
     \label{fig:res_3_convex_hull_filter_1_y_1_x}
 \end{center}
+\newpage
 
-Les résultats (Fig. \ref{fig:res_3_convex_hull_filter_1_y_1_x}) sont meilleurs. Nous avons bien seulement 3 points au bout de chaque doigts. \bigbreak
-
-Nous sommes donc passés ensuite à 2 doigts :
+Nous avons ensuite testé sur une image avec 2 doigts levés.
+Les résultats sont cependant moins bons que prévu (Fig. \ref{fig:res_2_convex_hull_filter_1_y_1_x}). Nous avons seulement un seul point au lieu de deux. Lorsque nous avons regardé de plus près le problème, nous nous sommes rendus compte que le point au niveau de l'index était supprimé car un autre point était présent sur le même axe vertical (Fig. \ref{fig:res_2_convex_hull_all_pt}).
 \begin{center}
-    \includegraphics[width=\textwidth]{images/res_2_convex_hull_filter_1_y_1_x.png}
-    \captionof{figure}{Résultat obtenus avec Convex Hull et filtrage des points}
+    \includegraphics[width=0.6\textwidth]{images/res_2_convex_hull_filter_1_y_1_x.png}
+    \captionof{figure}{Résultat obtenu avec Convex Hull et filtrage des points}
     \label{fig:res_2_convex_hull_filter_1_y_1_x}
 \end{center}
+\bigbreak
 
-Cependant, les résultats (Fig. \ref{fig:res_2_convex_hull_filter_1_y_1_x}) ne sont pas bons. Nous avons seulement un seul cercle au lieu de deux. Lorsque nous avons regardé de plus près le problème, nous nous sommes rendus compte que le cercle au niveau de l'index était supprimé car il y avait plusieurs points juste en dessous (Fig. \ref{fig:res_2_convex_hull_all_pt}).  \bigbreak
-
+Le point au niveau de l'index est donc supprimé car il y en a deux autres sur le même axe vertical. Nous avons donc décidé de filtrer autrement : au lieu de supprimer tous les points qui sont sur un (quasi) même axe, nous avons décidé de pondérer les points en fonction de leur coordonnées en y. Le point le plus haut aura un poids de 1, le point le plus bas un poids de 0. Pour tous les points qui seront sur un même axe vertical, nous regardons lequel est le plus grand et si le poids du plus grand est supérieur à 0.8 (donc s'il est proche du haut), alors nous le gardons.
 \begin{center}
-    \includegraphics[width=0.5\textwidth]{images/res_2_convex_hull_all_pt.png}
-    \captionof{figure}{Résultat obtenus avec Convex Hull et tous les points des sommets}
+    \includegraphics[width=0.3\textwidth]{images/res_2_convex_hull_all_pt.png}
+    \captionof{figure}{Résultat obtenu avec Convex Hull et tous les points des sommets}
     \label{fig:res_2_convex_hull_all_pt}
 \end{center}
-
-Le point au niveau de l'index est donc supprimé car il y en a deux en dessous de lui qui sont quasiment sur la même ligne. Nous avons donc décidé de filtrer autrement : au lieu de supprimer tous les points qui sont quasiment sur la même vertical, nous avons décidé de pondéré les points en fonction de leur coordonnées en y. Le point le plus haut aura un poids de 1, le point le plus bas un poids de 0. Pour tous les points qui sont du coup sur une même vertical, nous regardons lequel est le plus grand et si le poids du plus grand est supérieur à 0.8 (donc si il est proche du haut), alors nous le gardons. \bigbreak
-
+En combinant les 2 approches, nous avons décelé un autre problème avec le filtrage en y. Seuls les points de la base de la main sont affichés.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/res_2_convex_hull_filter_1_y_2_x.png}
-    \captionof{figure}{Résultat obtenus avec Convex Hull et filtrage des points}
+    \includegraphics[width=0.6\textwidth]{images/res_2_convex_hull_filter_1_y_2_x.png}
+    \captionof{figure}{Résultat obtenu avec Convex Hull et filtrage des points}
     \label{fig:res_2_convex_hull_filter_1_y_2_x}
 \end{center}
-
-Là, nous nous sommes rendus compte qu'il y avait un problème avec le filtrage en y. Au lieu de garder les points 1.5 fois plus petits que la moyenne, nous avons décidé de garder les points 0.5 fois plus petits que la moyenne. \bigbreak
-
+Pour palier ce problème, au lieu de garder les points 1.5 fois plus petits que la moyenne, nous avons décidé de garder les points 0.5 fois plus petits que la moyenne et les résultats sont meilleurs (Fig. \ref{fig:res_2_convex_hull_filter_2_y_2_x}). Nous avons bien deux points au bout de chaque doigts.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/res_2_convex_hull_filter_2_y_2_x.png}
-    \captionof{figure}{Résultat obtenus avec Convex Hull et filtrage des points}
+    \includegraphics[width=0.6\textwidth]{images/res_2_convex_hull_filter_2_y_2_x.png}
+    \captionof{figure}{Résultat obtenu avec Convex Hull et filtrage des points}
     \label{fig:res_2_convex_hull_filter_2_y_2_x}
 \end{center}
-
-Là les résultats sont bons (Fig. \ref{fig:res_2_convex_hull_filter_2_y_2_x}). Nous avons bien deux points au bout de chaque doigts. \bigbreak
-
+\newpage
+Nous avons donc re-testé avec ces nouveaux filtres sur plusieurs images avec 5, 4 et 3 doigts (Fig. \ref{fig:res_5_4_3_convex_hull_2_y_2x}). Les résultats ne sont pas aussi bons. En effet, nous pouvons voir qu'il n'y a que deux points sur l'image de 5 doigts et deux sur l'image de 3 doigts.
 \begin{center}
-    \includegraphics[width=\textwidth]{images/res_5_4_3_convex_hull_2_y_2x.png}
-    \captionof{figure}{Résultat obtenus avec Convex Hull et filtrage des points}
+    \includegraphics[width=0.6\textwidth]{images/res_5_4_3_convex_hull_2_y_2x.png}
+    \captionof{figure}{Résultat obtenu avec Convex Hull et filtrage des points}
     \label{fig:res_5_4_3_convex_hull_2_y_2x}
 \end{center}
 
-Nous avons donc re-tester avec ces nouveaux filtres sur plusieurs images avec 5, 4 et 3 doigts (Fig. \ref{fig:res_5_4_3_convex_hull_2_y_2x}). Les résultats ne sont pas aussi bons. En effet, nous pouvons voir qu'il n'y a que deux points sur l'image de 5 doigts et deux sur l'image de 3 doigts. 
-
 \subsubsection{Conclusion}
-Les résultats obtenus sont plutôt encourageants, nous avons réussi dans certains cas à détecter le bon nombre de doigts. Cependant, les résultats ne sont pas parfaits. En effet, les filtres que nous avons mis en place ne fonctionnent pas pour tous les cas : ils sont trop codés en durs pour s'appliquer à différents mouvements de la main. Il faudrait donc trouver une méthode pour que le programme puisse optimiser ces paramètres de manière autonome.
+Les résultats obtenus sont plutôt encourageants, nous avons réussi dans certains cas à détecter le bon nombre de doigts. Cependant, les résultats ne sont pas parfaits. En effet, les filtres que nous avons mis en place ne fonctionnent pas pour tous les cas : quand l'un est adapté pour un cas, il ne l'est pas pour un autre. L'enjeu suivant serait de trouver une autre approche unificatrice pour les filtres afin d'avoir une détection des doigts plus précise et plus fiable et qui fonctionne pour tous les cas.
 
 \section*{Conclusion}
 \addcontentsline{toc}{section}{Conclusion}
@@ -683,10 +659,5 @@ Pour résumer, malgré les difficultés rencontrées, cette expérience a été 
 
 \includepdf{plagiat/declaration_plagiat_claire_out.pdf}
 \includepdf{plagiat/declaration_plagiat_victor_out.pdf}
-
-\newpage
-
-\newpage
-\section*{Résumé}
 
 \end{document}
