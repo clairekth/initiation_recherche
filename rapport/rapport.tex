@@ -34,17 +34,20 @@
 {20pt}
 {}
 
-\renewcommand{\theparagraph}{\thesubsubsection.\arabic{paragraph}}
-\titleformat{\paragraph}
-{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titleformat{\subsubsection}
+{\fontsize{14}{19}\selectfont\bfseries} 
+{\thesubsubsection}
+{20pt}
+{}
 
-% \makeatletter
-% \renewcommand{\paragraph}{%
-%   \@startsection{paragraph}{4}%
-%   {\z@}{3.25ex \@plus1ex \@minus.2ex}{-1em}%
-%   {\normalfont\normalsize\bfseries}%
-% }
-% \makeatother
+\setcounter{secnumdepth}{4}
+\titleformat{\paragraph}
+{\fontsize{13}{19}\selectfont\bfseries} 
+{\theparagraph}
+{20pt}
+{}
+
+\setcounter{tocdepth}{4}
 
 \begin{document}
 \pagenumbering{gobble} % Supprime la numérotation des pages
@@ -641,13 +644,15 @@ Nous avons donc re-testé avec ces nouveaux filtres sur plusieurs images avec 5,
 \subsubsection{Conclusion}
 Les résultats obtenus sont plutôt encourageants, nous avons réussi dans certains cas à détecter le bon nombre de doigts. Cependant, les résultats ne sont pas parfaits. En effet, les filtres que nous avons mis en place ne fonctionnent pas pour tous les cas : quand l'un est adapté pour un cas, il ne l'est pas pour un autre. L'enjeu suivant serait de trouver une autre approche unificatrice pour les filtres afin d'avoir une détection des doigts plus précise et plus fiable et qui fonctionne pour tous les cas.
 
+\newpage
+
 \section*{Conclusion}
 \addcontentsline{toc}{section}{Conclusion}
 En synthèse, notre exploration des méthodes de détection des mains et des doigts a révélé des résultats encourageants, bien que perfectibles. Malgré la configuration minutieuse des paramètres, la détection de la main a toutefois donné des résultats satisfaisants. Cependant, la reconnaissance des doigts se révèle être une tâche plus complexe. Il est essentiel de trouver une méthode permettant au programme d'optimiser ces paramètres de manière autonome, car les nombreux filtres nécessaires pour cette tâche sont très dépendants des caractéristiques des images. \bigbreak
 
-Les réseaux de neurones apparaissent actuellement comme la méthode la plus prometteuse pour détecter les mouvements.Leur capacité à s'adapter à divers types d'images et à apprendre les meilleures représentations pour la détection des doigts offre un potentiel significatif pour améliorer la précision et la robustesse des systèmes de détection. \bigbreak
+Les réseaux de neurones apparaissent actuellement comme la méthode la plus prometteuse pour détecter les mouvements. Leur capacité à s'adapter à divers types d'images et à apprendre les meilleures représentations pour la détection des doigts offre un potentiel significatif pour améliorer la précision et la robustesse des systèmes de détection. \bigbreak
 
-Pour résumer, malgré les difficultés rencontrées, cette expérience a été enrichissante et nous a donné une meilleure compréhension des enjeux et des opportunités dans le domaine de la détection des mouvements. Dans le futur, nous aurions aimé approfondir l'étude des capacités des réseaux de neurones et de s'investir dans la recherche de techniques d'optimisation automatique des paramètres afin d'assurer des performances fiables et évolutives. \bigbreak
+Pour résumer, malgré les difficultés rencontrées, cette expérience a été enrichissante et nous a donné une meilleure compréhension des enjeux et des opportunités dans le domaine de la détection des mouvements. Dans le futur, nous aurions aimé approfondir l'étude des capacités des réseaux de neurones ainsi que dans la recherche de techniques d'optimisation automatique des paramètres afin d'assurer des performances fiables et évolutives. \bigbreak
 
 \newpage
 
@@ -659,5 +664,17 @@ Pour résumer, malgré les difficultés rencontrées, cette expérience a été 
 
 \includepdf{plagiat/declaration_plagiat_claire_out.pdf}
 \includepdf{plagiat/declaration_plagiat_victor_out.pdf}
+
+\newpage
+\
+\newpage
+
+\section*{Résumé}
+Ce projet a pour objectif de comprendre les mécanismes et les problématiques liés à la reconnaissance des gestes de la main. L'objectif principal étant de concevoir un système capable de détecter et de classifier différentes positions précises de la main effectuées par l'utilisateur telles que le poing fermé ou un certains nombres de doigts levés. Pour cela, nous avons exploré diverses méthodes de détection des mains et des doigts, en utilisant des classifieurs Haar-cascade et des techniques de traitement d'image (tels que l'utilisation de masques et de convex hull). Nous avons testé ces méthodes sur des images de mains et avons analysé les différents résultats obtenus. Nous avons également parlé des limites de ces méthodes employées et exploré des pistes d'amélioration pour optimiser la détection des gestes de la main. Enfin, nous avons abordé les enjeux et les opportunités des réseaux de neurones pour la détection des mouvements. \bigbreak
+
+\section*{Summary}
+The aim of this project is to understand the mechanisms and issues involved in hand gesture recognition. The main objective is to design a system capable of detecting and classifying various precise hand positions performed by the user, such as a closed fist or a certain number of raised fingers. To achieve this, we explored various hand and finger detection methods, using Haar-cascade classifiers and image processing techniques (such as the use of masks and convex hull). We tested these methods on hand images and analyzed the different results obtained. We also discussed the limitations of the methods employed and explored avenues of improvement to optimize hand gesture detection. Finally, we briefly discuss the challenges and opportunities of neural networks for motion detection.
+
+
 
 \end{document}
