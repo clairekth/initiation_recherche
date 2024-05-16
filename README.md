@@ -20,10 +20,3 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
-
-## Avancement en date du 2024-03-19
-
--   Script de prétraitement des images pour la détection des formes de la main.
--   Préparation mini exposé sur Haar-cascade.
-
-![image](state.png)
